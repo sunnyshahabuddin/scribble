@@ -3,13 +3,11 @@ import React from "react";
 import { Button, Typography } from "neetoui";
 import { Container, Header } from "neetoui/layouts";
 
-import Table from "components/Dashboard/Table";
-
 import ActionDropDown from "./ActionDropDown";
 import SideMenuBar from "./MenuBar";
+import Table from "./Table";
 
 const LandingPage = () => (
-  //const [searchTerm, setSearchTerm] = useState("");
   <div className="flex items-start">
     <SideMenuBar />
     <Container>
@@ -26,8 +24,6 @@ const LandingPage = () => (
           </div>
         }
         searchProps={{
-          //value: searchTerm,
-          //onChange: (e) => setSearchTerm(e.target.value),
           placeholder: "Search article title",
         }}
       />

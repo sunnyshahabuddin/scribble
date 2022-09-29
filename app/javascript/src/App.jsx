@@ -5,8 +5,7 @@ import React, { useState, useEffect } from "react";
 
 import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
-
-import Dashboard from "./components/Dashboard";
+import Dashboard from "components/Dashboard";
 
 const App = () => {
   const [loading, setLoading] = useState(true);

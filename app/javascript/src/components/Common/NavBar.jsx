@@ -3,7 +3,7 @@ import React from "react";
 import { ExternalLink } from "neetoicons";
 import { Typography, Button } from "neetoui";
 
-import { LANDING_PAGE_PATH, SETTING_PATH } from "../routeConstants";
+import { LANDING_PAGE_PATH, SETTING_PATH } from "components/routeConstants";
 
 const NavBar = () => (
   <nav className="shadow flex h-16 border-b-2 bg-white px-6">
@@ -12,21 +12,11 @@ const NavBar = () => (
         <Typography style="h4">Scribble</Typography>
         <Button
           className="mx-6"
-          iconPosition="left"
-          iconSize={0}
           label="Articles"
-          size="medium"
           style="link"
           to={LANDING_PAGE_PATH}
         />
-        <Button
-          iconPosition="left"
-          iconSize={0}
-          label="Settings"
-          size="medium"
-          style="link"
-          to={SETTING_PATH}
-        />
+        <Button label="Settings" style="link" to={SETTING_PATH} />
       </div>
       <Button icon={ExternalLink} label="preview" style="secondary" />
     </div>

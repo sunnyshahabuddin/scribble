@@ -2,8 +2,8 @@ import React from "react";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import NavBar from "../Common/NavBar";
-import { DASHBOARD_ROUTES } from "../routeConstants";
+import NavBar from "components/Common/NavBar";
+import { DASHBOARD_ROUTES } from "components/routeConstants";
 
 const Dashboard = () => (
   <Router>
