@@ -1,10 +1,11 @@
 import React from "react";
 
-import { Button } from "neetoui";
+import { Button, Typography } from "neetoui";
 import { Container, Header } from "neetoui/layouts";
 
 import Table from "components/Dashboard/Table";
 
+import ActionDropDown from "./ActionDropDown";
 import SideMenuBar from "./MenuBar";
 
 const LandingPage = () => (
@@ -14,11 +15,15 @@ const LandingPage = () => (
     <Container>
       <Header
         actionBlock={
-          <Button
-            icon="ri-add-line"
-            label="Add New Article"
-            onClick={() => {}}
-          />
+          <div className="flex">
+            <ActionDropDown />
+            <Button
+              className="mx-2"
+              icon="ri-add-line"
+              label="Add New Article"
+              onClick={() => {}}
+            />
+          </div>
         }
         searchProps={{
           //value: searchTerm,
@@ -26,6 +31,9 @@ const LandingPage = () => (
           placeholder: "Search article title",
         }}
       />
+      <Typography className="mb-5" style="h3">
+        67 Articles
+      </Typography>
       <Table />
     </Container>
   </div>
