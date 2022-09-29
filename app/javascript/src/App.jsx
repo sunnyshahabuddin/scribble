@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+//import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+//import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
@@ -19,14 +19,7 @@ const App = () => {
     return <h1>Loading...</h1>;
   }
 
-  return (
-    <Router>
-      <ToastContainer />
-      <Switch>
-        <Route exact path="/" render={Dashboard} />
-      </Switch>
-    </Router>
-  );
+  return <Dashboard />;
 };
 
 export default App;

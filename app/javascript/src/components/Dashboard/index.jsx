@@ -1,14 +1,19 @@
 import React from "react";
 
-import MenuBar from "./MenuBar";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import NavBar from "../Common/NavBar";
+import { DASHBOARD_ROUTES } from "../routeConstants";
 
 const Dashboard = () => (
-  <>
+  <Router>
     <NavBar />
-    <MenuBar />
-  </>
+    <Switch>
+      {DASHBOARD_ROUTES.map(({ path, component }) => (
+        <Route exact component={component} key={path} path={path} />
+      ))}
+    </Switch>
+  </Router>
 );
 
 export default Dashboard;
