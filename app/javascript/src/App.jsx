@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
+
+import NavBar from "./components/Common/NavBar";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -18,8 +21,9 @@ const App = () => {
 
   return (
     <Router>
+      <ToastContainer />
       <Switch>
-        <Route exact path="/" render={() => <div>Home</div>} />
+        <Route exact path="/" render={NavBar} />
       </Switch>
     </Router>
   );
