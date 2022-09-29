@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 
-import NavBar from "./components/Common/NavBar";
+import Dashboard from "./components/Dashboard";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -23,7 +23,7 @@ const App = () => {
     <Router>
       <ToastContainer />
       <Switch>
-        <Route exact path="/" render={NavBar} />
+        <Route exact path="/" render={Dashboard} />
       </Switch>
     </Router>
   );
