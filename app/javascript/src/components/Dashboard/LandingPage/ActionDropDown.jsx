@@ -4,7 +4,7 @@ import { Down } from "neetoicons";
 import { Dropdown, Checkbox, Typography } from "neetoui";
 
 const { Menu, MenuItem } = Dropdown;
-const listItems = ["Title", "Category", "Date", "Author", "Status"];
+const listCategories = ["Title", "Category", "Date", "Author", "Status"];
 
 const ActionDropDown = () => (
   <Dropdown
@@ -16,12 +16,12 @@ const ActionDropDown = () => (
   >
     <Typography style="h5">Columns</Typography>
     <Menu>
-      {listItems.map((item, idx) => (
+      {listCategories.map((category, idx) => (
         <MenuItem.Button
           key={idx}
           prefix={<Checkbox id="checkbox_name" onChange={() => {}} />}
         >
-          {item}
+          {category}
         </MenuItem.Button>
       ))}
     </Menu>

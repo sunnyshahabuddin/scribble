@@ -8,14 +8,18 @@ const renderTitle = title => (
     {title}
   </Typography>
 );
-const renderDelete = () => <Button icon={Delete} style="text" />;
-const renderEdit = () => <Button icon={Edit} style="text" />;
+
+const renderButtonDelete = () => <Button icon={Delete} style="text" />;
+
+const renderButtonEdit = () => <Button icon={Edit} style="text" />;
+
 const renderText = value => (
   <Typography className="neeto-ui-text-gray-600" style="body2">
     {value}
   </Typography>
 );
-export const columns = [
+
+export const buildTableColumnData = [
   {
     title: "TITLE",
     dataIndex: "title",
@@ -50,16 +54,17 @@ export const columns = [
     dataIndex: "more",
     key: "more",
     width: "0.5%",
-    render: renderDelete,
+    render: renderButtonDelete,
   },
   {
     title: "",
     dataIndex: "more",
     key: "more",
     width: "0.5%",
-    render: renderEdit,
+    render: renderButtonEdit,
   },
 ];
+
 export const ROW_DATA = [
   {
     title: "When Title is very big",
@@ -91,7 +96,7 @@ export const ROW_DATA = [
     author: "Oliver Smith",
     category: "category",
     status: "status",
-    id: 3,
+    id: 4,
   },
   {
     title: "Title",
@@ -99,6 +104,6 @@ export const ROW_DATA = [
     author: "Oliver Smith",
     category: "category",
     status: "status",
-    id: 3,
+    id: 5,
   },
 ];
