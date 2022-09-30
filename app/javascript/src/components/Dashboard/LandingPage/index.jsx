@@ -3,6 +3,8 @@ import React from "react";
 import { Button, Typography } from "neetoui";
 import { Container, Header } from "neetoui/layouts";
 
+import { ARTICLE_CREATE_PATH } from "components/routeConstants";
+
 import ActionDropDown from "./ActionDropDown";
 import SideMenuBar from "./MenuBar";
 import Table from "./Table";
@@ -19,7 +21,7 @@ const LandingPage = () => (
               className="mx-2"
               icon="ri-add-line"
               label="Add New Article"
-              onClick={() => {}}
+              to={ARTICLE_CREATE_PATH}
             />
           </div>
         }
