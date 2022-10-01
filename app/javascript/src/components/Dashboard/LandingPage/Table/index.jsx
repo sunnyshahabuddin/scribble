@@ -2,10 +2,10 @@ import React from "react";
 
 import { Table as NeetoUITable } from "neetoui";
 
-import { buildTableColumnData, ROW_DATA } from "./utils";
+import { buildTableColumnData } from "./utils";
 
-const Table = () => (
-  <NeetoUITable columnData={buildTableColumnData} rowData={ROW_DATA} />
+const Table = ({ articles = [] }) => (
+  <NeetoUITable columnData={buildTableColumnData} rowData={articles} />
 );
 
 export default Table;
