@@ -1,7 +1,9 @@
 import React from "react";
 
-import { Edit, Delete } from "neetoicons";
+import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
+
+import { formatDateToMonthDayYear } from "components/Dashboard/utils";
 
 const renderTitle = title => (
   <Typography className="text-indigo-500" style="h5">
@@ -9,13 +11,22 @@ const renderTitle = title => (
   </Typography>
 );
 
-const renderButtonDelete = () => <Button icon={Delete} style="text" />;
-
-const renderButtonEdit = () => <Button icon={Edit} style="text" />;
+const renderDeleteEditButton = () => (
+  <div className="flex">
+    <Button icon={Delete} style="text" />
+    <Button icon={Edit} style="text" />
+  </div>
+);
 
 const renderText = value => (
+  //TODO: remove hardocoded data after creating user model and category model
   <Typography className="neeto-ui-text-gray-600" style="body2">
-    {value}
+    {value}Author
+  </Typography>
+);
+const renderDate = created_at => (
+  <Typography className="neeto-ui-text-gray-600" style="body2">
+    {formatDateToMonthDayYear(created_at)}
   </Typography>
 );
 
@@ -28,8 +39,9 @@ export const buildTableColumnData = [
   },
   {
     title: "DATE",
-    dataIndex: "date",
-    key: "date",
+    dataIndex: "created_at",
+    key: "created_at",
+    render: renderDate,
   },
   {
     title: "AUTHOR",
@@ -54,56 +66,6 @@ export const buildTableColumnData = [
     dataIndex: "more",
     key: "more",
     width: "0.5%",
-    render: renderButtonDelete,
-  },
-  {
-    title: "",
-    dataIndex: "more",
-    key: "more",
-    width: "0.5%",
-    render: renderButtonEdit,
-  },
-];
-
-export const ROW_DATA = [
-  {
-    title: "When Title is very big",
-    date: "October 9th, 2022",
-    author: "Oliver Smith",
-    category: "category",
-    status: "status",
-    id: 1,
-  },
-  {
-    title: "Title",
-    date: "October 9th, 2022",
-    author: "Oliver Smith",
-    category: "category",
-    status: "status",
-    id: 2,
-  },
-  {
-    title: "Title",
-    date: "October 9th, 2022",
-    author: "Oliver Smith",
-    category: "category",
-    status: "status",
-    id: 3,
-  },
-  {
-    title: "Title",
-    date: "October 9th, 2022",
-    author: "Oliver Smith",
-    category: "category",
-    status: "status",
-    id: 4,
-  },
-  {
-    title: "Title",
-    date: "October 9th, 2022",
-    author: "Oliver Smith",
-    category: "category",
-    status: "status",
-    id: 5,
+    render: renderDeleteEditButton,
   },
 ];
