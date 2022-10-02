@@ -29,7 +29,11 @@ const renderDate = created_at => (
     {formatDateToMonthDayYear(created_at)}
   </Typography>
 );
-
+const renderStatus = status => (
+  <Typography className="neeto-ui-text-gray-600" style="body2">
+    {status === 0 ? "Draft" : "Published"}
+  </Typography>
+);
 export const buildTableColumnData = [
   {
     title: "TITLE",
@@ -59,7 +63,7 @@ export const buildTableColumnData = [
     title: "STATUS",
     dataIndex: "status",
     key: "status",
-    render: renderText,
+    render: renderStatus,
   },
   {
     title: "",
