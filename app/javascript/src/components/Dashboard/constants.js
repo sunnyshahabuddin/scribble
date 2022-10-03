@@ -19,6 +19,7 @@ export const FORM_INITIAL_VALUES = {
   title: "",
   category: null,
   body: "",
+  status: 0,
 };
 
 export const CATEGORIES = buildSelectOptions(["Getting Started", "Misc"]);
