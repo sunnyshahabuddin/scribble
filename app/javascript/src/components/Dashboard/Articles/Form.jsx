@@ -11,9 +11,9 @@ import {
 } from "components/Dashboard/constants";
 
 const { Menu, MenuItem } = Dropdown;
-const listCategories = ["Publish", "Save Draft"];
+const listSaveStatus = ["Publish", "Save Draft"];
 
-const Form = () => {
+const Form = ({ handleSubmit }) => {
   const [dropdownLabel, setDropdownLabel] = useState("Save Draft");
   const [submitted, setSubmitted] = useState(false);
 
@@ -23,9 +23,9 @@ const Form = () => {
       validateOnBlur={submitted}
       validateOnChange={submitted}
       validationSchema={VALIDATION_SCHEMA}
-      //onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, setFieldValue }) => (
         <FormikForm className="w-full">
           <div className="space-between flex w-full">
             <Input
@@ -66,21 +66,20 @@ const Form = () => {
                 type="submit"
                 onClick={() => setSubmitted(true)}
               />
-              <Dropdown
-                className="mr-3"
-                disabled={isSubmitting}
-                type="submit"
-                onClick={() => setSubmitted(true)}
-              >
+              <Dropdown className="mr-3" disabled={isSubmitting} type="submit">
                 <Menu>
-                  {listCategories.map((category, idx) => (
+                  {listSaveStatus.map((status, idx) => (
                     <MenuItem.Button
                       key={idx}
                       onClick={() => {
-                        setDropdownLabel(category);
+                        setDropdownLabel(status);
+                        setFieldValue(
+                          "status",
+                          status === "Save Draft" ? 0 : 1
+                        );
                       }}
                     >
-                      {category}
+                      {status}
                     </MenuItem.Button>
                   ))}
                 </Menu>
