@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { Formik, Form as FormikForm } from "formik";
 import { Dropdown, Button } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
+import { useHistory } from "react-router-dom";
 
+import articlesApi from "apis/articles";
 import {
   CATEGORIES,
   FORM_INITIAL_VALUES,
@@ -16,6 +18,15 @@ const listCategories = ["Publish", "Save Draft"];
 const Form = () => {
   const [dropdownLabel, setDropdownLabel] = useState("Save Draft");
   const [submitted, setSubmitted] = useState(false);
+  const history = useHistory();
+  const handleSubmit = async article => {
+    try {
+      await articlesApi.create(article);
+      history.push("/");
+    } catch (error) {
+      logger.error(error);
+    }
+  };
 
   return (
     <Formik
@@ -23,7 +34,7 @@ const Form = () => {
       validateOnBlur={submitted}
       validateOnChange={submitted}
       validationSchema={VALIDATION_SCHEMA}
-      //onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
     >
       {({ isSubmitting }) => (
         <FormikForm className="w-full">
@@ -66,12 +77,7 @@ const Form = () => {
                 type="submit"
                 onClick={() => setSubmitted(true)}
               />
-              <Dropdown
-                className="mr-3"
-                disabled={isSubmitting}
-                type="submit"
-                onClick={() => setSubmitted(true)}
-              >
+              <Dropdown className="mr-3" disabled={isSubmitting} type="submit">
                 <Menu>
                   {listCategories.map((category, idx) => (
                     <MenuItem.Button
