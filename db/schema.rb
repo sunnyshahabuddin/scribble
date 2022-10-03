@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_01_232309) do
+ActiveRecord::Schema.define(version: 2022_10_03_204602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 2022_10_01_232309) do
     t.text "title", null: false
     t.text "body", null: false
     t.integer "status", default: 0, null: false
+    t.string "slug", null: false
+    t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
 
 end
