@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ArticlesController < ApplicationController
-  before_action :load_article!, only: %i[show update]
+  before_action :load_article!, only: %i[show update destroy]
 
   def index
     articles = Article.all
@@ -21,6 +21,11 @@ class ArticlesController < ApplicationController
   def update
     @article.update!(article_params)
     respond_with_success("Article was successfully updated!")
+  end
+
+  def destroy
+    @article.destroy!
+    respond_with_json
   end
 
   private
