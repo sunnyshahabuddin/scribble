@@ -11,10 +11,10 @@ const renderTitle = title => (
   </Typography>
 );
 
-const renderDeleteEditButton = () => (
+const renderDeleteEditButton = slug => (
   <div className="flex">
     <Button icon={Delete} style="text" />
-    <Button icon={Edit} style="text" />
+    <Button icon={Edit} style="text" to={`/articles/${slug}/edit`} />
   </div>
 );
 
@@ -70,6 +70,6 @@ export const buildTableColumnData = [
     dataIndex: "more",
     key: "more",
     width: "0.5%",
-    render: renderDeleteEditButton,
+    render: (_, { slug }) => renderDeleteEditButton(slug),
   },
 ];

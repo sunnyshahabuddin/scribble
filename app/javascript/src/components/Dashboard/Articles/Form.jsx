@@ -4,22 +4,18 @@ import { Formik, Form as FormikForm } from "formik";
 import { Dropdown, Button } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
 
-import {
-  CATEGORIES,
-  FORM_INITIAL_VALUES,
-  VALIDATION_SCHEMA,
-} from "components/Dashboard/constants";
+import { CATEGORIES, VALIDATION_SCHEMA } from "components/Dashboard/constants";
 
 const { Menu, MenuItem } = Dropdown;
 const listSaveStatus = ["Publish", "Save Draft"];
 
-const Form = ({ handleSubmit }) => {
+const Form = ({ article, handleSubmit }) => {
   const [dropdownLabel, setDropdownLabel] = useState("Save Draft");
   const [submitted, setSubmitted] = useState(false);
 
   return (
     <Formik
-      initialValues={FORM_INITIAL_VALUES}
+      initialValues={article}
       validateOnBlur={submitted}
       validateOnChange={submitted}
       validationSchema={VALIDATION_SCHEMA}
