@@ -30,6 +30,6 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  task:
+  article:
     slug:
       immutable: "is immutable!"

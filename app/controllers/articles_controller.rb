@@ -15,6 +15,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
+    respond_with_json({ article: @article })
   end
 
   def update
