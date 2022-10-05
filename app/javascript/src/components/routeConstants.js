@@ -1,6 +1,6 @@
-import Create from "components/Dashboard/Articles/Create";
-import Edit from "components/Dashboard/Articles/Edit";
 import LandingPage from "components/Dashboard/LandingPage";
+import Create from "components/Dashboard/LandingPage/Articles/Create";
+import Edit from "components/Dashboard/LandingPage/Articles/Edit";
 import Settings from "components/Dashboard/Settings";
 
 export const LANDING_PAGE_PATH = "/";
