@@ -5,15 +5,21 @@ import { Typography, Button } from "neetoui";
 
 import { formatDateToMonthDayYear } from "components/Dashboard/utils";
 
+const renderStatus = status => (
+  <Typography className="neeto-ui-text-gray-600" style="body2">
+    {status === 0 ? "Draft" : "Published"}
+  </Typography>
+);
+
 const renderTitle = title => (
   <Typography className="text-indigo-500" style="h5">
     {title}
   </Typography>
 );
 
-const renderDeleteEditButton = slug => (
+const renderDeleteEditButton = (slug, destroyArticle) => (
   <div className="flex">
-    <Button icon={Delete} style="text" />
+    <Button icon={Delete} style="text" onClick={() => destroyArticle(slug)} />
     <Button icon={Edit} style="text" to={`/articles/${slug}/edit`} />
   </div>
 );
@@ -29,12 +35,8 @@ const renderDate = created_at => (
     {formatDateToMonthDayYear(created_at)}
   </Typography>
 );
-const renderStatus = status => (
-  <Typography className="neeto-ui-text-gray-600" style="body2">
-    {status === 0 ? "Draft" : "Published"}
-  </Typography>
-);
-export const buildTableColumnData = [
+
+export const buildTableColumnData = destroyArticle => [
   {
     title: "TITLE",
     dataIndex: "title",
@@ -70,6 +72,6 @@ export const buildTableColumnData = [
     dataIndex: "more",
     key: "more",
     width: "0.5%",
-    render: (_, { slug }) => renderDeleteEditButton(slug),
+    render: (_, { slug }) => renderDeleteEditButton(slug, destroyArticle),
   },
 ];
