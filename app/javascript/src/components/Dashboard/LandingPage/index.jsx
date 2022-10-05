@@ -30,6 +30,19 @@ const LandingPage = () => {
       setLoading(false);
     }
   };
+  const destroyArticle = async slug => {
+    const deleteMessage = confirm(
+      "Are you sure you want to delete this article?"
+    );
+    if (deleteMessage) {
+      try {
+        await articlesApi.destroy(slug);
+        fetchArticles();
+      } catch (error) {
+        logger.error(error);
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -62,7 +75,7 @@ const LandingPage = () => {
         <Typography className="mb-5" style="h3">
           {articles.length} Articles
         </Typography>
-        <Table articles={articles} />
+        <Table articles={articles} destroyArticle={destroyArticle} />
       </Container>
     </div>
   );

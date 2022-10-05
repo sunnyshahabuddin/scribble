@@ -3,7 +3,6 @@ import React from "react";
 import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
 
-import articlesApi from "apis/articles";
 import { formatDateToMonthDayYear } from "components/Dashboard/utils";
 
 const renderStatus = status => (
@@ -11,19 +10,6 @@ const renderStatus = status => (
     {status === 0 ? "Draft" : "Published"}
   </Typography>
 );
-const destroyArticle = async slug => {
-  const deleteMessage = confirm(
-    "Are you sure you want to delete this article?"
-  );
-  if (deleteMessage) {
-    try {
-      articlesApi.destroy(slug);
-      await articlesApi.fetch();
-    } catch (error) {
-      logger.error(error);
-    }
-  }
-};
 
 const renderTitle = title => (
   <Typography className="text-indigo-500" style="h5">
@@ -31,7 +17,7 @@ const renderTitle = title => (
   </Typography>
 );
 
-const renderDeleteEditButton = slug => (
+const renderDeleteEditButton = (slug, destroyArticle) => (
   <div className="flex">
     <Button icon={Delete} style="text" onClick={() => destroyArticle(slug)} />
     <Button icon={Edit} style="text" to={`/articles/${slug}/edit`} />
@@ -50,12 +36,12 @@ const renderDate = created_at => (
   </Typography>
 );
 
-export const buildTableColumnData = [
+export const buildTableColumnData = destroyArticle => [
   {
     title: "TITLE",
     dataIndex: "title",
     key: "title",
-    render: title => renderTitle(title),
+    render: renderTitle,
   },
   {
     title: "DATE",
@@ -86,6 +72,6 @@ export const buildTableColumnData = [
     dataIndex: "more",
     key: "more",
     width: "0.5%",
-    render: (_, { slug }) => renderDeleteEditButton(slug),
+    render: (_, { slug }) => renderDeleteEditButton(slug, destroyArticle),
   },
 ];
