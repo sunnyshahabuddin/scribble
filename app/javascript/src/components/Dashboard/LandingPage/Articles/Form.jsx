@@ -17,10 +17,8 @@ const Form = ({ article, handleSubmit }) => {
   const [categoryList, setCategoryList] = useState([]);
   const fetchCategoriesDetails = async () => {
     try {
-      const {
-        data: { categories },
-      } = await categoriesApi.fetch();
-      setCategoryList(categories);
+      const categories = await categoriesApi.fetch();
+      setCategoryList(categories.data);
       setPageLoading(false);
     } catch (error) {
       logger.error(error);

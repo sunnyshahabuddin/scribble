@@ -4,6 +4,7 @@ import { Button, PageLoader, Typography } from "neetoui";
 import { Container, Header } from "neetoui/layouts";
 
 import articlesApi from "apis/articles";
+import categoriesApi from "apis/categories";
 import { ARTICLE_CREATE_PATH } from "components/routeConstants";
 
 import ActionDropDown from "./ActionDropDown";
@@ -13,15 +14,22 @@ import Table from "./Table";
 const LandingPage = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
+  const [categoryList, setCategoryList] = useState({});
+  const [articlesCount, setArticlesCount] = useState({});
   useEffect(() => {
-    fetchArticles();
+    fetchArticlesCategories();
   }, []);
 
-  const fetchArticles = async () => {
+  const fetchArticlesCategories = async () => {
     try {
       setLoading(true);
-      const response = await articlesApi.fetch();
-      setArticles(response.data);
+      const {
+        data: { articles, draft, published },
+      } = await articlesApi.fetch();
+      const categories = await categoriesApi.fetch();
+      setArticlesCount({ all: draft + published, draft, published });
+      setCategoryList(categories.data);
+      setArticles(articles);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -35,7 +43,7 @@ const LandingPage = () => {
     if (deleteMessage) {
       try {
         await articlesApi.destroy(slug);
-        fetchArticles();
+        fetchArticlesCategories();
       } catch (error) {
         logger.error(error);
       }
@@ -52,7 +60,11 @@ const LandingPage = () => {
 
   return (
     <div className="flex items-start">
-      <SideMenuBar />
+      <SideMenuBar
+        articlesCount={articlesCount}
+        categoryList={categoryList}
+        refetch={fetchArticlesCategories}
+      />
       <Container>
         <Header
           actionBlock={
