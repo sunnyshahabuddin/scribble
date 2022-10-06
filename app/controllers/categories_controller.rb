@@ -6,6 +6,12 @@ class CategoriesController < ApplicationController
     render status: :ok, json: { categories: categories }
   end
 
+  def create
+    category = Category.new(category_params)
+    category.save!
+    render status: :ok, json: { notice: "Category was successfully created" }
+  end
+
   private
 
     def category_params

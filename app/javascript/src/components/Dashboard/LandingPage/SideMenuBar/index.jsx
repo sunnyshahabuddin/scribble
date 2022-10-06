@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 
-import { Search, Plus, Check } from "neetoicons";
-import { Input, Typography, Button } from "neetoui";
+import { Search, Plus } from "neetoicons";
+import { Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
+
+import Form from "./Form";
 
 const SideMenuBar = () => {
   const [isCategorySearchCollapsed, setIsCategorySearchCollapsed] =
     useState(true);
   const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
-  const [inputValue, setInputValue] = useState("");
 
   return (
     <MenuBar showMenu className="flex" title="Articles">
@@ -51,17 +52,7 @@ const SideMenuBar = () => {
         onCollapse={() => setIsCategorySearchCollapsed(true)}
       />
       {!isCategoryAddCollapsed && (
-        <Input
-          suffix={
-            <Button
-              icon={Check}
-              style="text"
-              value={inputValue}
-              onChange={e => setInputValue(e.target.value)}
-              onClick={() => {}}
-            />
-          }
-        />
+        <Form setIsCategoryAddCollapsed={setIsCategoryAddCollapsed} />
       )}
       <MenuBar.Block count={10} label="Getting Started" />
       <MenuBar.Block count={10} label="Misc" />

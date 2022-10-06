@@ -7,7 +7,7 @@ import articlesApi from "apis/articles";
 import { ARTICLE_CREATE_PATH } from "components/routeConstants";
 
 import ActionDropDown from "./ActionDropDown";
-import SideMenuBar from "./MenuBar";
+import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
 
 const LandingPage = () => {
@@ -20,8 +20,8 @@ const LandingPage = () => {
   const fetchArticles = async () => {
     try {
       setLoading(true);
-      const articles = await articlesApi.fetch();
-      setArticles(articles.data);
+      const response = await articlesApi.fetch();
+      setArticles(response.data);
     } catch (error) {
       logger.error(error);
     } finally {
