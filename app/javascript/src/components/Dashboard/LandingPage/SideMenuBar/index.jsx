@@ -6,16 +6,16 @@ import { MenuBar } from "neetoui/layouts";
 
 import Form from "./Form";
 
-const SideMenuBar = ({ categoryList, refetch }) => {
+const SideMenuBar = ({ categoryList, refetch, articlesCount }) => {
   const [isCategorySearchCollapsed, setIsCategorySearchCollapsed] =
     useState(true);
   const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
 
   return (
     <MenuBar showMenu className="flex" title="Articles">
-      <MenuBar.Block active count={67} label="All" />
-      <MenuBar.Block count={15} label="Drafts" />
-      <MenuBar.Block count={52} label="Published" />
+      <MenuBar.Block active count={articlesCount.all} label="All" />
+      <MenuBar.Block count={articlesCount.draft} label="Drafts" />
+      <MenuBar.Block count={articlesCount.published} label="Published" />
       <MenuBar.SubTitle
         iconProps={[
           {

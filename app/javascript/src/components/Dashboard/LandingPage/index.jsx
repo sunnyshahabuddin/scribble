@@ -15,6 +15,7 @@ const LandingPage = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [categoryList, setCategoryList] = useState({});
+  const [articlesCount, setArticlesCount] = useState({});
   useEffect(() => {
     fetchArticlesCategories();
   }, []);
@@ -22,10 +23,13 @@ const LandingPage = () => {
   const fetchArticlesCategories = async () => {
     try {
       setLoading(true);
-      const response = await articlesApi.fetch();
+      const {
+        data: { articles, draft, published },
+      } = await articlesApi.fetch();
       const categories = await categoriesApi.fetch();
+      setArticlesCount({ all: draft + published, draft, published });
       setCategoryList(categories.data);
-      setArticles(response.data);
+      setArticles(articles);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -57,6 +61,7 @@ const LandingPage = () => {
   return (
     <div className="flex items-start">
       <SideMenuBar
+        articlesCount={articlesCount}
         categoryList={categoryList}
         refetch={fetchArticlesCategories}
       />
