@@ -4,8 +4,8 @@ class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy]
 
   def index
-    articles = Article.all
-    render status: :ok, json: { articles: articles }
+    @articles = Article.all
+    render
   end
 
   def create
@@ -15,7 +15,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    respond_with_json({ article: @article })
+    render
   end
 
   def update
@@ -35,6 +35,6 @@ class ArticlesController < ApplicationController
     end
 
     def article_params
-      params.require(:article).permit(:title, :body, :status)
+      params.require(:article).permit(:title, :body, :status, :category_id)
     end
 end

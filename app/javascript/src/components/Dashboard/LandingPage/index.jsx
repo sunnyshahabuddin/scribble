@@ -20,10 +20,8 @@ const LandingPage = () => {
   const fetchArticles = async () => {
     try {
       setLoading(true);
-      const {
-        data: { articles },
-      } = await articlesApi.fetch();
-      setArticles(articles);
+      const articles = await articlesApi.fetch();
+      setArticles(articles.data);
     } catch (error) {
       logger.error(error);
     } finally {

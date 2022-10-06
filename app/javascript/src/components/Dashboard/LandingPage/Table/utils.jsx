@@ -30,6 +30,11 @@ const renderText = value => (
     {value}Author
   </Typography>
 );
+const renderCategory = category => (
+  <Typography className="neeto-ui-text-gray-600" style="body2">
+    {category.name}
+  </Typography>
+);
 const renderDate = created_at => (
   <Typography className="neeto-ui-text-gray-600" style="body2">
     {formatDateToMonthDayYear(created_at)}
@@ -59,7 +64,7 @@ export const buildTableColumnData = destroyArticle => [
     title: "CATEGORY",
     dataIndex: "category",
     key: "category",
-    render: renderText,
+    render: renderCategory,
   },
   {
     title: "STATUS",
