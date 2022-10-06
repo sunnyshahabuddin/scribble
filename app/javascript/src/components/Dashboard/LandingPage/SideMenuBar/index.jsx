@@ -6,7 +6,7 @@ import { MenuBar } from "neetoui/layouts";
 
 import Form from "./Form";
 
-const SideMenuBar = () => {
+const SideMenuBar = ({ categoryList, refetch }) => {
   const [isCategorySearchCollapsed, setIsCategorySearchCollapsed] =
     useState(true);
   const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
@@ -52,10 +52,18 @@ const SideMenuBar = () => {
         onCollapse={() => setIsCategorySearchCollapsed(true)}
       />
       {!isCategoryAddCollapsed && (
-        <Form setIsCategoryAddCollapsed={setIsCategoryAddCollapsed} />
+        <Form
+          refetch={refetch}
+          setIsCategoryAddCollapsed={setIsCategoryAddCollapsed}
+        />
       )}
-      <MenuBar.Block count={10} label="Getting Started" />
-      <MenuBar.Block count={10} label="Misc" />
+      {categoryList.map(category => (
+        <MenuBar.Block
+          count={category.count}
+          key={category.id}
+          label={category.name}
+        />
+      ))}
     </MenuBar>
   );
 };

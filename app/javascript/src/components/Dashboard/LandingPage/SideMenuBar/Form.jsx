@@ -9,7 +9,7 @@ import categoryApi from "apis/categories";
 
 import { FORM_INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
 
-const Form = ({ setIsCategoryAddCollapsed }) => {
+const Form = ({ setIsCategoryAddCollapsed, refetch }) => {
   const [submitted, setSubmitted] = useState(false);
   const handleSubmit = async category => {
     try {
@@ -18,6 +18,7 @@ const Form = ({ setIsCategoryAddCollapsed }) => {
       logger.error(error);
     }
     setIsCategoryAddCollapsed(true);
+    refetch();
     setSubmitted(true);
   };
 

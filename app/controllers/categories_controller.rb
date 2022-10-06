@@ -2,8 +2,10 @@
 
 class CategoriesController < ApplicationController
   def index
-    categories = Category.select(:id, :name)
-    render status: :ok, json: { categories: categories }
+    @categories = Category.all
+    render
+    # categories = Category.select(:id, :name)
+    # render status: :ok, json: { categories: categories }
   end
 
   def create
