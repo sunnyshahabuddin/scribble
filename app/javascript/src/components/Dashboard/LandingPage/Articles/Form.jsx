@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Dropdown, Button } from "neetoui";
+import { Dropdown, Button, PageLoader } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
 
-import { CATEGORIES, VALIDATION_SCHEMA } from "components/Dashboard/constants";
+import categoriesApi from "apis/categories";
+import { VALIDATION_SCHEMA } from "components/Dashboard/constants";
 
 const { Menu, MenuItem } = Dropdown;
 const listSaveStatus = ["Publish", "Save Draft"];
@@ -12,13 +13,35 @@ const listSaveStatus = ["Publish", "Save Draft"];
 const Form = ({ article, handleSubmit }) => {
   const [dropdownLabel, setDropdownLabel] = useState("Save Draft");
   const [submitted, setSubmitted] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [categoryList, setCategoryList] = useState([]);
+  const fetchCategoriesDetails = async () => {
+    try {
+      const {
+        data: { categories },
+      } = await categoriesApi.fetch();
+      setCategoryList(categories);
+      setPageLoading(false);
+    } catch (error) {
+      logger.error(error);
+      setPageLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategoriesDetails();
+  }, []);
+
+  if (pageLoading) {
+    return <PageLoader />;
+  }
 
   return (
     <Formik
       initialValues={article}
       validateOnBlur={submitted}
       validateOnChange={submitted}
-      validationSchema={VALIDATION_SCHEMA}
+      validationSchema={VALIDATION_SCHEMA(categoryList)}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, setFieldValue }) => (
@@ -32,14 +55,16 @@ const Form = ({ article, handleSubmit }) => {
               placeholder="Enter Article Title"
             />
             <Select
-              isClearable
               isSearchable
               required
               className="w-full flex-grow-0"
               label="Category"
               name="category"
-              options={CATEGORIES}
               placeholder="Select a Category"
+              options={categoryList.map(category => ({
+                label: category.name,
+                value: category.id,
+              }))}
             />
           </div>
           <Textarea

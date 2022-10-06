@@ -4,6 +4,7 @@ import { PageLoader } from "neetoui";
 import { useParams } from "react-router-dom";
 
 import articlesApi from "apis/articles";
+import { formatFetchedDataToInitialFormValue } from "components/Dashboard/LandingPage/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
 import Form from "./Form";
@@ -21,6 +22,7 @@ const Edit = ({ history }) => {
           title: articleDetails.title,
           body: articleDetails.body,
           status: articleDetails.status,
+          category_id: articleDetails.category_id,
         },
       });
       history.push(LANDING_PAGE_PATH);
@@ -31,10 +33,8 @@ const Edit = ({ history }) => {
 
   const fetchArticleDetails = async () => {
     try {
-      const {
-        data: { article },
-      } = await articlesApi.show(slug);
-      setArticleDetails(article);
+      const article = await articlesApi.show(slug);
+      setArticleDetails(article.data);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -56,7 +56,10 @@ const Edit = ({ history }) => {
 
   return (
     <div className="h-1/2 mx-auto mt-12 flex w-1/2">
-      <Form article={articleDetails} handleSubmit={handleSubmit} />
+      <Form
+        article={formatFetchedDataToInitialFormValue(articleDetails)}
+        handleSubmit={handleSubmit}
+      />
     </div>
   );
 };
