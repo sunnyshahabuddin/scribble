@@ -7,7 +7,7 @@ import articlesApi from "apis/articles";
 import { ARTICLE_CREATE_PATH } from "components/routeConstants";
 
 import ActionDropDown from "./ActionDropDown";
-import SideMenuBar from "./MenuBar";
+import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
 
 const LandingPage = () => {
