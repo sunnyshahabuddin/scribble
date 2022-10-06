@@ -4,11 +4,21 @@ import { Search, Plus, Check } from "neetoicons";
 import { Input, Typography, Button } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
+import categoryApi from "apis/categories";
+
 const SideMenuBar = () => {
   const [isCategorySearchCollapsed, setIsCategorySearchCollapsed] =
     useState(true);
   const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
-  const [inputValue, setInputValue] = useState("");
+  const [categoryData, setCategoryData] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      await categoryApi.create({ category: { name: categoryData } });
+    } catch (error) {
+      logger.error(error);
+    }
+  };
 
   return (
     <MenuBar showMenu className="flex" title="Articles">
@@ -52,15 +62,9 @@ const SideMenuBar = () => {
       />
       {!isCategoryAddCollapsed && (
         <Input
-          suffix={
-            <Button
-              icon={Check}
-              style="text"
-              value={inputValue}
-              onChange={e => setInputValue(e.target.value)}
-              onClick={() => {}}
-            />
-          }
+          suffix={<Button icon={Check} style="text" onClick={handleSubmit} />}
+          value={categoryData}
+          onChange={e => setCategoryData(e.target.value)}
         />
       )}
       <MenuBar.Block count={10} label="Getting Started" />
