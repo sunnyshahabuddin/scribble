@@ -22,7 +22,7 @@ const Edit = ({ history }) => {
           title: articleDetails.title,
           body: articleDetails.body,
           status: articleDetails.status,
-          category_id: articleDetails.category_id,
+          category_id: articleDetails.category.value,
         },
       });
       history.push(LANDING_PAGE_PATH);
