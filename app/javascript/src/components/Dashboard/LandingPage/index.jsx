@@ -26,8 +26,10 @@ const LandingPage = () => {
       const {
         data: { articles, draftArticles, publishedArticles },
       } = await articlesApi.fetch();
-      const categories = await categoriesApi.fetch();
-      setCategoryList(categories.data);
+      const {
+        data: { categories },
+      } = await categoriesApi.fetch();
+      setCategoryList(categories);
       setArticles(articles);
       setArticlesStatus({ draftArticles, publishedArticles });
     } catch (error) {
@@ -85,7 +87,7 @@ const LandingPage = () => {
           }}
         />
         <Typography className="mb-5" style="h3">
-          {articles.length} Articles
+          {articles.length} {articles.length > 1 ? " Articles" : " Article"}
         </Typography>
         <Table articles={articles} destroyArticle={destroyArticle} />
       </Container>

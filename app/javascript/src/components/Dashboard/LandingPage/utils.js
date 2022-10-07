@@ -9,3 +9,11 @@ export const searchCategoryList = (categoryList, searchCategory) =>
   categoryList.filter(category =>
     category.name.toLowerCase().includes(searchCategory.toLowerCase())
   );
+export const buildCategoryWiseArticle = category =>
+  category.articles.map(article => ({
+    ...article,
+    category: {
+      id: category.id,
+      name: category.name,
+    },
+  }));

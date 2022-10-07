@@ -8,6 +8,8 @@ import { searchCategoryList } from "components/Dashboard/LandingPage/utils";
 
 import Form from "./Form";
 
+import { buildCategoryWiseArticle } from "../utils";
+
 const SideMenuBar = ({
   articles,
   categoryList,
@@ -18,38 +20,43 @@ const SideMenuBar = ({
   const [isCategorySearchCollapsed, setIsCategorySearchCollapsed] =
     useState(true);
   const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
-  const [activeStatus, setActiveStatus] = useState("All");
+  const [activeArticleStatus, setActiveArticleStatus] = useState("All");
   const selectedAllArticles = useMemo(() => articles, []);
   const [searchCategory, setSearchCategory] = useState("");
+  const [activeCategoryStatus, setActiveCategoryStatus] = useState("");
 
   return (
     <MenuBar showMenu className="flex" title="Articles">
       <MenuBar.Block
-        active={activeStatus === "All"}
+        active={activeArticleStatus === "All"}
         label="All"
         count={
           articlesStatus.draftArticles.length +
           articlesStatus.publishedArticles.length
         }
         onClick={() => {
-          setArticles(selectedAllArticles), setActiveStatus("All");
+          setArticles(selectedAllArticles), setActiveArticleStatus("All");
+          setActiveCategoryStatus("");
         }}
       />
       <MenuBar.Block
-        active={activeStatus === "Draft"}
+        active={activeArticleStatus === "Draft"}
         count={articlesStatus.draftArticles.length}
         label="Draft"
         onClick={() => {
-          setArticles(articlesStatus.draftArticles), setActiveStatus("Draft");
+          setArticles(articlesStatus.draftArticles),
+            setActiveArticleStatus("Draft");
+          setActiveCategoryStatus("");
         }}
       />
       <MenuBar.Block
-        active={activeStatus === "Published"}
+        active={activeArticleStatus === "Published"}
         count={articlesStatus.publishedArticles.length}
         label="Published"
         onClick={() => {
           setArticles(articlesStatus.publishedArticles),
-            setActiveStatus("Published");
+            setActiveCategoryStatus("");
+          setActiveArticleStatus("Published");
         }}
       />
       <MenuBar.SubTitle
@@ -97,9 +104,16 @@ const SideMenuBar = ({
       )}
       {searchCategoryList(categoryList, searchCategory).map(category => (
         <MenuBar.Block
-          count={category.count}
+          active={activeCategoryStatus === category.name}
+          count={category.articles.length}
           key={category.id}
           label={category.name}
+          onClick={() => {
+            const categoryArticles = buildCategoryWiseArticle(category);
+            setActiveArticleStatus("");
+            setActiveCategoryStatus(category.name);
+            setArticles(categoryArticles);
+          }}
         />
       ))}
     </MenuBar>
