@@ -1,21 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 import { Search, Plus } from "neetoicons";
 import { Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
+import { searchCategoryList } from "components/Dashboard/LandingPage/utils";
+
 import Form from "./Form";
 
-const SideMenuBar = ({ categoryList, refetch, articlesCount }) => {
+const SideMenuBar = ({
+  articles,
+  categoryList,
+  refetch,
+  setArticles,
+  articlesStatus,
+}) => {
   const [isCategorySearchCollapsed, setIsCategorySearchCollapsed] =
     useState(true);
   const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
+  const [activeStatus, setActiveStatus] = useState("All");
+  const selectedAllArticles = useMemo(() => articles, []);
+  const [searchCategory, setSearchCategory] = useState("");
 
   return (
     <MenuBar showMenu className="flex" title="Articles">
-      <MenuBar.Block active count={articlesCount.all} label="All" />
-      <MenuBar.Block count={articlesCount.draft} label="Drafts" />
-      <MenuBar.Block count={articlesCount.published} label="Published" />
+      <MenuBar.Block
+        active={activeStatus === "All"}
+        label="All"
+        count={
+          articlesStatus.draftArticles.length +
+          articlesStatus.publishedArticles.length
+        }
+        onClick={() => {
+          setArticles(selectedAllArticles), setActiveStatus("All");
+        }}
+      />
+      <MenuBar.Block
+        active={activeStatus === "Draft"}
+        count={articlesStatus.draftArticles.length}
+        label="Draft"
+        onClick={() => {
+          setArticles(articlesStatus.draftArticles), setActiveStatus("Draft");
+        }}
+      />
+      <MenuBar.Block
+        active={activeStatus === "Published"}
+        count={articlesStatus.publishedArticles.length}
+        label="Published"
+        onClick={() => {
+          setArticles(articlesStatus.publishedArticles),
+            setActiveStatus("Published");
+        }}
+      />
       <MenuBar.SubTitle
         iconProps={[
           {
@@ -49,6 +85,8 @@ const SideMenuBar = ({ categoryList, refetch, articlesCount }) => {
       </MenuBar.SubTitle>
       <MenuBar.Search
         collapse={isCategorySearchCollapsed}
+        value={searchCategory}
+        onChange={e => setSearchCategory(e.target.value)}
         onCollapse={() => setIsCategorySearchCollapsed(true)}
       />
       {!isCategoryAddCollapsed && (
@@ -57,7 +95,7 @@ const SideMenuBar = ({ categoryList, refetch, articlesCount }) => {
           setIsCategoryAddCollapsed={setIsCategoryAddCollapsed}
         />
       )}
-      {categoryList.map(category => (
+      {searchCategoryList(categoryList, searchCategory).map(category => (
         <MenuBar.Block
           count={category.count}
           key={category.id}
