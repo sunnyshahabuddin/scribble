@@ -15,7 +15,7 @@ const MenuBar = () => {
           activeClassName="neeto-ui-bg-primary-100 neeto-ui-rounded-sm h-18 px-2 py-3 mx-2 my-3"
           className="h-18 mx-2 my-3 px-2 py-3"
           key={menuBarItem.id}
-          to={`${url}${menuBarItem.loc}`}
+          to={`${url}${menuBarItem.path}`}
         >
           <div className="mx-4 flex">
             <menuBarItem.icon className="my-1 mx-2" size={28} />
