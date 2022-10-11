@@ -1,4 +1,5 @@
 import { Repeat, Settings, Seo } from "neetoicons";
+import * as yup from "yup";
 
 export const MENUBAR_ITEMS = [
   {
@@ -23,3 +24,8 @@ export const MENUBAR_ITEMS = [
     icon: Seo,
   },
 ];
+export const FORM_INITIAL_VALUES = { name: "" };
+export const VALIDATION_SCHEMA = () =>
+  yup.object().shape({
+    name: yup.string().required("Title is required"),
+  });

@@ -9,6 +9,8 @@ import categoriesApi from "apis/categories";
 import Form from "./Form";
 import ListCategory from "./ListCategory";
 
+import { FORM_INITIAL_VALUES, VALIDATION_SCHEMA } from "../constants";
+
 const ManageCategories = () => {
   const [addCategory, setAddCategory] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
@@ -69,14 +71,27 @@ const ManageCategories = () => {
           onClick={() => setAddCategory(true)}
         />
       )}
-      {addCategory && <Form />}
+      {addCategory && (
+        <Form
+          initialValues={FORM_INITIAL_VALUES}
+          isEdit={false}
+          refetch={fetchCategoriesDetails}
+          setAddCategory={setAddCategory}
+          validationSchema={VALIDATION_SCHEMA}
+        />
+      )}
       <div>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable">
             {provided => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {sortedCategoryList.map((category, idx) => (
-                  <ListCategory category={category} index={idx} key={idx} />
+                  <ListCategory
+                    category={category}
+                    index={idx}
+                    key={idx}
+                    refetch={fetchCategoriesDetails}
+                  />
                 ))}
                 {provided.placeholder}
               </div>

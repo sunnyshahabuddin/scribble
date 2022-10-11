@@ -1,30 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
 import { Check } from "neetoicons";
 import { Button } from "neetoui";
 import { Input } from "neetoui/formik";
 
-const Form = () => (
-  <Formik
-    initialValues={{ fromPath: "", toPath: "" }}
-    //validateOnBlur={submitted}
-    //validateOnChange={submitted}
-    //validationSchema={VALIDATION_SCHEMA}
-    //onSubmit={handleSubmit}
-  >
-    <div className="mt-2">
-      <FormikForm className="flex">
+import categoryApi from "apis/categories";
+
+const Form = ({
+  refetch,
+  initialValues,
+  validationSchema,
+  isEdit,
+  id,
+  setIsEdit,
+  setAddCategory,
+}) => {
+  const [submitted, setSubmitted] = useState(false);
+  const handleSubmit = async category => {
+    try {
+      isEdit
+        ? (await categoryApi.update(id, category), setIsEdit(false))
+        : (await categoryApi.create(category), setAddCategory(false));
+    } catch (error) {
+      logger.error(error);
+    }
+    refetch();
+    setSubmitted(true);
+  };
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      validateOnBlur={submitted}
+      validateOnChange={submitted}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
+      <FormikForm>
         <Input
           required
-          className="mx-2 w-2/5"
-          name="fromPath"
-          suffix={<Button icon={Check} style="text" />}
+          name="name"
+          suffix={<Button icon={Check} style="text" type="submit" />}
           type="text"
         />
       </FormikForm>
-    </div>
-  </Formik>
-);
+    </Formik>
+  );
+};
 
 export default Form;
