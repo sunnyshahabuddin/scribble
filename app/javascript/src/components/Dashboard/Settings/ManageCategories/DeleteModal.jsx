@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
 import { Warning } from "neetoicons";
-import { Modal, Button, Typography, Callout } from "neetoui";
+import { Modal, Button, Typography, Callout, PageLoader } from "neetoui";
 import { Select } from "neetoui/formik";
+
+import categoriesApi from "apis/categories";
 
 import {
   DELETE_CATEGORY_FORM_INITIAL_VALUES,
@@ -12,6 +14,8 @@ import {
 
 const DeleteModal = () => {
   const [showModal, setShowModal] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [categoryList, setCategoryList] = useState([]);
   const CATEGORY_LIST = [
     {
       label: "Value One",
@@ -26,6 +30,25 @@ const DeleteModal = () => {
       value: "value3",
     },
   ];
+  const fetchCategoriesDetails = async () => {
+    try {
+      const {
+        data: { categories },
+      } = await categoriesApi.fetch();
+      setPageLoading(false);
+      setCategoryList(categories);
+    } catch (error) {
+      logger.error(error);
+      setPageLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchCategoriesDetails();
+  }, []);
+
+  if (pageLoading) {
+    return <PageLoader />;
+  }
 
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
@@ -58,9 +81,12 @@ const DeleteModal = () => {
               required
               label="Select a category to move these articles into"
               name="category"
-              options={CATEGORY_LIST}
               placeholder="Select Category"
               strategy="fixed"
+              options={categoryList.map(category => ({
+                label: category.name,
+                value: category.id,
+              }))}
             />
             <div className="my-4 flex">
               <Button
