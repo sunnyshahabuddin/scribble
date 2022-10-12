@@ -1,84 +1,81 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Formik, Form as FormikForm } from "formik";
 import { Warning } from "neetoicons";
-import { Modal, Button, Typography, Callout } from "neetoui";
-import { Select } from "neetoui/formik";
+import { Modal, Button, Typography, Callout, Select } from "neetoui";
 
-import {
-  DELETE_CATEGORY_FORM_INITIAL_VALUES,
-  DELETE_CATEGORY_FORM_VALIDATION_SCHEMA,
-} from "../constants";
+import categoriesApi from "apis/categories";
 
-const DeleteModal = () => {
-  const [showModal, setShowModal] = useState(true);
-  const CATEGORY_LIST = [
-    {
-      label: "Value One",
-      value: "value1",
-    },
-    {
-      label: "Value Two",
-      value: "value2",
-    },
-    {
-      label: "Value Three",
-      value: "value3",
-    },
-  ];
+const DeleteModal = ({
+  category,
+  showDeleteModal,
+  setShowDeleteModal,
+  refetch,
+  categoryList,
+}) => {
+  const handleSubmit = async id => {
+    setShowDeleteModal(false);
+    try {
+      await categoriesApi.destroy(id);
+      refetch();
+    } catch (error) {
+      logger.error(error);
+    }
+  };
 
   return (
-    <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+    <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
       <Modal.Header>
         <Typography id="dialog1Title" style="h2">
           Delete Category
         </Typography>
       </Modal.Header>
       <Modal.Body className="space-y-2">
-        <Typography lineHeight="normal" style="body2">
-          You are permanently deleting the new category 2 category. This action
+        <Typography className="mt-2" lineHeight="normal" style="body2">
+          You are permanently deleting the {category.name} category. This action
           cannot be undone. Are you sure you wish to continue?
         </Typography>
         <Callout icon={Warning} style="danger">
-          Category "new" has "60" articles. Before this category can be deleted
-          these articles needs to be moved to another category.
+          <div>
+            Category <strong>{category.name}</strong> has
+            <strong>
+              {category.articles.length}
+              {category.articles.length > 1 ? " articles" : " article"}
+            </strong>
+            . Before this category can be deleted these articles needs to be
+            moved to another category.
+          </div>
         </Callout>
-        {/* TODO: add submitted upon adding handle submit function */}
-        <Formik
-          initialValues={DELETE_CATEGORY_FORM_INITIAL_VALUES}
-          //validateOnBlur={submitted}
-          //validateOnChange={submitted}
-          validationSchema={DELETE_CATEGORY_FORM_VALIDATION_SCHEMA(
-            CATEGORY_LIST
-          )}
-          //onSubmit={handleSubmit}
-        >
-          <FormikForm>
-            <Select
-              required
-              label="Select a category to move these articles into"
-              name="category"
-              options={CATEGORY_LIST}
-              placeholder="Select Category"
-              strategy="fixed"
-            />
-            <div className="my-4 flex">
-              <Button
-                label="Proceed"
-                style="danger"
-                type="submit"
-                onClick={() => setShowModal(false)}
-              />
-              <Button
-                label="Cancel"
-                style="text"
-                type="cancel"
-                onClick={() => setShowModal(false)}
-              />
-            </div>
-          </FormikForm>
-        </Formik>
+        <Select
+          required
+          label="Select a category to move these articles into"
+          name="category"
+          placeholder="Select Category"
+          strategy="fixed"
+          options={categoryList
+            .filter(categoryItem => categoryItem.id !== category.id)
+            .map(category => ({
+              label: category.name,
+              value: category.id,
+            }))}
+        />
       </Modal.Body>
+      <Modal.Footer>
+        <Button
+          label="Proceed"
+          style="danger"
+          type="submit"
+          onClick={() => {
+            setShowDeleteModal(false);
+            handleSubmit(category.id);
+          }}
+        />
+        <Button
+          label="Cancel"
+          style="text"
+          type="cancel"
+          onClick={() => setShowDeleteModal(false)}
+        />
+      </Modal.Footer>
     </Modal>
   );
 };

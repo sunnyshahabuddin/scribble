@@ -7,7 +7,7 @@ import { Draggable } from "react-beautiful-dnd";
 import DeleteModal from "./DeleteModal";
 import Form from "./Form";
 
-const ListCategory = ({ category, index, refetch }) => {
+const ListCategory = ({ category, index, refetch, categoryList }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -55,7 +55,15 @@ const ListCategory = ({ category, index, refetch }) => {
           </div>
         )}
       </Draggable>
-      {showDeleteModal && <DeleteModal />}
+      {showDeleteModal && (
+        <DeleteModal
+          category={category}
+          categoryList={categoryList}
+          refetch={refetch}
+          setShowDeleteModal={setShowDeleteModal}
+          showDeleteModal={showDeleteModal}
+        />
+      )}
     </>
   );
 };

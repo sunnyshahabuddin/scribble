@@ -9,10 +9,7 @@ import categoriesApi from "apis/categories";
 import Form from "./Form";
 import ListCategory from "./ListCategory";
 
-import {
-  ADD_CATEGORY_FORM_INITIAL_VALUES,
-  ADD_CATEGORY_FORM_VALIDATION_SCHEMA,
-} from "../constants";
+import { FORM_INITIAL_VALUES, FORM_VALIDATION_SCHEMA } from "../constants";
 
 const ManageCategories = () => {
   const [addCategory, setAddCategory] = useState(false);
@@ -76,11 +73,11 @@ const ManageCategories = () => {
       )}
       {addCategory && (
         <Form
-          initialValues={ADD_CATEGORY_FORM_INITIAL_VALUES}
+          initialValues={FORM_INITIAL_VALUES}
           isEdit={false}
           refetch={fetchCategoriesDetails}
           setAddCategory={setAddCategory}
-          validationSchema={ADD_CATEGORY_FORM_VALIDATION_SCHEMA}
+          validationSchema={FORM_VALIDATION_SCHEMA}
         />
       )}
       <div>
@@ -91,6 +88,7 @@ const ManageCategories = () => {
                 {sortedCategoryList.map((category, idx) => (
                   <ListCategory
                     category={category}
+                    categoryList={sortedCategoryList}
                     index={idx}
                     key={idx}
                     refetch={fetchCategoriesDetails}
