@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 
+import { PageLoader } from "neetoui";
+import { ToastContainer } from "react-toastify";
+
 import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 import Dashboard from "components/Dashboard";
@@ -13,10 +16,15 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <PageLoader />;
   }
 
-  return <Dashboard />;
+  return (
+    <>
+      <ToastContainer />
+      <Dashboard />
+    </>
+  );
 };
 
 export default App;
