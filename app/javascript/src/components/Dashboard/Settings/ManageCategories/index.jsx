@@ -9,7 +9,10 @@ import categoriesApi from "apis/categories";
 import Form from "./Form";
 import ListCategory from "./ListCategory";
 
-import { FORM_INITIAL_VALUES, VALIDATION_SCHEMA } from "../constants";
+import {
+  ADD_CATEGORY_FORM_INITIAL_VALUES,
+  ADD_CATEGORY_FORM_VALIDATION_SCHEMA,
+} from "../constants";
 
 const ManageCategories = () => {
   const [addCategory, setAddCategory] = useState(false);
@@ -73,11 +76,11 @@ const ManageCategories = () => {
       )}
       {addCategory && (
         <Form
-          initialValues={FORM_INITIAL_VALUES}
+          initialValues={ADD_CATEGORY_FORM_INITIAL_VALUES}
           isEdit={false}
           refetch={fetchCategoriesDetails}
           setAddCategory={setAddCategory}
-          validationSchema={VALIDATION_SCHEMA}
+          validationSchema={ADD_CATEGORY_FORM_VALIDATION_SCHEMA}
         />
       )}
       <div>
