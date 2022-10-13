@@ -44,7 +44,7 @@ const ManageCategories = () => {
     return shuffledCategoryList;
   };
 
-  const onDragEnd = finalPosition => {
+  const onDragEnd = async finalPosition => {
     if (finalPosition.destination) {
       const reorderedItems = reorder(
         sortedCategoryList,
@@ -52,6 +52,9 @@ const ManageCategories = () => {
         finalPosition.destination.index
       );
       setSortedCategoryList(reorderedItems);
+      await categoriesApi.position_update({
+        category_id_list: reorderedItems.map(category => category.id),
+      });
     }
   };
 
