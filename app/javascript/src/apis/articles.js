@@ -10,6 +10,8 @@ const update = ({ slug, payload }) => axios.put(`/articles/${slug}`, payload);
 
 const destroy = slug => axios.delete(`/articles/${slug}`);
 
-const articlesApi = { fetch, create, show, update, destroy };
+const batchUpdate = payload => axios.put("/articles/batch_update", payload);
+
+const articlesApi = { fetch, create, show, update, destroy, batchUpdate };
 
 export default articlesApi;
