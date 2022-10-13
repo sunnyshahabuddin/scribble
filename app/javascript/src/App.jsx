@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 
 import { PageLoader } from "neetoui";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 import Dashboard from "components/Dashboard";
+
+import Eui from "./components/Dashboard/EUI/Eui";
+
 import "lib/dayjs"; // eslint-disable-line
 
 const App = () => {
@@ -20,10 +24,13 @@ const App = () => {
   }
 
   return (
-    <>
+    <Router>
       <ToastContainer />
-      <Dashboard />
-    </>
+      <Switch>
+        <Route component={Eui} path="/public" />
+        <Route component={Dashboard} path="/" />
+      </Switch>
+    </Router>
   );
 };
 
