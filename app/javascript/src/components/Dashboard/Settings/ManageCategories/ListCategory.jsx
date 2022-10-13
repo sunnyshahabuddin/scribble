@@ -27,9 +27,15 @@ const ListCategory = ({ category, index, refetch, categoryList }) => {
           >
             {!isEdit ? (
               <>
-                <Typography className="mt-2" style="h4">
-                  {category.name}
-                </Typography>
+                <div className="flex">
+                  <Typography
+                    className="ri-drag-move-2-line fa-2x neeto-ui-text-gray-500 mx-2 my-px"
+                    style="body1"
+                  />
+                  <Typography className="mt-1" style="h4">
+                    {category.name}
+                  </Typography>
+                </div>
                 <div className="mt-2">
                   <Button
                     icon={Delete}

@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   before_action :load_category!, only: [:update, :destroy]
 
   def index
-    @categories = Category.all
+    @categories = Category.all.order("position ASC")
     render
   end
 
@@ -19,6 +19,18 @@ class CategoriesController < ApplicationController
 
   def update
     @category.update!(category_params)
+  end
+
+  def position_update
+    position = 1
+    category_id_list = params[:category_id_list]
+    category_id_list.each do |pos|
+      category = Category.find_by!(id: pos)
+      category.position = position
+      position = position + 1
+      category.save
+    end
+    render status: :ok, json: { notice: "Position successfully updated" }
   end
 
   def destroy
