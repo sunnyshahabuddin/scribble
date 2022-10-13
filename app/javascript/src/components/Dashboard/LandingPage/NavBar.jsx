@@ -20,12 +20,18 @@ const NavBar = () => (
         <NavLink
           activeClassName="neeto-ui-text-primary-500"
           className="neeto-ui-text-gray-500"
-          to="/settings/general"
+          to="/settings"
         >
           <Typography style="h4">Settings</Typography>
         </NavLink>
       </div>
-      <Button icon={ExternalLink} label="preview" style="secondary" />
+      <Button
+        icon={ExternalLink}
+        label="preview"
+        style="secondary"
+        target="_blank"
+        to="/public"
+      />
     </div>
   </nav>
 );
