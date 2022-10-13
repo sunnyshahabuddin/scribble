@@ -2,7 +2,12 @@
 
 Rails.application.routes.draw do
   constraints(lambda { |req| req.format == :json }) do
-    resources :articles, except: %i[new edit], param: :slug
+    resources :articles, except: %i[new edit update], param: :slug
+    resources :articles, only: :update, param: :slug do
+      collection do
+        put "batch_update"
+      end
+    end
     resources :categories, only: %i[index create update destroy]
   end
 

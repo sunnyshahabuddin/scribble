@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Warning } from "neetoicons";
-import { Modal, Button, Typography, Callout, Select } from "neetoui";
+import { Modal, Button, Typography, Callout, Select, Toastr } from "neetoui";
 
+import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 const DeleteModal = ({
@@ -12,10 +13,18 @@ const DeleteModal = ({
   refetch,
   categoryList,
 }) => {
+  const [moveArticlesToCategory, setMoveArticlesToCategory] = useState({});
   const handleSubmit = async id => {
     setShowDeleteModal(false);
     try {
+      await articlesApi.batchUpdate({
+        previous_category_id: id,
+        updated_category_id: moveArticlesToCategory.value,
+      });
       await categoriesApi.destroy(id);
+      Toastr.success(
+        `Articles successfully moved to the category: ${moveArticlesToCategory.label}`
+      );
       refetch();
     } catch (error) {
       logger.error(error);
@@ -36,7 +45,7 @@ const DeleteModal = ({
         </Typography>
         <Callout icon={Warning} style="danger">
           <div>
-            Category <strong>{category.name}</strong> has
+            Category <strong>{category.name}</strong> has&nbsp;
             <strong>
               {category.articles.length}
               {category.articles.length > 1 ? " articles" : " article"}
@@ -57,6 +66,7 @@ const DeleteModal = ({
               label: category.name,
               value: category.id,
             }))}
+          onChange={e => setMoveArticlesToCategory(e)}
         />
       </Modal.Body>
       <Modal.Footer>
