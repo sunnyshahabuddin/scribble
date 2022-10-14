@@ -24,10 +24,9 @@ const renderDeleteEditButton = (slug, destroyArticle) => (
   </div>
 );
 
-const renderText = value => (
-  //TODO: remove hardocoded data after creating user model and category model
+const renderText = author => (
   <Typography className="neeto-ui-text-gray-600" style="body2">
-    {value}Author
+    {author.name}
   </Typography>
 );
 const renderCategory = category => (
