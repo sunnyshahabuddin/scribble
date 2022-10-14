@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
   resolve: {
     alias: {
@@ -8,6 +10,7 @@ module.exports = {
       neetoicons: "@bigbinary/neeto-icons",
       lib: "src/lib",
       utils: "src/utils",
+      images: path.resolve(__dirname, "../", "../", "app/assets/images"),
     },
   },
 };
