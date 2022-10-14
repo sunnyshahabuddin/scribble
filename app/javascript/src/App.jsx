@@ -8,7 +8,7 @@ import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 import Dashboard from "components/Dashboard";
 
-import Eui from "./components/Dashboard/EUI/Eui";
+import Eui from "./components/Dashboard/EUI";
 
 import "lib/dayjs"; // eslint-disable-line
 
