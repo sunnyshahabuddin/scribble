@@ -6,6 +6,7 @@ class Article < ApplicationRecord
   validate :slug_not_changed
 
   belongs_to :category
+  belongs_to :user
 
   before_create :set_slug
 
