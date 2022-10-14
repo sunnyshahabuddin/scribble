@@ -2,6 +2,8 @@ import React from "react";
 
 import { Typography } from "neetoui";
 
+import { formatDateToDayMonthYear } from "components/Dashboard/utils";
+
 const ShowArticle = ({ articleTitle, categoryTitle, publishedDate, body }) => (
   <div className="m-8 w-3/4">
     <Typography style="h1">{articleTitle}</Typography>
@@ -13,7 +15,7 @@ const ShowArticle = ({ articleTitle, categoryTitle, publishedDate, body }) => (
         {categoryTitle}
       </Typography>
       <Typography className="neeto-ui-text-gray-400 p-1" style="h5">
-        {publishedDate}
+        {formatDateToDayMonthYear(publishedDate)}
       </Typography>
     </div>
     <Typography className="mt-6" style="body2">

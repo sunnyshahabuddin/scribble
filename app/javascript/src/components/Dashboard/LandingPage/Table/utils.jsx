@@ -35,9 +35,9 @@ const renderCategory = category => (
     {category.name}
   </Typography>
 );
-const renderDate = created_at => (
+const renderDate = (updated_at, status) => (
   <Typography className="neeto-ui-text-gray-600" style="body2">
-    {formatDateToMonthDayYear(created_at)}
+    {status === 1 ? formatDateToMonthDayYear(updated_at) : "------"}
   </Typography>
 );
 
@@ -50,9 +50,9 @@ export const buildTableColumnData = destroyArticle => [
   },
   {
     title: "DATE",
-    dataIndex: "created_at",
-    key: "created_at",
-    render: renderDate,
+    dataIndex: "updated_at",
+    key: "updated_at",
+    render: (updated_at, { status }) => renderDate(updated_at, status),
   },
   {
     title: "AUTHOR",
