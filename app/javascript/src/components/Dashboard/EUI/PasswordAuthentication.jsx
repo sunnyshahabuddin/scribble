@@ -21,7 +21,7 @@ const PasswordAuthentication = () => (
       validationSchema={yup.object().shape({
         password: yup.string().required("Password is required"),
       })}
-      //onSubmit={handleSubmit}
+      //TODO: Add handleSubmit function
     >
       <FormikForm className="mt-8">
         <Input required label="Password" name="password" type="password" />
