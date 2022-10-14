@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Accordion, PageLoader, Typography } from "neetoui";
+import { NavLink } from "react-router-dom";
 
 import categoriesApi from "apis/categories";
 
@@ -34,20 +35,26 @@ const SideBar = () => {
   }
 
   return (
-    <div className="border-r h-screen w-1/4">
-      <Accordion className="h-full px-5">
-        {categoryList.map((category, idx) => (
-          <Accordion.Item key={idx} title={category.name}>
-            {category.articles.map(
-              (article, index) =>
-                article.status === 1 && (
-                  <Typography key={index}>{article.title}</Typography>
-                )
-            )}
-          </Accordion.Item>
-        ))}
-      </Accordion>
-    </div>
+    <Accordion className="border-r h-full w-1/4 px-5">
+      {categoryList.map((category, idx) => (
+        <Accordion.Item key={idx} title={category.name}>
+          {category.articles.map(
+            (article, index) =>
+              article.status === 1 && (
+                <NavLink
+                  exact
+                  activeClassName="neeto-ui-text-primary-500 mx-6"
+                  className="neeto-ui-text-gray-500 mx-6"
+                  key={index}
+                  to={`/public/${article.slug}`}
+                >
+                  <Typography style="h4">{article.title}</Typography>
+                </NavLink>
+              )
+          )}
+        </Accordion.Item>
+      ))}
+    </Accordion>
   );
 };
 
