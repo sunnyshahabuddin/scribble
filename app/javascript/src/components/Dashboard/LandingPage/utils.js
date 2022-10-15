@@ -16,4 +16,7 @@ export const buildCategoryWiseArticle = category =>
       id: category.id,
       name: category.name,
     },
+    author: {
+      name: category.author.name,
+    },
   }));

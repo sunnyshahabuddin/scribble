@@ -13,6 +13,7 @@ class User < ApplicationRecord
   before_save :to_lowercase
 
   has_many :articles
+  has_many :categories
 
   private
 

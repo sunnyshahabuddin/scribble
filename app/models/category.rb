@@ -4,6 +4,7 @@ class Category < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   has_many :articles
+  belongs_to :user
 
   before_create :set_position
 
