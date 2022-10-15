@@ -7,9 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 import Dashboard from "components/Dashboard";
-
-import Eui from "./components/Dashboard/EUI";
-
+import Eui from "components/EUI";
 import "lib/dayjs"; // eslint-disable-line
 
 const App = () => {

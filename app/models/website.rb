@@ -2,5 +2,5 @@
 
 class Website < ApplicationRecord
   validates :name, presence: true
-  has_secure_password
+  # has_secure_password
 end
