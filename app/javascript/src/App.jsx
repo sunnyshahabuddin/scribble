@@ -26,6 +26,7 @@ const App = () => {
 
   useEffect(() => {
     initializeLogger();
+    fetchRedirectionsDetails();
     setAuthHeaders(setLoading);
   }, []);
   const fetchRedirectionsDetails = async () => {
@@ -40,10 +41,6 @@ const App = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchRedirectionsDetails();
-  }, []);
 
   if (loading) {
     return <PageLoader />;
