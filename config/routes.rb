@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       end
     end
     resources :websites, only: %i[create index update]
+    resources :redirections, only: %i[create index update destroy]
   end
 
   root "home#index"

@@ -5,10 +5,10 @@ import { Typography, Button } from "neetoui";
 
 import Row from "./Row";
 
-import { TABLE_HEADER, REDIRECTION_ITEMS } from "../constants";
+import { TABLE_HEADER } from "../constants";
 import Form from "../Form";
 
-const Table = () => {
+const Table = ({ redirectionsList, refetch }) => {
   const [addRedirection, setAddRedirection] = useState(false);
 
   return (
@@ -23,11 +23,20 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {REDIRECTION_ITEMS.map((item, idx) => (
-          <Row key={idx} redirectionItem={item} />
+        {redirectionsList.map((item, idx) => (
+          <Row key={idx} redirectionItem={item} refetch={refetch} />
         ))}
         <tr>
-          <td>{addRedirection && <Form />}</td>
+          <td>
+            {addRedirection && (
+              <Form
+                initialValues={{ from: "", to: "" }}
+                isEdit={false}
+                refetch={refetch}
+                setAddRedirection={setAddRedirection}
+              />
+            )}
+          </td>
         </tr>
         <tr>
           <td>
