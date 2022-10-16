@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class Article < ApplicationRecord
-  validates :title, :body, :status, presence: true
+  MAX_TITLE_LENGTH = 255
+  validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }
+  validates :body, :status, presence: true
   validates :slug, uniqueness: true
   validate :slug_not_changed
 
