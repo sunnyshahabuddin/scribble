@@ -3,14 +3,25 @@
 class WebsitesController < ApplicationController
   before_action :load_website!, only: %i[update index]
 
+  def create
+    @website = Website.first
+    unless @website.authenticate(params[:password])
+      render status: :unauthorized, json: { message: "Invalid password." }
+    end
+    render status: :ok, json: @website
+  end
+
   def index
     @websites = Website.all
     render
   end
 
   def update
-    @website.update!(website_params)
-    render status: :ok, json: { message: "Articles are updated successfully." }
+    website = Website.first
+    website.name = params[:name]
+    website.password = params[:password]
+    website.save!
+    render status: :ok, json: { message: "Website updated successfully." }
   end
 
   private
@@ -20,6 +31,6 @@ class WebsitesController < ApplicationController
     end
 
     def website_params
-      params.require(:website).permit(:name, :password_digest)
+      params.require(:website).permit(:name, :password)
     end
 end
