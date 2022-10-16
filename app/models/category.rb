@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Category < ApplicationRecord
-  validates :name, presence: true, uniqueness: true
+  MAX_NAME_LENGTH = 255
+  validates :name, presence: true, uniqueness: true, length: { maximum: MAX_NAME_LENGTH }
 
   has_many :articles
   belongs_to :user
