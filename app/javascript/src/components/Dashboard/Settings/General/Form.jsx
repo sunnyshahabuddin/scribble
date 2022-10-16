@@ -12,7 +12,7 @@ const Form = ({ websiteDetails }) => {
     try {
       await websitesApi.update(websiteDetails.id, {
         name: values.siteName,
-        password_digest: checkedValue ? values.password : null,
+        password: checkedValue ? values.password : null,
       });
     } catch (error) {
       logger.error(error);

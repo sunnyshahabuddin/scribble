@@ -6,12 +6,17 @@ import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
+import PrivateRoute from "components/Common/PrivateRoute";
 import Dashboard from "components/Dashboard";
 import Eui from "components/EUI";
 import "lib/dayjs"; // eslint-disable-line
+import PasswordAuthentication from "./components/EUI/PasswordAuthentication";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const authToken = JSON.parse(localStorage.getItem("authToken"));
+  const isPasswordValidated = authToken !== null;
+
   useEffect(() => {
     initializeLogger();
     setAuthHeaders(setLoading);
@@ -25,7 +30,15 @@ const App = () => {
     <Router>
       <ToastContainer />
       <Switch>
-        <Route component={Eui} path="/public" />
+        <Route path="/public/login">
+          <PasswordAuthentication />
+        </Route>
+        <PrivateRoute
+          component={() => <Eui />}
+          condition={isPasswordValidated}
+          path="/public"
+          redirectRoute="/public/login"
+        />
         <Route component={Dashboard} path="/" />
       </Switch>
     </Router>
