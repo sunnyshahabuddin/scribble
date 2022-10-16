@@ -4,8 +4,8 @@ FactoryBot.define do
   factory :article do
     association :category, factory: :category
     association :user, factory: :user
-    title { Faker::Lorem.sentence[0..49] }
-    body { Faker::Lorem.paragraph }
-    status { 0 }
+    title { Faker::Lorem.sentence[0..14] }
+    status { "Draft" }
+    body { Faker::Lorem.sentence[0..49] }
   end
 end
