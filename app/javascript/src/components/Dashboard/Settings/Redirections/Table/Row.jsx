@@ -29,11 +29,16 @@ const Row = ({ redirectionItem, refetch }) => {
     );
   }
   const handleDelete = async () => {
-    try {
-      await redirectionsApi.destroy(redirectionItem.id);
-      refetch();
-    } catch (error) {
-      logger.error(error);
+    const deleteMessage = confirm(
+      "Are you sure you want to delete this article?"
+    );
+    if (deleteMessage) {
+      try {
+        await redirectionsApi.destroy(redirectionItem.id);
+        refetch();
+      } catch (error) {
+        logger.error(error);
+      }
     }
   };
 
@@ -42,13 +47,13 @@ const Row = ({ redirectionItem, refetch }) => {
       <td className="w-2/5 overflow-x-auto">
         <Typography>
           {window.location.origin}
-          {redirectionItem.to}
+          {redirectionItem.from}
         </Typography>
       </td>
       <td className="w-2/5 overflow-x-auto">
         <Typography>
           {window.location.origin}
-          {redirectionItem.from}
+          {redirectionItem.to}
         </Typography>
       </td>
       <td className="flex">

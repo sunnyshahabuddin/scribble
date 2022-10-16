@@ -30,7 +30,7 @@ const Table = ({ redirectionsList, refetch }) => {
           <td>
             {addRedirection && (
               <Form
-                initialValues={{ from: "", to: "" }}
+                initialValues={{ from: "/", to: "/" }}
                 isEdit={false}
                 refetch={refetch}
                 setAddRedirection={setAddRedirection}
