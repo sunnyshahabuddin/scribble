@@ -26,8 +26,8 @@ const App = () => {
 
   useEffect(() => {
     initializeLogger();
-    fetchRedirectionsDetails();
     setAuthHeaders(setLoading);
+    fetchRedirectionsDetails();
   }, []);
   const fetchRedirectionsDetails = async () => {
     try {
