@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :website do
     name { Faker::Name.name }
-    password { "welcome" }
+    password { "welcome123" }
   end
 end

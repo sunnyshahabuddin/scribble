@@ -8,7 +8,6 @@ class WebsitesController < ApplicationController
     unless @website.authenticate(params[:password])
       render status: :unauthorized, json: { message: "Invalid password." }
     end
-    render status: :ok, json: @website
   end
 
   def index
