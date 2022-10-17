@@ -11,6 +11,7 @@ import ActionDropDown from "./ActionDropDown";
 import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
 import { INITIAL_CHECKED_LIST } from "./Table/utils";
+import { searchArticleList } from "./utils";
 
 const LandingPage = () => {
   const [loading, setLoading] = useState(true);
@@ -18,6 +19,7 @@ const LandingPage = () => {
   const [categoryList, setCategoryList] = useState({});
   const [articlesStatus, setArticlesStatus] = useState({});
   const [checkedColumn, setCheckedColumn] = useState(INITIAL_CHECKED_LIST);
+  const [searchArticleTitle, setSearchArticleTitle] = useState("");
 
   useEffect(() => {
     fetchArticlesCategories();
@@ -97,12 +99,17 @@ const LandingPage = () => {
           }
           searchProps={{
             placeholder: "Search article title",
+            value: searchArticleTitle,
+            onChange: e => setSearchArticleTitle(e.target.value),
           }}
         />
         <Typography className="mb-5" style="h3">
           {articles.length} {articles.length > 1 ? " Articles" : " Article"}
         </Typography>
-        <Table articles={articles} destroyArticle={destroyArticle} />
+        <Table
+          articles={searchArticleList(articles, searchArticleTitle)}
+          destroyArticle={destroyArticle}
+        />
       </Container>
     </div>
   );

@@ -2,7 +2,8 @@ import React from "react";
 
 import { Switch, Route } from "react-router-dom";
 
-import NavBar from "./LandingPage/NavBar";
+import NavBar from "components/Dashboard/Common/NavBar";
+
 import Settings from "./Settings";
 
 import { DASHBOARD_ROUTES } from "../routeConstants";
