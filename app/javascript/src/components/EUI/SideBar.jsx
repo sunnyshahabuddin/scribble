@@ -17,8 +17,9 @@ import ShowArticle from "./ShowArticle";
 const SideBar = () => {
   const [loading, setLoading] = useState(true);
   const [categoryList, setCategoryList] = useState({});
-  const [articles, setArticles] = useState([]);
-  const [selectedArticle, setSelectedArticle] = useState(0);
+  const [publishedArticles, setPublishedArticles] = useState([]);
+  const [activeArticle, setActiveArticle] = useState(0);
+  const [defaultPath, setDefaultPath] = useState("");
   const { url, path } = useRouteMatch();
 
   useEffect(() => {
@@ -31,22 +32,33 @@ const SideBar = () => {
         data: { categories },
       } = await categoriesApi.fetch();
       const {
-        data: { articles },
+        data: { publishedArticles },
       } = await articlesApi.fetch();
       setCategoryList(categories);
-      setArticles(articles);
+      setPublishedArticles(publishedArticles);
       categories.forEach((category, index) =>
-        category.articles.filter(article => {
+        category.publishedArticles.filter(article => {
+          const pathName = window.location.pathname.split("/");
           const slugMatched =
-            article.slug === window.location.pathname.split("/")[2];
-          if (slugMatched) setSelectedArticle(index);
+            article.slug ===
+            window.location.pathname.split("/")[pathName.length - 1];
+          if (slugMatched) setActiveArticle(index);
         })
       );
+      findDefaultPath(categories);
     } catch (error) {
       logger.error(error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const findDefaultPath = categories => {
+    const defaultCategory = categories.find(
+      category => category.publishedArticles.length !== 0
+    );
+
+    setDefaultPath(defaultCategory.publishedArticles[0].slug);
   };
 
   if (loading) {
@@ -61,29 +73,26 @@ const SideBar = () => {
     <div className="flex">
       <Accordion
         className="border-r h-screen w-1/4 px-5"
-        defaultActiveKey={selectedArticle}
+        defaultActiveKey={activeArticle}
       >
         {categoryList.map((category, idx) => (
           <Accordion.Item key={idx} title={category.name}>
-            {category.articles.map(
-              (article, index) =>
-                article.status === 1 && (
-                  <NavLink
-                    exact
-                    activeClassName="neeto-ui-text-primary-500 mx-6"
-                    className="neeto-ui-text-gray-500 mx-6"
-                    key={index}
-                    to={`${url}/${article.slug}`}
-                  >
-                    <Typography style="h4">{article.title}</Typography>
-                  </NavLink>
-                )
-            )}
+            {category.publishedArticles.map((article, index) => (
+              <NavLink
+                exact
+                activeClassName="neeto-ui-text-primary-500 mx-6"
+                className="neeto-ui-text-gray-500 mx-6"
+                key={index}
+                to={`${url}/${article.slug}`}
+              >
+                <Typography style="h4">{article.title}</Typography>
+              </NavLink>
+            ))}
           </Accordion.Item>
         ))}
       </Accordion>
       <Switch>
-        {articles.map((article, index) => (
+        {publishedArticles.map((article, index) => (
           <Route key={index} path={`${path}/${article.slug}`}>
             <ShowArticle
               articleTitle={article.title}
@@ -93,10 +102,7 @@ const SideBar = () => {
             />
           </Route>
         ))}
-        <Redirect
-          from="/public"
-          to={`public/${categoryList[0].articles[0].slug}`}
-        />
+        <Redirect exact from="/public" to={`public/${defaultPath}`} />
       </Switch>
     </div>
   );
