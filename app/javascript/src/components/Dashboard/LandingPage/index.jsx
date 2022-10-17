@@ -10,12 +10,15 @@ import { ARTICLE_CREATE_PATH } from "components/routeConstants";
 import ActionDropDown from "./ActionDropDown";
 import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
+import { INITIAL_CHECKED_LIST } from "./Table/utils";
 
 const LandingPage = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [categoryList, setCategoryList] = useState({});
   const [articlesStatus, setArticlesStatus] = useState({});
+  const [checkedColumn, setCheckedColumn] = useState(INITIAL_CHECKED_LIST);
+
   useEffect(() => {
     fetchArticlesCategories();
   }, []);
@@ -52,6 +55,13 @@ const LandingPage = () => {
     }
   };
 
+  const handleCheckedColumn = checkedIndex => {
+    const checkedList = INITIAL_CHECKED_LIST;
+    const checkedItem = checkedList[checkedIndex];
+    checkedItem.checked = !checkedItem.checked;
+    setCheckedColumn([...checkedList]);
+  };
+
   if (loading) {
     return (
       <div className="h-screen w-screen">
@@ -73,7 +83,10 @@ const LandingPage = () => {
         <Header
           actionBlock={
             <div className="flex">
-              <ActionDropDown />
+              <ActionDropDown
+                checkedColumn={checkedColumn}
+                handleCheckedColumn={handleCheckedColumn}
+              />
               <Button
                 className="mx-2"
                 icon="ri-add-line"
