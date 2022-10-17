@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :user do
-    name { Faker::Name.name[0..14] }
+    name { Faker::Name.name[0..49] }
     email { Faker::Internet.email }
     id { 1 }
   end
