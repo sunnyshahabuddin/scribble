@@ -7,8 +7,8 @@ class ArticleTest < ActiveSupport::TestCase
   #   assert true
   # end
   def setup
-    @category = build(:category)
     @user = build(:user)
+    @category = build(:category, user: @user)
     @article = build(:article, category: @category, user: @user)
   end
 
