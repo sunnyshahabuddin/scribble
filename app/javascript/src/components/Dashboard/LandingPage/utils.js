@@ -7,7 +7,11 @@ export const formatFetchedDataToInitialFormValue = article => ({
 
 export const searchCategoryList = (categoryList, searchCategory) =>
   categoryList.filter(category =>
-    category.name.toLowerCase().includes(searchCategory.toLowerCase())
+    category.name.toLowerCase().includes(searchCategory.toLowerCase().trim())
+  );
+export const searchArticleList = (articleList, searchArticle) =>
+  articleList.filter(article =>
+    article.title.toLowerCase().includes(searchArticle.toLowerCase().trim())
   );
 export const buildCategoryWiseArticle = category =>
   category.articles.map(article => ({
