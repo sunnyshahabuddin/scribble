@@ -3,11 +3,14 @@ import React, { useState } from "react";
 import { Formik, Form as FormikForm } from "formik";
 import { Typography, Checkbox, Button } from "neetoui";
 import { Input } from "neetoui/formik";
+import * as yup from "yup";
 
 import websitesApi from "apis/websites";
 
 const Form = ({ websiteDetails }) => {
-  const [checkedValue, setCheckedValue] = useState(false);
+  const [checkedValue, setCheckedValue] = useState(
+    websiteDetails.password !== null
+  );
   const handleSubmit = async values => {
     try {
       await websitesApi.update(websiteDetails.id, {
@@ -23,7 +26,18 @@ const Form = ({ websiteDetails }) => {
 
   return (
     <Formik
-      initialValues={{ siteName: websiteDetails.name }}
+      initialValues={{
+        siteName: websiteDetails.name,
+        password: websiteDetails.password,
+      }}
+      validationSchema={yup.object().shape({
+        siteName: yup.string().required("Title is required"),
+        password: yup
+          .string()
+          .required("Password is required")
+          .min(6, "Password is too short - should be 6 characters minimum.")
+          .nullable(),
+      })}
       onSubmit={handleSubmit}
     >
       <FormikForm>
@@ -44,6 +58,7 @@ const Form = ({ websiteDetails }) => {
           </Typography>
         </div>
         <Checkbox
+          checked={checkedValue}
           className="mt-3"
           id="checkbox"
           label={
