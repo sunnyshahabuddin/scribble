@@ -11,7 +11,7 @@ import EuiPassword from "images/EuiPassword";
 
 import Header from "./Header";
 
-const PasswordAuthentication = () => {
+const PasswordAuthentication = ({ websiteDetails, setIsPasswordValidated }) => {
   const handleSubmit = async values => {
     try {
       const response = await websitesApi.login({ password: values.password });
@@ -20,6 +20,7 @@ const PasswordAuthentication = () => {
         JSON.stringify({ token: response.data.authentication_token })
       );
       setAuthHeaders();
+      setIsPasswordValidated(true);
       window.location.href = "/public";
     } catch (error) {
       Toastr.error("Invalid password");
@@ -33,10 +34,10 @@ const PasswordAuthentication = () => {
       <div className="mt-16 grid justify-center">
         <img className="mx-auto justify-center" src={EuiPassword} />
         <Typography className="mt-8" style="h2">
-          Spinkart is password protected!
+          {websiteDetails.name} is password protected!
         </Typography>
         <Typography style="body1">
-          Enter the password to gain access to spinkart.
+          Enter the password to gain access to {websiteDetails.name}.
         </Typography>
         <Formik
           initialValues={{ password: "" }}
