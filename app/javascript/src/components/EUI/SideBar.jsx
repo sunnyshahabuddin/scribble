@@ -12,6 +12,7 @@ import {
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
+import ArticleNotFound from "./ArticleNotFound";
 import ShowArticle from "./ShowArticle";
 
 const SideBar = () => {
@@ -19,6 +20,7 @@ const SideBar = () => {
   const [categoryList, setCategoryList] = useState({});
   const [publishedArticles, setPublishedArticles] = useState([]);
   const [activeArticle, setActiveArticle] = useState(0);
+  const [isArticlePresent, setIsArticlePresent] = useState(false);
   const [defaultPath, setDefaultPath] = useState("");
   const { url, path } = useRouteMatch();
 
@@ -42,7 +44,9 @@ const SideBar = () => {
           const slugMatched =
             article.slug ===
             window.location.pathname.split("/")[pathName.length - 1];
-          if (slugMatched) setActiveArticle(index);
+          if (slugMatched) {
+            setActiveArticle(index), setIsArticlePresent(true);
+          }
         })
       );
       findDefaultPath(categories);
@@ -73,21 +77,28 @@ const SideBar = () => {
     <div className="flex">
       <Accordion
         className="border-r h-screen w-1/4 px-5"
-        defaultActiveKey={activeArticle}
+        defaultActiveKey={isArticlePresent ? activeArticle : -1}
       >
         {categoryList.map((category, idx) => (
           <Accordion.Item key={idx} title={category.name}>
-            {category.publishedArticles.map((article, index) => (
-              <NavLink
-                exact
-                activeClassName="neeto-ui-text-primary-500 mx-6"
-                className="neeto-ui-text-gray-500 mx-6"
-                key={index}
-                to={`${url}/${article.slug}`}
-              >
-                <Typography style="h4">{article.title}</Typography>
-              </NavLink>
-            ))}
+            {category.publishedArticles.length === 0 ? (
+              <Typography className="neeto-ui-text-pastel-red" style="h4">
+                No Articles
+              </Typography>
+            ) : (
+              category.publishedArticles.map((article, index) => (
+                <NavLink
+                  exact
+                  activeClassName="neeto-ui-text-primary-500 mx-6"
+                  className="neeto-ui-text-gray-500 mx-6"
+                  key={index}
+                  to={`${url}/${article.slug}`}
+                  onClick={() => setIsArticlePresent(true)}
+                >
+                  <Typography style="h4">{article.title}</Typography>
+                </NavLink>
+              ))
+            )}
           </Accordion.Item>
         ))}
       </Accordion>
@@ -104,6 +115,7 @@ const SideBar = () => {
         ))}
         <Redirect exact from="/public" to={`public/${defaultPath}`} />
       </Switch>
+      {!isArticlePresent && <ArticleNotFound />}
     </div>
   );
 };
