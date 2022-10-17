@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders } from "apis/axios";
 import redirectionsApi from "apis/redirections";
+import websitesApi from "apis/websites";
 import { initializeLogger } from "common/logger";
 import PrivateRoute from "components/Common/PrivateRoute";
 import Dashboard from "components/Dashboard";
@@ -22,7 +23,8 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const authToken = JSON.parse(localStorage.getItem("authToken"));
   const [redirectionsList, setRedirectionsList] = useState([]);
-  const isPasswordValidated = authToken !== null;
+  const [websiteDetails, setWebsiteDetails] = useState({});
+  const [isPasswordValidated, setIsPasswordValidated] = useState(true);
 
   useEffect(() => {
     initializeLogger();
@@ -31,6 +33,13 @@ const App = () => {
   }, []);
   const fetchRedirectionsDetails = async () => {
     try {
+      const {
+        data: { websites },
+      } = await websitesApi.fetch();
+      setIsPasswordValidated(
+        (authToken && authToken.token !== null) || websites[0].password === null
+      );
+      setWebsiteDetails(websites[0]);
       const {
         data: { redirections },
       } = await redirectionsApi.fetch();
@@ -58,7 +67,10 @@ const App = () => {
           </Route>
         ))}
         <Route exact path="/public/login">
-          <PasswordAuthentication />
+          <PasswordAuthentication
+            setIsPasswordValidated={setIsPasswordValidated}
+            websiteDetails={websiteDetails}
+          />
         </Route>
         <PrivateRoute
           component={() => <Eui />}

@@ -14,6 +14,8 @@ const Form = ({ websiteDetails }) => {
         name: values.siteName,
         password: checkedValue ? values.password : null,
       });
+      localStorage.setItem("authToken", JSON.stringify({ token: null }));
+      window.location.reload();
     } catch (error) {
       logger.error(error);
     }
