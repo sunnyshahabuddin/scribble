@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Button, PageLoader, Typography } from "neetoui";
+import { Button, PageLoader } from "neetoui";
 import { Container, Header } from "neetoui/layouts";
 
 import articlesApi from "apis/articles";
@@ -103,9 +103,6 @@ const LandingPage = () => {
             onChange: e => setSearchArticleTitle(e.target.value),
           }}
         />
-        <Typography className="mb-5" style="h3">
-          {articles.length} {articles.length > 1 ? " Articles" : " Article"}
-        </Typography>
         <Table
           articles={searchArticleList(articles, searchArticleTitle)}
           destroyArticle={destroyArticle}
