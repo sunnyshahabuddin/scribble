@@ -9,7 +9,7 @@ const MenuBar = () => {
   const { url } = useRouteMatch();
 
   return (
-    <div className="border flex h-screen w-1/4 flex-col">
+    <div className="border-r flex h-screen w-1/4 flex-col">
       {MENUBAR_ITEMS.map(menuBarItem => (
         <NavLink
           activeClassName="neeto-ui-bg-primary-100 neeto-ui-rounded-sm h-18 px-2 py-3 mx-2 my-3"

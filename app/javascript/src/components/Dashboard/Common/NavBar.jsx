@@ -5,7 +5,7 @@ import { Typography, Button } from "neetoui";
 import { NavLink } from "react-router-dom";
 
 const NavBar = () => (
-  <nav className="shadow flex h-16 border-b-2 bg-white px-6">
+  <nav className="flex h-16 border-b-2 bg-white px-6">
     <div className="flex w-full items-center justify-between">
       <div className="flex">
         <Typography style="h4">Scribble</Typography>
