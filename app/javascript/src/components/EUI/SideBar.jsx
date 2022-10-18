@@ -82,7 +82,6 @@ const SideBar = () => {
                   className="neeto-ui-text-gray-500 mx-6"
                   key={index}
                   to={`${url}/${article.slug}`}
-                  onClick={() => setActiveArticleIndex(index)}
                 >
                   <Typography style="h4">{article.title}</Typography>
                 </NavLink>
