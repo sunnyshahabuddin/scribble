@@ -15,20 +15,26 @@ const Form = ({
   setAddRedirection,
 }) => {
   const handleSubmit = async values => {
-    try {
-      isEdit
-        ? (await redirectionsApi.update(values.id, {
-            from: values.from,
-            to: values.to,
-          }),
-          setIsEdit(false))
-        : (await redirectionsApi.create(values), setAddRedirection(false));
-    } catch (error) {
-      Toastr.warning("Category already exists");
-      setAddRedirection(false);
-      logger.error(error);
+    if (values.to !== values.from) {
+      try {
+        isEdit
+          ? ((await redirectionsApi.update(values.id, {
+              from: values.from,
+              to: values.to,
+            }),
+            Toastr.success("Redirection updated successfully")),
+            setIsEdit(false))
+          : (await redirectionsApi.create(values),
+            setAddRedirection(false),
+            Toastr.success("Redirection created successfully"));
+      } catch (error) {
+        setAddRedirection(false);
+        logger.error(error);
+      }
+      refetch();
+    } else {
+      Toastr.error("From and To cannot be same");
     }
-    refetch();
   };
 
   return (
