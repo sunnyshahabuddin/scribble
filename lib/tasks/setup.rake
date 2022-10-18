@@ -10,8 +10,6 @@ task populate_with_sample_data: [:environment] do
     puts "Skipping deleting and populating sample data in production"
   else
     create_sample_user!
-    create_sample_category!
-    create_sample_article!
     create_sample_website_name!
     puts "Done! Sample data has been added."
   end
@@ -24,24 +22,6 @@ def create_sample_user!
     email: "oliver@example.com"
   )
   puts "Done! The default User is now Oliver Smith."
-end
-
-def create_sample_category!
-  puts "Seeding with default category..."
-  Category.create!(
-    name: "Getting Started"
-  )
-  puts "Done! Category Getting Started has been created."
-end
-
-def create_sample_article!
-  puts "Seeding with default article..."
-  Article.create!(
-    title: "Welcome to scribble",
-    body: "This is the body of welcome to scribble, and is supposed to be a long text",
-    category_id: 1
-  )
-  puts "Done! Article Welcome to scribble has been created."
 end
 
 def create_sample_website_name!
