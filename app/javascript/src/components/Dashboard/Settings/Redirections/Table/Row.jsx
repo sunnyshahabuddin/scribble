@@ -30,7 +30,7 @@ const Row = ({ redirectionItem, refetch }) => {
   }
   const handleDelete = async () => {
     const deleteMessage = confirm(
-      "Are you sure you want to delete this article?"
+      "Are you sure you want to delete this redirection?"
     );
     if (deleteMessage) {
       try {
