@@ -1,9 +1,9 @@
 import React from "react";
 
 import articlesApi from "apis/articles";
-import { FORM_INITIAL_VALUES } from "components/Dashboard/constants";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
+import { FORM_INITIAL_VALUES } from "./constants";
 import Form from "./Form";
 
 const Create = ({ history }) => {
