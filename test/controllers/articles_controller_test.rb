@@ -13,7 +13,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_all_articles
-    get articles_path
+    get articles_path, as: :json
     assert_response :success
     response_json = response.parsed_body
 
@@ -28,7 +28,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_shouldnt_create_article_without_title
     post articles_path,
-      params: { article: { title: "", category_id: @category.id, user_id: @user.id, body: "This is a dummy body" } }
+      params: { article: { title: "", category_id: @category.id, user_id: @user.id, body: @article.body } }, as: :json
     assert_response :unprocessable_entity
     response_json = response.parsed_body
     assert_equal "Title can't be blank", response_json["error"]
@@ -37,7 +37,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   def test_shouldnt_change_article_title_to_blank
     article_params = { article: { title: "" } }
 
-    put article_path(@article.slug), params: article_params
+    put article_path(@article.slug), params: article_params, as: :json
     assert_response :unprocessable_entity
 
     response_json = response.parsed_body
@@ -48,10 +48,10 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     post articles_path,
       params: {
         article: {
-          title: "I am Dummmy Title", category_id: nil, user_id: @user.id,
-          body: "This is a dummy body"
+          title: @article.title, category_id: nil, user_id: @user.id,
+          body: @article.body
         }
-      }
+      }, as: :json
     assert_response :unprocessable_entity
     response_json = response.parsed_body
     assert_equal "Category must exist", response_json["error"]
@@ -59,7 +59,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_shouldnt_create_article_without_body
     post articles_path,
-      params: { article: { title: "I am Dummmy Title", category_id: @category.id, user_id: @user.id, body: nil } }
+      params: { article: { title: @article.title, category_id: @category.id, user_id: @user.id, body: nil } }, as: :json
     assert_response :unprocessable_entity
     response_json = response.parsed_body
     assert_equal "Body can't be blank", response_json["error"]
@@ -73,9 +73,9 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       params: {
         article: {
           title: @article.title, category_id: @category.id, user_id: @user.id,
-          body: "This is a dummy body"
+          body: @article.body
         }
-      }
+      }, as: :json
     assert_response :success
 
     @article.reload
@@ -84,9 +84,9 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       params: {
         article: {
           title: @article.title, category_id: @category.id, user_id: @user.id,
-          body: "This is a dummy body"
+          body: @article.body
         }
-      }
+      }, as: :json
     assert_response :success
 
     assert_equal article_title, @article.title
@@ -94,7 +94,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_destroy_article
     assert_difference "Article.count", -1 do
-      delete article_path(@article.slug)
+      delete article_path(@article.slug), as: :json
     end
     assert_response :ok
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  defaults format: :json do
+  constraints(lambda { |req| req.format == :json }) do
     resources :articles, except: %i[new edit update], param: :slug
 
     resources :articles, only: :update, param: :slug do

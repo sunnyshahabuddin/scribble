@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Typography, Checkbox, Button } from "neetoui";
+import { Typography, Checkbox, Button, Toastr } from "neetoui";
 import { Input } from "neetoui/formik";
 import * as yup from "yup";
 
@@ -18,7 +18,8 @@ const Form = ({ websiteDetails }) => {
         password: checkedValue ? values.password : null,
       });
       localStorage.setItem("authToken", JSON.stringify({ token: null }));
-      window.location.reload();
+      Toastr.success("Website updated successfully");
+      setTimeout(() => window.location.reload(), 500);
     } catch (error) {
       logger.error(error);
     }
@@ -32,11 +33,6 @@ const Form = ({ websiteDetails }) => {
       }}
       validationSchema={yup.object().shape({
         siteName: yup.string().required("Title is required"),
-        password: yup
-          .string()
-          .required("Password is required")
-          .min(6, "Password is too short - should be 6 characters minimum.")
-          .nullable(),
       })}
       onSubmit={handleSubmit}
     >

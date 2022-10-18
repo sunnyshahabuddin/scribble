@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
 import { Check } from "neetoicons";
-import { Button, Toastr } from "neetoui";
+import { Button } from "neetoui";
 import { Input } from "neetoui/formik";
 
 import categoryApi from "apis/categories";
@@ -23,7 +23,6 @@ const Form = ({
         ? (await categoryApi.update(id, category), setIsEdit(false))
         : (await categoryApi.create(category), setAddCategory(false));
     } catch (error) {
-      Toastr.warning("Category already exists");
       setAddCategory(false);
       logger.error(error);
     }

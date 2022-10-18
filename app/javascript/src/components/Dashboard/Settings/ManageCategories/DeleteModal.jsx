@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Warning } from "neetoicons";
-import { Modal, Button, Typography, Callout, Select, Toastr } from "neetoui";
+import { Modal, Button, Typography, Callout, Select } from "neetoui";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
@@ -23,27 +23,15 @@ const DeleteModal = ({
           updated_category_id: moveArticlesToCategory.value,
         });
         await categoriesApi.destroy(id);
-        {
-          moveArticlesToCategory.label &&
-            Toastr.success(
-              `Articles successfully moved to the category: ${moveArticlesToCategory.label}`
-            );
-        }
-        {
-          !moveArticlesToCategory.label &&
-            Toastr.success("Category deleted successfully");
-        }
       } else if (
         categoryList.length === 1 &&
         categoryList[0].articles.length === 0
       ) {
         await categoriesApi.destroy(id);
-        Toastr.success("Category deleted successfully");
       } else {
         await categoriesApi.update(id, {
           name: "General",
         });
-        Toastr.success("Articles successfully moved to General category");
       }
       refetch();
     } catch (error) {
