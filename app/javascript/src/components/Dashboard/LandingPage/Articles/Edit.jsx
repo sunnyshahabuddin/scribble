@@ -21,7 +21,7 @@ const Edit = ({ history }) => {
         payload: {
           title: articleDetails.title,
           body: articleDetails.body,
-          status: articleDetails.status,
+          status: articleDetails.status ? articleDetails.status : 0,
           category_id: articleDetails.category.value,
         },
       });

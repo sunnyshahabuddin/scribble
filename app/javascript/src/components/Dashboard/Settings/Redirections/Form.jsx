@@ -18,15 +18,12 @@ const Form = ({
     if (values.to !== values.from) {
       try {
         isEdit
-          ? ((await redirectionsApi.update(values.id, {
+          ? (await redirectionsApi.update(values.id, {
               from: values.from,
               to: values.to,
             }),
-            Toastr.success("Redirection updated successfully")),
             setIsEdit(false))
-          : (await redirectionsApi.create(values),
-            setAddRedirection(false),
-            Toastr.success("Redirection created successfully"));
+          : (await redirectionsApi.create(values), setAddRedirection(false));
       } catch (error) {
         setAddRedirection(false);
         logger.error(error);

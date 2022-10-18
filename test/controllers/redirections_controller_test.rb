@@ -16,57 +16,58 @@ class RedirectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_create_redirection
-    post redirections_path, params: { redirection: { from: "http://localhost:3000/home", to: "http://localhost:3000" } }
+    post redirections_path, params: { redirection: { from: @redirection.from, to: @redirection.to } }, as: :json
     assert_response :ok
   end
 
   def test_should_update_redirection
     @redirection.save!
-    put redirection_path(@redirection.id), params: { redirection: { from: "http://example/home", to: "http://example" } }
+    put redirection_path(@redirection.id),
+      params: { redirection: { from: "http://example/home", to: "http://example" } }, as: :json
     assert_response :ok
   end
 
   def test_should_destroy_redirection
     @redirection.save!
-    delete redirection_path(@redirection.id)
+    delete redirection_path(@redirection.id), as: :json
     assert_response :ok
   end
 
   def test_shouldnt_create_redirection_without_from_path
-    post redirections_path, params: { redirection: { from: "", to: "http://example" } }
+    post redirections_path, params: { redirection: { from: "", to: @redirection.to } }, as: :json
     assert_response :unprocessable_entity
   end
 
   def test_shouldnt_create_redirection_without_to_path
-    post redirections_path, params: { redirection: { from: "http://example/home", to: "" } }
+    post redirections_path, params: { redirection: { from: @redirection.from, to: "" } }, as: :json
     assert_response :unprocessable_entity
   end
 
   def test_shouldnt_create_redirection_if_from_path_already_exist
-    post redirections_path, params: { redirection: { from: @redirection.from, to: @redirection.to } }
+    post redirections_path, params: { redirection: { from: @redirection.from, to: @redirection.to } }, as: :json
     assert_response :ok
 
-    post redirections_path, params: { redirection: { from: @redirection.from, to: "http://example" } }
+    post redirections_path, params: { redirection: { from: @redirection.from, to: "http://example" } }, as: :json
     assert_response :unprocessable_entity
   end
 
   def test_should_create_redirection_if_to_path_already_exist
-    post redirections_path, params: { redirection: { from: @redirection.from, to: @redirection.to } }
+    post redirections_path, params: { redirection: { from: @redirection.from, to: @redirection.to } }, as: :json
     assert_response :ok
 
-    post redirections_path, params: { redirection: { from: "http://example/home", to: @redirection.to } }
+    post redirections_path, params: { redirection: { from: "http://example/home", to: @redirection.to } }, as: :json
     assert_response :ok
   end
 
   def test_shouldnt_update_redirection_without_from_path
     @redirection.save!
-    put redirection_path(@redirection.id), params: { redirection: { from: "", to: "http://example" } }
+    put redirection_path(@redirection.id), params: { redirection: { from: "", to: @redirection.to } }, as: :json
     assert_response :unprocessable_entity
   end
 
   def test_shouldnt_update_redirection_without_to_path
     @redirection.save!
-    put redirection_path(@redirection.id), params: { redirection: { from: "http://example/home", to: "" } }
+    put redirection_path(@redirection.id), params: { redirection: { from: @redirection.from, to: "" } }, as: :json
     assert_response :unprocessable_entity
   end
 end

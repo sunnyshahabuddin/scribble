@@ -22,7 +22,7 @@ class WebsitesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_shouldnt_authorize_with_invalid_credentials
-    post websites_path, params: { password: "invalid password" }, as: :json
+    post websites_path, params: { website: { password: "invalid password" } }, as: :json
     assert_response :unauthorized
     response_json = response.parsed_body
     assert_equal response_json["message"], "Invalid password."

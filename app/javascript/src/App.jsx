@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-import { setAuthHeaders } from "apis/axios";
+import { setAuthHeaders, registerIntercepts } from "apis/axios";
 import redirectionsApi from "apis/redirections";
 import websitesApi from "apis/websites";
 import { initializeLogger } from "common/logger";
@@ -28,6 +28,7 @@ const App = () => {
 
   useEffect(() => {
     initializeLogger();
+    registerIntercepts();
     setAuthHeaders(setLoading);
     fetchRedirectionsDetailsAndCheckPasswordValidation();
   }, []);
