@@ -10,9 +10,18 @@ task populate_with_sample_data: [:environment] do
     puts "Skipping deleting and populating sample data in production"
   else
     create_sample_user!
+    create_sample_category!
     create_sample_website_name!
     puts "Done! Sample data has been added."
   end
+end
+
+def create_sample_category!
+  puts "Seeding with sample category..."
+  Category.create!(
+    name: "Electronics"
+  )
+  puts "Done! Category Electronics has been created."
 end
 
 def create_sample_user!
