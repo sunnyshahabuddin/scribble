@@ -12,21 +12,22 @@ import {
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
-import ArticleNotFound from "./ArticleNotFound";
+import EmptyState from "./EmptyState";
 import ShowArticle from "./ShowArticle";
+import { findActiveArticleIndex, findDefaultPath } from "./utils";
 
 const SideBar = () => {
   const [loading, setLoading] = useState(true);
   const [categoryList, setCategoryList] = useState({});
   const [publishedArticles, setPublishedArticles] = useState([]);
-  const [activeArticle, setActiveArticle] = useState(0);
-  const [isArticlePresent, setIsArticlePresent] = useState(false);
+  const [activeArticleIndex, setActiveArticleIndex] = useState(0);
   const [defaultPath, setDefaultPath] = useState("");
   const { url, path } = useRouteMatch();
 
   useEffect(() => {
     fetchArticlesCategoriesAndSlugMatch();
   }, []);
+
   const fetchArticlesCategoriesAndSlugMatch = async () => {
     try {
       setLoading(true);
@@ -38,31 +39,13 @@ const SideBar = () => {
       } = await articlesApi.fetch();
       setCategoryList(categories);
       setPublishedArticles(publishedArticles);
-      categories.forEach((category, index) =>
-        category.publishedArticles.filter(article => {
-          const pathName = window.location.pathname.split("/");
-          const slugMatched =
-            article.slug ===
-            window.location.pathname.split("/")[pathName.length - 1];
-          if (slugMatched) {
-            setActiveArticle(index), setIsArticlePresent(true);
-          }
-        })
-      );
-      findDefaultPath(categories);
+      findActiveArticleIndex(categories, setActiveArticleIndex);
+      findDefaultPath(categories, setDefaultPath);
     } catch (error) {
       logger.error(error);
     } finally {
       setLoading(false);
     }
-  };
-
-  const findDefaultPath = categories => {
-    const defaultCategory = categories.find(
-      category => category.publishedArticles.length !== 0
-    );
-
-    setDefaultPath(defaultCategory.publishedArticles[0].slug);
   };
 
   if (loading) {
@@ -73,11 +56,17 @@ const SideBar = () => {
     );
   }
 
+  if (categoryList.length === 0) {
+    return (
+      <EmptyState message="No preview available, add category to proceed " />
+    );
+  }
+
   return (
     <div className="flex">
       <Accordion
         className="border-r h-screen w-1/4 px-5"
-        defaultActiveKey={isArticlePresent ? activeArticle : -1}
+        defaultActiveKey={activeArticleIndex}
       >
         {categoryList.map((category, idx) => (
           <Accordion.Item key={idx} title={category.name}>
@@ -93,7 +82,7 @@ const SideBar = () => {
                   className="neeto-ui-text-gray-500 mx-6"
                   key={index}
                   to={`${url}/${article.slug}`}
-                  onClick={() => setIsArticlePresent(true)}
+                  onClick={() => setActiveArticleIndex(index)}
                 >
                   <Typography style="h4">{article.title}</Typography>
                 </NavLink>
@@ -115,7 +104,9 @@ const SideBar = () => {
         ))}
         <Redirect exact from="/public" to={`public/${defaultPath}`} />
       </Switch>
-      {!isArticlePresent && <ArticleNotFound />}
+      {activeArticleIndex === -1 && (
+        <EmptyState message="Article does not exists " />
+      )}
     </div>
   );
 };
