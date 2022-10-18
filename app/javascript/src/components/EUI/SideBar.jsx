@@ -39,8 +39,8 @@ const SideBar = () => {
       } = await articlesApi.fetch();
       setCategoryList(categories);
       setPublishedArticles(publishedArticles);
+      findDefaultPath(categories, setDefaultPath, setActiveArticleIndex);
       findActiveArticleIndex(categories, setActiveArticleIndex);
-      findDefaultPath(categories, setDefaultPath);
     } catch (error) {
       logger.error(error);
     } finally {

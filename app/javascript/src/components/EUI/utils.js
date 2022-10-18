@@ -1,8 +1,13 @@
-export const findDefaultPath = (categoryList, setDefaultPath) => {
+export const findDefaultPath = (
+  categoryList,
+  setDefaultPath,
+  setActiveArticleIndex
+) => {
   const defaultCategory = categoryList.find(
     category => category.publishedArticles.length !== 0
   );
   setDefaultPath(defaultCategory.publishedArticles[0].slug);
+  setActiveArticleIndex(categoryList.indexOf(defaultCategory));
 };
 
 export const findActiveArticleIndex = (categoryList, setActiveArticleIndex) => {
