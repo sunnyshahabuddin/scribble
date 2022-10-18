@@ -29,9 +29,10 @@ const App = () => {
   useEffect(() => {
     initializeLogger();
     setAuthHeaders(setLoading);
-    fetchRedirectionsDetails();
+    fetchRedirectionsDetailsAndCheckPasswordValidation();
   }, []);
-  const fetchRedirectionsDetails = async () => {
+
+  const fetchRedirectionsDetailsAndCheckPasswordValidation = async () => {
     try {
       const {
         data: { websites },

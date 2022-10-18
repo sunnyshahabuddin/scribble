@@ -33,6 +33,12 @@ const DeleteModal = ({
           !moveArticlesToCategory.label &&
             Toastr.success("Category deleted successfully");
         }
+      } else if (
+        categoryList.length === 1 &&
+        categoryList[0].articles.length === 0
+      ) {
+        await categoriesApi.destroy(id);
+        Toastr.success("Category deleted successfully");
       } else {
         await categoriesApi.update(id, {
           name: "General",
