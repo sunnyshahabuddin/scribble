@@ -18,9 +18,8 @@ jobs:
 
     steps:
       - checkout
-      - run: gem install bundler:2.2.20
-      - run: sudo apt-get install postgresql-client
-      # Bundle install
+      - run: gem install bundler:2.1.4
+      # Bundle installz
       - run:
           bundle check --path=vendor/bundle || bundle install
           --path=vendor/bundle --jobs=4 --retry=3
