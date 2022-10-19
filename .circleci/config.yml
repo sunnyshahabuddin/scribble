@@ -4,8 +4,8 @@ jobs:
     #No. of servers/machines
     parallelism: 1
     docker:
-      - image: cimg/ruby:3.0.2-node
-      - image: cimg/postgres:9.6
+      - image: circleci/ruby:3.0.2-node
+      - image: circleci/postgres:9.6
         environment:
           POSTGRES_HOST_AUTH_METHOD: trust
 
