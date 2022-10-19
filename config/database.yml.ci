@@ -7,6 +7,8 @@ default: &default
 development:
   <<: *default
   database: scribble_by_sunny_shahabuddin_development
+  username: scribble_by_sunny_shahabuddin
+  password: <%= ENV['SCRIBBLE_BY_SUNNY_SHAHABUDDIN_DATABASE_PASSWORD'] %>
 
 
 test:

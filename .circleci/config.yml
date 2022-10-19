@@ -4,8 +4,8 @@ jobs:
     #No. of servers/machines
     parallelism: 1
     docker:
-      - image: cimg/ruby:3.0.2-node
-      - image: cimg/postgres:9.6
+      - image: circleci/ruby:3.0.2-node
+      - image: circleci/postgres:9.6
         environment:
           POSTGRES_HOST_AUTH_METHOD: trust
 
@@ -18,9 +18,8 @@ jobs:
 
     steps:
       - checkout
-      - run: gem install bundler:2.2.20
-      - run: sudo apt-get install postgresql-client
-      # Bundle install
+      - run: gem install bundler:2.1.4
+      # Bundle installz
       - run:
           bundle check --path=vendor/bundle || bundle install
           --path=vendor/bundle --jobs=4 --retry=3
@@ -36,6 +35,7 @@ jobs:
           "./app/javascript/src/**/*.{js,jsx,json}"
       # Setup database
       - run: cp config/database.yml.ci config/database.yml
+      - run: sudo apt update && sudo apt-get install postgresql-client
       - run: bundle exec rails db:create db:schema:load --trace
       # Generate assets
       - run: chmod a+x ./bin/webpack && ./bin/webpack
