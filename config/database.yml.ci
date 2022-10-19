@@ -7,10 +7,14 @@ default: &default
 development:
   <<: *default
   database: scribble_by_sunny_shahabuddin_development
+  username: scribble_by_sunny_shahabuddin
+  password: <%= ENV['SCRIBBLE_BY_SUNNY_SHAHABUDDIN_DATABASE_PASSWORD'] %>
 
 test:
   <<: *default
   database: scribble_by_sunny_shahabuddin_test<%= ENV['CIRCLE_NODE_INDEX'] %>
+  username: scribble_by_sunny_shahabuddin
+  password: <%= ENV['SCRIBBLE_BY_SUNNY_SHAHABUDDIN_DATABASE_PASSWORD'] %>
 
 production:
   <<: *default
