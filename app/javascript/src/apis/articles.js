@@ -4,11 +4,11 @@ const fetch = () => axios.get("/articles");
 
 const create = payload => axios.post("/articles", payload);
 
-const show = slug => axios.get(`/articles/${slug}`);
+const show = id => axios.get(`/articles/${id}`);
 
-const update = ({ slug, payload }) => axios.put(`/articles/${slug}`, payload);
+const update = ({ id, payload }) => axios.put(`/articles/${id}`, payload);
 
-const destroy = slug => axios.delete(`/articles/${slug}`);
+const destroy = id => axios.delete(`/articles/${id}`);
 
 const batchUpdate = payload => axios.put("/articles/batch_update", payload);
 

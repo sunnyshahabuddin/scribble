@@ -17,10 +17,10 @@ const renderTitle = title => (
   </Typography>
 );
 
-const renderDeleteEditButton = (slug, destroyArticle) => (
+const renderDeleteEditButton = (id, destroyArticle) => (
   <div className="flex">
-    <Button icon={Delete} style="text" onClick={() => destroyArticle(slug)} />
-    <Button icon={Edit} style="text" to={`/articles/${slug}/edit`} />
+    <Button icon={Delete} style="text" onClick={() => destroyArticle(id)} />
+    <Button icon={Edit} style="text" to={`/articles/${id}/edit`} />
   </div>
 );
 
@@ -90,6 +90,6 @@ export const buildTableColumnData = destroyArticle =>
       key: "more",
       width: "0.5%",
       checked: true,
-      render: (_, { slug }) => renderDeleteEditButton(slug, destroyArticle),
+      render: (_, { id }) => renderDeleteEditButton(id, destroyArticle),
     },
   ].filter(column => column.checked);
