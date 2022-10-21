@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Check } from "neetoicons";
+import { Check, Close } from "neetoicons";
 import { Button } from "neetoui";
 import { Input } from "neetoui/formik";
 
@@ -34,8 +34,18 @@ const Form = ({ setIsCategoryAddCollapsed, refetch }) => {
         <Input
           required
           name="name"
-          suffix={<Button icon={Check} style="text" type="submit" />}
           type="text"
+          suffix={
+            <>
+              <Button icon={Check} style="text" type="submit" />
+              <Button
+                icon={Close}
+                style="text"
+                type="reset"
+                onClick={() => setIsCategoryAddCollapsed(true)}
+              />
+            </>
+          }
         />
       </FormikForm>
     </Formik>
