@@ -23,10 +23,9 @@ ActiveRecord::Schema.define(version: 2022_10_17_115757) do
     t.text "title", null: false
     t.text "body", null: false
     t.integer "status", default: 0, null: false
-    t.string "slug", null: false
+    t.string "slug"
     t.integer "category_id"
     t.integer "user_id", default: 1, null: false
-    t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
 
   create_table "categories", force: :cascade do |t|
