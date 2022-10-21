@@ -37,7 +37,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   def test_shouldnt_change_article_title_to_blank
     article_params = { article: { title: "" } }
 
-    put article_path(@article.slug), params: article_params, as: :json
+    put article_path(@article.id), params: article_params, as: :json
     assert_response :unprocessable_entity
 
     response_json = response.parsed_body
@@ -66,7 +66,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_can_update_any_article_field
-    article_slug = @article.slug
+    article_id = @article.id
     article_title = @article.title
 
     post articles_path,
@@ -80,7 +80,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     @article.reload
 
-    put article_path(article_slug),
+    put article_path(article_id),
       params: {
         article: {
           title: @article.title, category_id: @category.id, user_id: @user.id,
@@ -94,7 +94,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_destroy_article
     assert_difference "Article.count", -1 do
-      delete article_path(@article.slug), as: :json
+      delete article_path(@article.id), as: :json
     end
     assert_response :ok
   end

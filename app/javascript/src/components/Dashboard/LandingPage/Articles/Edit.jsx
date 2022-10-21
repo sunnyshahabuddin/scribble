@@ -12,12 +12,12 @@ import Form from "./Form";
 const Edit = ({ history }) => {
   const [loading, setLoading] = useState(true);
   const [articleDetails, setArticleDetails] = useState({});
-  const { slug } = useParams();
+  const { id } = useParams();
 
   const handleSubmit = async articleDetails => {
     try {
       await articlesApi.update({
-        slug,
+        id,
         payload: {
           title: articleDetails.title,
           body: articleDetails.body,
@@ -33,7 +33,7 @@ const Edit = ({ history }) => {
 
   const fetchArticleDetails = async () => {
     try {
-      const article = await articlesApi.show(slug);
+      const article = await articlesApi.show(id);
       setArticleDetails(article.data);
     } catch (error) {
       logger.error(error);

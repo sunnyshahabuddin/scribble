@@ -39,7 +39,7 @@ const App = () => {
         data: { websites },
       } = await websitesApi.fetch();
       setIsPasswordValidated(
-        (authToken && authToken.token !== null) || websites[0].password === null
+        (authToken && authToken.token) || !websites[0].password
       );
       setWebsiteDetails(websites[0]);
       const {
