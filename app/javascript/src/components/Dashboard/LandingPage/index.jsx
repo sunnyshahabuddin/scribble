@@ -17,9 +17,10 @@ const LandingPage = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [categoryList, setCategoryList] = useState({});
-  const [articlesStatus, setArticlesStatus] = useState({});
+  const [filteredArticles, setFilteredArticles] = useState({});
   const [checkedColumn, setCheckedColumn] = useState(INITIAL_CHECKED_LIST);
   const [searchArticleTitle, setSearchArticleTitle] = useState("");
+  const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
 
   useEffect(() => {
     fetchArticlesCategories();
@@ -36,7 +37,7 @@ const LandingPage = () => {
       } = await categoriesApi.fetch();
       setCategoryList(categories);
       setArticles(articles);
-      setArticlesStatus({ draftArticles, publishedArticles });
+      setFilteredArticles({ draftArticles, publishedArticles });
     } catch (error) {
       logger.error(error);
     } finally {
@@ -76,10 +77,12 @@ const LandingPage = () => {
     <div className="flex items-start">
       <SideMenuBar
         articles={articles}
-        articlesStatus={articlesStatus}
         categoryList={categoryList}
+        filteredArticles={filteredArticles}
+        isCategoryAddCollapsed={isCategoryAddCollapsed}
         refetch={fetchArticlesCategories}
         setArticles={setArticles}
+        setIsCategoryAddCollapsed={setIsCategoryAddCollapsed}
       />
       <Container>
         <Header
@@ -89,12 +92,25 @@ const LandingPage = () => {
                 checkedColumn={checkedColumn}
                 handleCheckedColumn={handleCheckedColumn}
               />
-              <Button
-                className="mx-2"
-                icon="ri-add-line"
-                label="Add New Article"
-                to={ARTICLE_CREATE_PATH}
-              />
+              {categoryList.length > 0 && (
+                <Button
+                  className="mx-2"
+                  label="Add New Article"
+                  to={ARTICLE_CREATE_PATH}
+                />
+              )}
+              {categoryList.length === 0 && (
+                <Button
+                  className="mx-2"
+                  label="Add Category"
+                  style="secondary"
+                  tooltipProps={{
+                    content: "Add Category to create an article",
+                    position: "top",
+                  }}
+                  onClick={() => setIsCategoryAddCollapsed(false)}
+                />
+              )}
             </div>
           }
           searchProps={{

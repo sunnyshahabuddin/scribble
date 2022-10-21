@@ -15,11 +15,12 @@ const SideMenuBar = ({
   categoryList,
   refetch,
   setArticles,
-  articlesStatus,
+  filteredArticles,
+  isCategoryAddCollapsed,
+  setIsCategoryAddCollapsed,
 }) => {
   const [isCategorySearchCollapsed, setIsCategorySearchCollapsed] =
     useState(true);
-  const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
   const [activeArticleStatus, setActiveArticleStatus] = useState("All");
   const selectedAllArticles = useMemo(() => articles, []);
   const [searchCategory, setSearchCategory] = useState("");
@@ -31,8 +32,8 @@ const SideMenuBar = ({
         active={activeArticleStatus === "All"}
         label="All"
         count={
-          articlesStatus.draftArticles.length +
-          articlesStatus.publishedArticles.length
+          filteredArticles.draftArticles.length +
+          filteredArticles.publishedArticles.length
         }
         onClick={() => {
           setArticles(selectedAllArticles), setActiveArticleStatus("All");
@@ -41,20 +42,20 @@ const SideMenuBar = ({
       />
       <MenuBar.Block
         active={activeArticleStatus === "Draft"}
-        count={articlesStatus.draftArticles.length}
+        count={filteredArticles.draftArticles.length}
         label="Draft"
         onClick={() => {
-          setArticles(articlesStatus.draftArticles),
+          setArticles(filteredArticles.draftArticles),
             setActiveArticleStatus("Draft");
           setActiveCategoryStatus("");
         }}
       />
       <MenuBar.Block
         active={activeArticleStatus === "Published"}
-        count={articlesStatus.publishedArticles.length}
+        count={filteredArticles.publishedArticles.length}
         label="Published"
         onClick={() => {
-          setArticles(articlesStatus.publishedArticles),
+          setArticles(filteredArticles.publishedArticles),
             setActiveCategoryStatus("");
           setActiveArticleStatus("Published");
         }}
@@ -68,6 +69,7 @@ const SideMenuBar = ({
                 setIsCategorySearchCollapsed(
                   isCategorySearchCollapsed => !isCategorySearchCollapsed
                 );
+              setSearchCategory("");
             },
           },
           {
@@ -77,6 +79,7 @@ const SideMenuBar = ({
                 setIsCategoryAddCollapsed(
                   isCategoryAddCollapsed => !isCategoryAddCollapsed
                 );
+              setSearchCategory("");
             },
           },
         ]}
@@ -94,7 +97,10 @@ const SideMenuBar = ({
         collapse={isCategorySearchCollapsed}
         value={searchCategory}
         onChange={e => setSearchCategory(e.target.value)}
-        onCollapse={() => setIsCategorySearchCollapsed(true)}
+        onCollapse={() => {
+          setIsCategorySearchCollapsed(true);
+          setSearchCategory("");
+        }}
       />
       {!isCategoryAddCollapsed && (
         <Form
