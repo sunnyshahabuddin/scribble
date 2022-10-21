@@ -37,7 +37,7 @@ class ArticlesController < ApplicationController
   private
 
     def load_article!
-      @article = Article.find_by!(slug: params[:slug])
+      @article = Article.find_by!(id: params[:id])
     end
 
     def load_articles!
