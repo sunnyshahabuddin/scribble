@@ -12,7 +12,9 @@ const { Menu, MenuItem } = Dropdown;
 const listSaveStatus = ["Publish", "Save Draft"];
 
 const Form = ({ article, handleSubmit }) => {
-  const [dropdownLabel, setDropdownLabel] = useState("Save Draft");
+  const [dropdownLabel, setDropdownLabel] = useState(
+    article.status === 0 ? "Save Draft" : "Publish"
+  );
   const [submitted, setSubmitted] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [categoryList, setCategoryList] = useState([]);
@@ -45,7 +47,7 @@ const Form = ({ article, handleSubmit }) => {
       validationSchema={VALIDATION_SCHEMA(categoryList)}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, setFieldValue }) => (
+      {({ isSubmitting, setFieldValue, dirty, isValid }) => (
         <FormikForm className="w-full">
           <div className="space-between flex w-full">
             <Input
@@ -80,7 +82,7 @@ const Form = ({ article, handleSubmit }) => {
             <div className="flex">
               <Button
                 className="mr-px"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !(isValid && dirty)}
                 label={dropdownLabel}
                 loading={isSubmitting}
                 size="medium"
@@ -112,6 +114,7 @@ const Form = ({ article, handleSubmit }) => {
               label="Cancel"
               size="medium"
               style="text"
+              to="/"
               type="reset"
             />
           </div>

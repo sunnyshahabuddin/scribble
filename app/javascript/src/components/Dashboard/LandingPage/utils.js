@@ -1,7 +1,7 @@
 export const formatFetchedDataToInitialFormValue = article => ({
   title: article.title,
   body: article.body,
-  category: article.category.id,
+  category: { label: article.category.name, value: article.category.id },
   status: article.status,
 });
 

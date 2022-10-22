@@ -92,14 +92,13 @@ const LandingPage = () => {
                 checkedColumn={checkedColumn}
                 handleCheckedColumn={handleCheckedColumn}
               />
-              {categoryList.length > 0 && (
+              {categoryList.length > 0 ? (
                 <Button
                   className="mx-2"
                   label="Add New Article"
                   to={ARTICLE_CREATE_PATH}
                 />
-              )}
-              {categoryList.length === 0 && (
+              ) : (
                 <Button
                   className="mx-2"
                   label="Add Category"
