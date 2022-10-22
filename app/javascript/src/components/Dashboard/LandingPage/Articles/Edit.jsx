@@ -14,15 +14,15 @@ const Edit = ({ history }) => {
   const [articleDetails, setArticleDetails] = useState({});
   const { id } = useParams();
 
-  const handleSubmit = async articleDetails => {
+  const handleSubmit = async article => {
     try {
       await articlesApi.update({
         id,
         payload: {
-          title: articleDetails.title,
-          body: articleDetails.body,
-          status: articleDetails.status ? articleDetails.status : 0,
-          category_id: articleDetails.category.value,
+          title: article.title,
+          body: article.body,
+          status: article.status ? article.status : 0,
+          category_id: article.category.value,
         },
       });
       history.push(LANDING_PAGE_PATH);
