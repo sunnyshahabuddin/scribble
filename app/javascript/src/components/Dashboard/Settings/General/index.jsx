@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
 
-import websitesApi from "apis/websites";
+import websiteApi from "apis/website";
 
 import Form from "./Form";
 
@@ -15,10 +15,12 @@ const General = () => {
   const fetchWebsiteDetails = async () => {
     try {
       setLoading(true);
-      const {
-        data: { websites },
-      } = await websitesApi.fetch();
-      setWebsiteDetails(websites[0]);
+      const response = await websiteApi.show();
+      setWebsiteDetails({
+        name: response.data.name,
+        passwordDigest: response.data.password_digest,
+        isPasswordProtected: response.data.is_password_protected,
+      });
     } catch (error) {
       logger.error(error);
     } finally {

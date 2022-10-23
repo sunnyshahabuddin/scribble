@@ -6,7 +6,7 @@ import { Input } from "neetoui/formik";
 import * as yup from "yup";
 
 import { setAuthHeaders } from "apis/axios";
-import websitesApi from "apis/websites";
+import websiteApi from "apis/website";
 import EuiPassword from "images/EuiPassword";
 
 import Header from "./Header";
@@ -14,7 +14,7 @@ import Header from "./Header";
 const PasswordAuthentication = ({ websiteDetails, setIsPasswordValidated }) => {
   const handleSubmit = async values => {
     try {
-      const response = await websitesApi.login({ password: values.password });
+      const response = await websiteApi.login({ password: values.password });
       localStorage.setItem(
         "authToken",
         JSON.stringify({ token: response.data.authentication_token })

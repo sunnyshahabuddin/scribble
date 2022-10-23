@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
 
-import websitesApi from "apis/websites";
+import websiteApi from "apis/website";
 
 const Header = () => {
   const [websiteName, setWebsiteName] = useState({});
@@ -13,10 +13,8 @@ const Header = () => {
   const fetchWebsiteDetails = async () => {
     try {
       setLoading(true);
-      const {
-        data: { websites },
-      } = await websitesApi.fetch();
-      setWebsiteName(websites[0]);
+      const response = await websiteApi.show();
+      setWebsiteName(response.data.name);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -33,7 +31,7 @@ const Header = () => {
 
   return (
     <div className="flex h-12 w-full justify-center border-b-2 py-3">
-      <Typography style="h4">{websiteName.name}</Typography>
+      <Typography style="h4">{websiteName}</Typography>
     </div>
   );
 };

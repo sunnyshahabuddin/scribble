@@ -11,7 +11,7 @@ import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
 import redirectionsApi from "apis/redirections";
-import websitesApi from "apis/websites";
+import websiteApi from "apis/website";
 import { initializeLogger } from "common/logger";
 import PrivateRoute from "components/Common/PrivateRoute";
 import Dashboard from "components/Dashboard";
@@ -35,16 +35,18 @@ const App = () => {
 
   const fetchRedirectionsDetailsAndCheckPasswordValidation = async () => {
     try {
-      const {
-        data: { websites },
-      } = await websitesApi.fetch();
-      setIsPasswordValidated(
-        (authToken && authToken.token) || !websites[0].password
-      );
-      setWebsiteDetails(websites[0]);
+      const response = await websiteApi.show();
+      setWebsiteDetails({
+        name: response.data.name,
+        passwordDigest: response.data.password_digest,
+        isPasswordProtected: response.data.is_password_protected,
+      });
       const {
         data: { redirections },
       } = await redirectionsApi.fetch();
+      setIsPasswordValidated(
+        (authToken && authToken.token) || !response.data.is_password_protected
+      );
       setLoading(false);
       setRedirectionsList(redirections);
     } catch (error) {
@@ -54,7 +56,11 @@ const App = () => {
   };
 
   if (loading) {
-    return <PageLoader />;
+    return (
+      <div className="h-screen w-screen">
+        <PageLoader />
+      </div>
+    );
   }
 
   return (
@@ -68,6 +74,7 @@ const App = () => {
             />
           </Route>
         ))}
+        {isPasswordValidated && <Redirect from="/public/login" to="/public" />}
         <Route exact path="/public/login">
           <PasswordAuthentication
             setIsPasswordValidated={setIsPasswordValidated}
