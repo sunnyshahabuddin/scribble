@@ -30,24 +30,31 @@ const Form = ({ setIsCategoryAddCollapsed, refetch }) => {
       validationSchema={VALIDATION_SCHEMA}
       onSubmit={handleSubmit}
     >
-      <FormikForm>
-        <Input
-          required
-          name="name"
-          type="text"
-          suffix={
-            <>
-              <Button icon={Check} style="text" type="submit" />
-              <Button
-                icon={Close}
-                style="text"
-                type="reset"
-                onClick={() => setIsCategoryAddCollapsed(true)}
-              />
-            </>
-          }
-        />
-      </FormikForm>
+      {({ isSubmitting }) => (
+        <FormikForm>
+          <Input
+            required
+            name="name"
+            type="text"
+            suffix={
+              <>
+                <Button
+                  disabled={isSubmitting}
+                  icon={Check}
+                  style="text"
+                  type="submit"
+                />
+                <Button
+                  icon={Close}
+                  style="text"
+                  type="reset"
+                  onClick={() => setIsCategoryAddCollapsed(true)}
+                />
+              </>
+            }
+          />
+        </FormikForm>
+      )}
     </Formik>
   );
 };
