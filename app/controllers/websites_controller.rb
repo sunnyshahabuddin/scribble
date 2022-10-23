@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class WebsitesController < ApplicationController
-  before_action :load_website!, only: %i[update index]
+  before_action :load_website!, only: %i[show update]
 
   def create
     @website = Website.first
@@ -10,15 +10,16 @@ class WebsitesController < ApplicationController
     end
   end
 
-  def index
-    @websites = Website.all
+  def show
+    @website = Website.first
     render
   end
 
   def update
     website = Website.first
     website.name = params[:name]
-    website.password = params[:password]
+    website.password = params[:password] if params[:password].present?
+    website.is_password_protected = params[:is_password_protected]
     website.save!
     render status: :ok, json: { message: "Website updated successfully." }
   end
@@ -30,6 +31,6 @@ class WebsitesController < ApplicationController
     end
 
     def website_params
-      params.require(:website).permit(:name, :password)
+      params.require(:website).permit(:name, :password, :is_password_protected)
     end
 end

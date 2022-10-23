@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         put "position_update"
       end
     end
-    resources :websites, only: %i[create index update]
+    resource :website, only: %i[create update show]
     resources :redirections, only: %i[create index update destroy]
   end
 
