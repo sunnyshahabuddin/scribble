@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { Button, PageLoader } from "neetoui";
-import { Container, Header } from "neetoui/layouts";
+import { PageLoader } from "neetoui";
+import { Container } from "neetoui/layouts";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
-import { ARTICLE_CREATE_PATH } from "components/routeConstants";
 
-import ActionDropDown from "./ActionDropDown";
+import ActionBlock from "./ActionBlock";
 import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
 import { INITIAL_CHECKED_LIST } from "./Table/utils";
@@ -85,38 +84,13 @@ const LandingPage = () => {
         setIsCategoryAddCollapsed={setIsCategoryAddCollapsed}
       />
       <Container>
-        <Header
-          actionBlock={
-            <div className="flex">
-              <ActionDropDown
-                checkedColumn={checkedColumn}
-                handleCheckedColumn={handleCheckedColumn}
-              />
-              {categoryList.length > 0 ? (
-                <Button
-                  className="mx-2"
-                  label="Add New Article"
-                  to={ARTICLE_CREATE_PATH}
-                />
-              ) : (
-                <Button
-                  className="mx-2"
-                  label="Add Category"
-                  style="secondary"
-                  tooltipProps={{
-                    content: "Add Category to create an article",
-                    position: "top",
-                  }}
-                  onClick={() => setIsCategoryAddCollapsed(false)}
-                />
-              )}
-            </div>
-          }
-          searchProps={{
-            placeholder: "Search article title",
-            value: searchArticleTitle,
-            onChange: e => setSearchArticleTitle(e.target.value),
-          }}
+        <ActionBlock
+          categoryList={categoryList}
+          checkedColumn={checkedColumn}
+          handleCheckedColumn={handleCheckedColumn}
+          searchArticleTitle={searchArticleTitle}
+          setIsCategoryAddCollapsed={setIsCategoryAddCollapsed}
+          setSearchArticleTitle={setSearchArticleTitle}
         />
         <Table
           articles={searchArticleList(articles, searchArticleTitle)}
