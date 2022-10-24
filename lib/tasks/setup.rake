@@ -9,9 +9,9 @@ task populate_with_sample_data: [:environment] do
   if Rails.env.production?
     puts "Skipping deleting and populating sample data in production"
   else
+    create_sample_organization_name!
     create_sample_user!
     create_sample_category!
-    create_sample_website_name!
     puts "Done! Sample data has been added."
   end
 end
@@ -19,7 +19,8 @@ end
 def create_sample_category!
   puts "Seeding with sample category..."
   Category.create!(
-    name: "Electronics"
+    name: "Electronics",
+    user_id: 1
   )
   puts "Done! Category Electronics has been created."
 end
@@ -28,15 +29,17 @@ def create_sample_user!
   puts "Seeding with default users..."
   User.create!(
     name: "Oliver Smith",
-    email: "oliver@example.com"
+    email: "oliver@example.com",
+    organization_id: 1
   )
   puts "Done! The default User is now Oliver Smith."
 end
 
-def create_sample_website_name!
+def create_sample_organization_name!
   puts "Seeding with sample website name..."
-  Website.create!(
-    name: "Spinkart"
+  Organization.create!(
+    name: "Spinkart",
+    password: "welcome"
   )
   puts "Done! Website name Spinkart has been created."
 end

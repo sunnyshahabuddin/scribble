@@ -5,14 +5,15 @@ class ArticlesController < ApplicationController
   before_action :load_articles!, only: :batch_update
 
   def index
-    @articles = Article.all
+    current_user = load_current_user!
+    @articles = Article.joins(:category).where(user_id: current_user.id).order("updated_at DESC")
     render
   end
 
   def create
     article = Article.new(article_params)
     article.save!
-    respond_with_success(t("successfully_created", entity: "Article"))
+    respond_with_success(t("successfully_created", entity: Article))
   end
 
   def show
@@ -21,23 +22,23 @@ class ArticlesController < ApplicationController
 
   def update
     @article.update!(article_params)
-    respond_with_success(t("successfully_updated", entity: "Article"))
+    respond_with_success(t("successfully_updated", entity: Article))
   end
 
   def destroy
     @article.destroy!
-    respond_with_success(t("successfully_deleted", entity: "Article"))
+    respond_with_success(t("successfully_deleted", entity: Article))
   end
 
   def batch_update
     @articles.update(category_id: params[:updated_category_id])
-    render status: :ok, json: { message: "Articles are updated successfully." }
+    respond_with_success(t("successfully_moved", entity: Articles))
   end
 
   private
 
     def load_article!
-      @article = Article.find_by!(id: params[:id])
+      @article = Article.find(params[:id])
     end
 
     def load_articles!
@@ -45,6 +46,6 @@ class ArticlesController < ApplicationController
     end
 
     def article_params
-      params.require(:article).permit(:title, :body, :status, :category_id)
+      params.require(:article).permit(:title, :body, :status, :category_id, :user_id)
     end
 end

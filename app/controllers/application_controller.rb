@@ -6,6 +6,15 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotUnique, with: :handle_record_not_unique
   rescue_from ActionController::ParameterMissing, with: :handle_api_error
 
+  def load_current_organization!
+    @current_organization = Organization.first
+  end
+
+  def load_current_user!
+    current_organization = load_current_organization!
+    @current_user = User.where(organization_id: current_organization.id).first
+  end
+
   def handle_validation_error(exception)
     respond_with_error(exception)
   end

@@ -5,6 +5,10 @@ class User < ApplicationRecord
   MAX_EMAIL_LENGTH = 255
   VALID_EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i.freeze
 
+  has_many :articles
+  has_many :categories
+  belongs_to :organization
+
   validates :name, presence: true, length: { maximum: MAX_NAME_LENGTH }
   validates :email, presence: true,
     uniqueness: { case_sensitive: false },
@@ -12,9 +16,6 @@ class User < ApplicationRecord
     format: { with: VALID_EMAIL_REGEX }
 
   before_save :to_lowercase
-
-  has_many :articles
-  has_many :categories
 
   private
 
