@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
 
-import websiteApi from "apis/website";
+import organizationApi from "apis/organization";
 
 const Header = () => {
   const [websiteName, setWebsiteName] = useState({});
@@ -13,7 +13,7 @@ const Header = () => {
   const fetchWebsiteDetails = async () => {
     try {
       setLoading(true);
-      const response = await websiteApi.show();
+      const response = await organizationApi.show();
       setWebsiteName(response.data.name);
     } catch (error) {
       logger.error(error);

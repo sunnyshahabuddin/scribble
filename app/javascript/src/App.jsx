@@ -10,8 +10,8 @@ import {
 import { ToastContainer } from "react-toastify";
 
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
+import organizationApi from "apis/organization";
 import redirectionsApi from "apis/redirections";
-import websiteApi from "apis/website";
 import { initializeLogger } from "common/logger";
 import PrivateRoute from "components/Common/PrivateRoute";
 import Dashboard from "components/Dashboard";
@@ -35,7 +35,7 @@ const App = () => {
 
   const fetchRedirectionsDetailsAndCheckPasswordValidation = async () => {
     try {
-      const response = await websiteApi.show();
+      const response = await organizationApi.show();
       setWebsiteDetails({
         name: response.data.name,
         passwordDigest: response.data.password_digest,

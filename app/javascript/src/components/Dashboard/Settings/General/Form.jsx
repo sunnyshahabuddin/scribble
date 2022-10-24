@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Typography, Button, Toastr } from "neetoui";
+import { Typography, Button } from "neetoui";
 import { Input, Checkbox } from "neetoui/formik";
 import * as yup from "yup";
 
-import websiteApi from "apis/website";
+import organizationApi from "apis/organization";
 
 const Form = ({ websiteDetails }) => {
   const [checkedValue, setCheckedValue] = useState(
@@ -14,7 +14,7 @@ const Form = ({ websiteDetails }) => {
   const [changePassword, setChangePassword] = useState(false);
   const handleSubmit = async values => {
     try {
-      await websiteApi.update({
+      await organizationApi.update({
         name: values.siteName,
         password: checkedValue
           ? values.password
@@ -22,7 +22,6 @@ const Form = ({ websiteDetails }) => {
         is_password_protected: values.isPasswordProtected,
       });
       localStorage.setItem("authToken", JSON.stringify({ token: null }));
-      Toastr.success("Website updated successfully");
       setTimeout(() => window.location.reload(), 500);
     } catch (error) {
       logger.error(error);
@@ -86,7 +85,9 @@ const Form = ({ websiteDetails }) => {
                 name="password"
                 type="password"
                 placeholder={
-                  changePassword ? "Enter a six character Password" : "********"
+                  changePassword
+                    ? "Enter a six character password to proceed"
+                    : "********"
                 }
               />
               {websiteDetails.passwordDigest && (

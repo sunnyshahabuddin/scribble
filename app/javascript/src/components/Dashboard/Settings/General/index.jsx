@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
 
-import websiteApi from "apis/website";
+import organizationApi from "apis/organization";
 
 import Form from "./Form";
 
@@ -15,7 +15,7 @@ const General = () => {
   const fetchWebsiteDetails = async () => {
     try {
       setLoading(true);
-      const response = await websiteApi.show();
+      const response = await organizationApi.show();
       setWebsiteDetails({
         name: response.data.name,
         passwordDigest: response.data.password_digest,

@@ -7,11 +7,5 @@ require "rails/test_help"
 class ActiveSupport::TestCase
   include ActionView::Helpers::TranslationHelper
   include FactoryBot::Syntax::Methods
-  # Run tests in parallel with specified workers
-  parallelize(workers: :number_of_processors) unless ENV["COVERAGE"]
-
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  # fixtures :all
-
-  # Add more helper methods to be used by all tests here...
+  parallelize(workers: :number_of_processors)
 end
