@@ -7,7 +7,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   #   assert true
   # end
   def setup
-    @user = create(:user)
+    @organization = create(:organization)
+    @user = create(:user, organization: @organization)
     @category = create(:category, user: @user)
     @article = create(:article, category: @category, user: @user)
   end

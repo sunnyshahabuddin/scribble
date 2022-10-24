@@ -2,6 +2,7 @@
 
 class AddForeignKeyUserIdToCategory < ActiveRecord::Migration[6.1]
   def change
-    add_foreign_key :categories, :users
+    change_column_null :categories, :user_id, false
+    add_foreign_key :categories, :users, on_delete: :cascade
   end
 end
