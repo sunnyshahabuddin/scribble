@@ -1,45 +1,32 @@
-import React, { useState, useMemo } from "react";
+import React from "react";
 
 import { MenuBar } from "neetoui/layouts";
 
-import ArticleFilter from "./ArticleFilter";
 import CategoryFilter from "./CategoryFilter";
+import StatusFilter from "./StatusFilter";
 
 const SideMenuBar = ({
-  articles,
-  categoryList,
   refetch,
-  setArticles,
-  filteredArticles,
-  isCategoryAddCollapsed,
-  setIsCategoryAddCollapsed,
-}) => {
-  const [activeArticleStatus, setActiveArticleStatus] = useState("All");
-  const selectedAllArticles = useMemo(() => articles, []);
-  const [activeCategoryStatus, setActiveCategoryStatus] = useState("");
-
-  return (
-    <MenuBar showMenu className="flex" title="Articles">
-      <ArticleFilter
-        activeArticleStatus={activeArticleStatus}
-        filteredArticles={filteredArticles}
-        selectedAllArticles={selectedAllArticles}
-        setActiveArticleStatus={setActiveArticleStatus}
-        setActiveCategoryStatus={setActiveCategoryStatus}
-        setArticles={setArticles}
+  article,
+  categoryList,
+  setArticleFilters,
+  articleFilters,
+}) => (
+  <div className="flex">
+    <MenuBar showMenu title="Articles">
+      <StatusFilter
+        article={article}
+        articleFilters={articleFilters}
+        setArticleFilters={setArticleFilters}
       />
       <CategoryFilter
-        activeCategoryStatus={activeCategoryStatus}
+        articleFilters={articleFilters}
         categoryList={categoryList}
-        isCategoryAddCollapsed={isCategoryAddCollapsed}
         refetch={refetch}
-        setActiveArticleStatus={setActiveArticleStatus}
-        setActiveCategoryStatus={setActiveCategoryStatus}
-        setArticles={setArticles}
-        setIsCategoryAddCollapsed={setIsCategoryAddCollapsed}
+        setArticleFilters={setArticleFilters}
       />
     </MenuBar>
-  );
-};
+  </div>
+);
 
 export default SideMenuBar;

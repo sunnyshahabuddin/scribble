@@ -4,7 +4,7 @@ import { PageLoader } from "neetoui";
 import { useParams } from "react-router-dom";
 
 import articlesApi from "apis/articles";
-import { formatFetchedDataToInitialFormValue } from "components/Dashboard/LandingPage/utils";
+import utilityFunctions from "components/Dashboard/LandingPage/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
 import Form from "./Form";
@@ -57,8 +57,10 @@ const Edit = ({ history }) => {
   return (
     <div className="h-1/2 mx-auto mt-12 flex w-1/2">
       <Form
-        article={formatFetchedDataToInitialFormValue(articleDetails)}
         handleSubmit={handleSubmit}
+        article={utilityFunctions.formatFetchedDataToInitialFormValue(
+          articleDetails
+        )}
       />
     </div>
   );

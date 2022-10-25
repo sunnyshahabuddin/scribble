@@ -10,16 +10,18 @@ import ActionBlock from "./ActionBlock";
 import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
 import { INITIAL_CHECKED_LIST } from "./Table/utils";
-import { searchArticleList } from "./utils";
+import utilityFunctions from "./utils";
 
 const LandingPage = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [categoryList, setCategoryList] = useState({});
-  const [filteredArticles, setFilteredArticles] = useState({});
   const [checkedColumn, setCheckedColumn] = useState(INITIAL_CHECKED_LIST);
   const [searchArticleTitle, setSearchArticleTitle] = useState("");
-  const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
+  const [articleFilters, setArticleFilters] = useState({
+    status: null,
+    category_id: [],
+  });
 
   useEffect(() => {
     fetchArticlesCategories();
@@ -29,14 +31,13 @@ const LandingPage = () => {
     try {
       setLoading(true);
       const {
-        data: { articles, draftArticles, publishedArticles },
+        data: { articles },
       } = await articlesApi.fetch();
       const {
         data: { categories },
       } = await categoriesApi.fetch();
       setCategoryList(categories);
       setArticles(articles);
-      setFilteredArticles({ draftArticles, publishedArticles });
     } catch (error) {
       logger.error(error);
     } finally {
@@ -75,13 +76,12 @@ const LandingPage = () => {
   return (
     <div className="flex items-start">
       <SideMenuBar
-        articles={articles}
+        article={articles}
+        articleFilters={articleFilters}
         categoryList={categoryList}
-        filteredArticles={filteredArticles}
-        isCategoryAddCollapsed={isCategoryAddCollapsed}
         refetch={fetchArticlesCategories}
+        setArticleFilters={setArticleFilters}
         setArticles={setArticles}
-        setIsCategoryAddCollapsed={setIsCategoryAddCollapsed}
       />
       <Container>
         <ActionBlock
@@ -89,12 +89,14 @@ const LandingPage = () => {
           checkedColumn={checkedColumn}
           handleCheckedColumn={handleCheckedColumn}
           searchArticleTitle={searchArticleTitle}
-          setIsCategoryAddCollapsed={setIsCategoryAddCollapsed}
           setSearchArticleTitle={setSearchArticleTitle}
         />
         <Table
-          articles={searchArticleList(articles, searchArticleTitle)}
           destroyArticle={destroyArticle}
+          articles={utilityFunctions.combineSideMenuFilterAndSearchResult(
+            utilityFunctions.filterArticle(articles, articleFilters),
+            utilityFunctions.searchArticleList(articles, searchArticleTitle)
+          )}
         />
       </Container>
     </div>

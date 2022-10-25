@@ -3,10 +3,15 @@
 class ArticlesController < ApplicationController
   before_action :load_article!, only: %i[show update destroy]
   before_action :load_articles!, only: :batch_update
+  before_action :load_current_user!, only: %i[index list_published ]
 
   def index
-    current_user = load_current_user!
-    @articles = Article.joins(:category).where(user_id: current_user.id).order("updated_at DESC")
+    @articles = Article.joins(:category).where(user_id: @current_user.id).order("updated_at DESC")
+    render
+  end
+
+  def list_published
+    @articles = Article.joins(:category).where(status: 1, user_id: @current_user.id).order("updated_at DESC")
     render
   end
 
@@ -32,7 +37,7 @@ class ArticlesController < ApplicationController
 
   def batch_update
     @articles.update(category_id: params[:updated_category_id])
-    respond_with_success(t("successfully_moved", entity: Articles))
+    respond_with_success(t("successfully_moved", entity: Article))
   end
 
   private
