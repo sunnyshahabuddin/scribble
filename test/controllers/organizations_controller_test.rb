@@ -22,7 +22,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     post organization_path, params: { organization: { password: "invalid password" } }, as: :json
     assert_response :unauthorized
     response_json = response.parsed_body
-    assert_equal "Invalid password.", response_json["message"]
+    assert_equal t("organization.incorrect_credential"), response_json["error"]
   end
 
   def test_should_update_organization
