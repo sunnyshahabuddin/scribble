@@ -10,7 +10,7 @@ class CategoriesController < ApplicationController
   end
 
   def create
-    category = Category.new(category_params)
+    category = @_current_user.categories.new(category_params)
     category.save!
     respond_with_success(t("successfully_created", entity: Category))
   end
@@ -23,8 +23,8 @@ class CategoriesController < ApplicationController
   def position_update
     position = 1
     category_id_list = params[:category_id_list]
-    category_id_list.each do |pos|
-      category = Category.find_by!(id: pos)
+    category_id_list.each do |index|
+      category = @_current_user.categories.find(index)
       category.position = position
       position = position + 1
       category.save
@@ -44,6 +44,6 @@ class CategoriesController < ApplicationController
     end
 
     def load_category!
-      @category = Category.find(params[:id])
+      @category = @_current_user.categories.find(params[:id])
     end
 end
