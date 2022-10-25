@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :categories, only: %i[index create destroy show]
+    resources :categories, only: %i[index create destroy]
     resources :categories, only: :update do
       collection do
         put :position_update
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     end
 
     resource :organization, only: %i[create update show]
-    resource :user, only: %i[show destroy]
+    resource :user, only: %i[show]
     resources :redirections, only: %i[create index update destroy]
   end
 

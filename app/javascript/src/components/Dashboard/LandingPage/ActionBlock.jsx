@@ -4,9 +4,8 @@ import { Down } from "neetoicons";
 import { Dropdown, Checkbox, Typography, Button } from "neetoui";
 import { Header } from "neetoui/layouts";
 
+import TooltipWrapper from "components/Common/TooltipWrapper";
 import { ARTICLE_CREATE_PATH } from "components/routeConstants";
-
-import TooltipWrapper from "../../Common/TooltipWrapper";
 
 const { Menu, MenuItem } = Dropdown;
 
@@ -46,7 +45,7 @@ const ActionBlock = ({
           </Menu>
         </Dropdown>
         <TooltipWrapper
-          content="Add Category to create an article"
+          content="Add category to create an article"
           disabled={categoryList.length === 0}
           followCursor="horizontal"
           position="bottom"
@@ -55,7 +54,7 @@ const ActionBlock = ({
             className="mx-2"
             disabled={categoryList.length === 0}
             label="Add New Article"
-            to={ARTICLE_CREATE_PATH}
+            to={categoryList.length > 0 ? ARTICLE_CREATE_PATH : "/"}
           />
         </TooltipWrapper>
       </div>

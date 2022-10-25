@@ -10,6 +10,7 @@ class OrganizationsController < ApplicationController
   end
 
   def show
+    render
   end
 
   def update

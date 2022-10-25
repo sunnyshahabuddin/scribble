@@ -11,7 +11,10 @@ import EuiPassword from "images/EuiPassword";
 
 import Header from "./Header";
 
-const PasswordAuthentication = ({ websiteDetails, setIsPasswordValidated }) => {
+const PasswordAuthentication = ({
+  organizationDetails,
+  setIsPasswordValidated,
+}) => {
   const handleSubmit = async values => {
     try {
       const response = await organizationApi.login({
@@ -36,10 +39,10 @@ const PasswordAuthentication = ({ websiteDetails, setIsPasswordValidated }) => {
       <div className="mt-16 grid justify-center">
         <img className="mx-auto justify-center" src={EuiPassword} />
         <Typography className="mt-8" style="h2">
-          {websiteDetails.name} is password protected!
+          {organizationDetails.name} is password protected!
         </Typography>
         <Typography style="body1">
-          Enter the password to gain access to {websiteDetails.name}.
+          Enter the password to gain access to {organizationDetails.name}.
         </Typography>
         <Formik
           initialValues={{ password: "" }}
