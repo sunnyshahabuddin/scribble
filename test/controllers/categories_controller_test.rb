@@ -3,9 +3,6 @@
 require "test_helper"
 
 class CategoriesControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
   def setup
     @organization = create(:organization)
     @user = create(:user, organization: @organization)
@@ -46,5 +43,19 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
     @category.save
     delete category_path(@category.id), as: :json
     assert_response :ok
+  end
+
+  def test_should_update_categories_positions
+    first_category = create(:category, user: @user)
+    second_category = create(:category, user: @user)
+    third_category = create(:category, user: @user)
+
+    category_id_list = [third_category.id, first_category.id, second_category.id]
+    last_position = @category.position
+    put position_update_categories_path, params: { category_id_list: category_id_list }, as: :json
+    assert_response :success
+
+    response_json = response.parsed_body
+    assert_equal t("position_successfully_updated", entity: Category), response_json["notice"]
   end
 end
