@@ -5,7 +5,7 @@ class OrganizationsController < ApplicationController
 
   def create
     unless @current_organization.authenticate(params[:password])
-      render status: :unauthorized, json: { message: "Invalid password." }
+      respond_with_error(t("organization.incorrect_credential"), :unauthorized)
     end
   end
 

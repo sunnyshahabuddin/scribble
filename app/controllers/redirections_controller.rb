@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RedirectionsController < ApplicationController
-  before_action :load_redirections!, only: %i[update destroy]
+  before_action :load_redirection!, only: %i[update destroy]
 
   def index
     @redirections = Redirection.all
@@ -26,7 +26,7 @@ class RedirectionsController < ApplicationController
 
   private
 
-    def load_redirections!
+    def load_redirection!
       @redirection = Redirection.find(params[:id])
     end
 

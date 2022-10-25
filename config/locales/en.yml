@@ -8,3 +8,5 @@ en:
     slug:
       immutable: "is immutable!"
   redirection: "Adding this causes redirection loop"
+  organization:
+    incorrect_credential: "Invalid Password."

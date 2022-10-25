@@ -16,7 +16,7 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    article = Article.new(article_params)
+    article = @_current_user.articles.new(article_params)
     article.save!
     respond_with_success(t("successfully_created", entity: Article))
   end
@@ -43,11 +43,11 @@ class ArticlesController < ApplicationController
   private
 
     def load_article!
-      @article = Article.find(params[:id])
+      @article = @_current_user.articles.find(params[:id])
     end
 
     def load_articles!
-      @articles = Article.all.where(category_id: params[:previous_category_id])
+      @articles = @_current_user.articles.where(category_id: params[:previous_category_id])
     end
 
     def article_params
