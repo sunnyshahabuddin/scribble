@@ -3,28 +3,11 @@
 require "test_helper"
 
 class ArticlesControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
   def setup
     @organization = create(:organization)
     @user = create(:user, organization: @organization)
     @category = create(:category, user: @user)
     @article = create(:article, category: @category, user: @user)
-  end
-
-  def test_should_list_all_articles
-    get articles_path, as: :json
-    assert_response :success
-    response_json = response.parsed_body
-
-    all_articles = response_json["articles"]
-    draft_article = response_json["draftArticles"]
-    published_article = response_json["publishedArticles"]
-
-    total_article_count = draft_article.length + published_article.length
-
-    assert_equal total_article_count, all_articles.length
   end
 
   def test_shouldnt_create_article_without_title

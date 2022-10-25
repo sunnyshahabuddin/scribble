@@ -5,3 +5,14 @@ export const VALIDATION_SCHEMA = () =>
   yup.object().shape({
     name: yup.string().required("Title is required"),
   });
+
+export const ARTICLES_STATUS = [
+  {
+    label: "Draft",
+    value: 0,
+  },
+  {
+    label: "Published",
+    value: 1,
+  },
+];

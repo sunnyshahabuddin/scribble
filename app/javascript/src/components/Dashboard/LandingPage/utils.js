@@ -1,19 +1,16 @@
-export const formatFetchedDataToInitialFormValue = article => ({
+const formatFetchedDataToInitialFormValue = article => ({
   title: article.title,
   body: article.body,
   category: { label: article.category.name, value: article.category.id },
   status: article.status,
 });
 
-export const searchCategoryList = (categoryList, searchCategory) =>
+const searchCategoryList = (categoryList, searchCategory) =>
   categoryList.filter(category =>
     category.name.toLowerCase().includes(searchCategory.toLowerCase().trim())
   );
-export const searchArticleList = (articleList, searchArticle) =>
-  articleList.filter(article =>
-    article.title.toLowerCase().includes(searchArticle.toLowerCase().trim())
-  );
-export const buildCategoryWiseArticle = category =>
+
+const buildCategoryWiseArticle = category =>
   category.articles.map(article => ({
     ...article,
     category: {
@@ -24,3 +21,44 @@ export const buildCategoryWiseArticle = category =>
       name: category.author.name,
     },
   }));
+const filterArticle = (article, filters) => {
+  Object.keys(filters).forEach(key => {
+    if (filters[key] === 0 || filters[key] === 1) {
+      article = article.filter(item => item[key] === filters[key]);
+    } else if (
+      filters[key] &&
+      typeof filters[key] === "object" &&
+      filters[key].length > 0
+    ) {
+      article = article.filter(item => filters[key].includes(item[key]));
+    }
+  });
+
+  return article;
+};
+
+const searchArticleList = (articles, searchArticleTitle) =>
+  articles.filter(article =>
+    article.title
+      .toLowerCase()
+      .includes(searchArticleTitle.toLowerCase().trim())
+  );
+
+const combineSideMenuFilterAndSearchResult = (
+  sideMenuFilterResult,
+  searchResult
+) =>
+  sideMenuFilterResult.filter(filterArticle =>
+    searchResult.some(searchArticle => filterArticle.id === searchArticle.id)
+  );
+
+const utilityFunctions = {
+  formatFetchedDataToInitialFormValue,
+  searchCategoryList,
+  buildCategoryWiseArticle,
+  filterArticle,
+  searchArticleList,
+  combineSideMenuFilterAndSearchResult,
+};
+
+export default utilityFunctions;

@@ -57,7 +57,7 @@ export const buildTableColumnData = destroyArticle =>
       render: renderTitle,
     },
     {
-      title: "DATE",
+      title: "LAST UPDATED AT",
       dataIndex: "updated_at",
       key: "updated_at",
       checked: INITIAL_CHECKED_LIST[1].checked,
