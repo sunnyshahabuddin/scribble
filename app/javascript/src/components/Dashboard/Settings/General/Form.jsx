@@ -7,9 +7,9 @@ import * as yup from "yup";
 
 import organizationApi from "apis/organization";
 
-const Form = ({ websiteDetails }) => {
+const Form = ({ organizationDetails }) => {
   const [checkedValue, setCheckedValue] = useState(
-    websiteDetails.isPasswordProtected
+    organizationDetails.isPasswordProtected
   );
   const [changePassword, setChangePassword] = useState(false);
   const handleSubmit = async values => {
@@ -18,7 +18,7 @@ const Form = ({ websiteDetails }) => {
         name: values.siteName,
         password: checkedValue
           ? values.password
-          : websiteDetails.password_digest,
+          : organizationDetails.password_digest,
         is_password_protected: values.isPasswordProtected,
       });
       localStorage.setItem("authToken", JSON.stringify({ token: null }));
@@ -30,17 +30,39 @@ const Form = ({ websiteDetails }) => {
 
   return (
     <Formik
+      validateOnChange
       initialValues={{
-        siteName: websiteDetails.name,
-        isPasswordProtected: websiteDetails.isPasswordProtected,
+        siteName: organizationDetails.name,
+        isPasswordProtected: organizationDetails.isPasswordProtected,
+        isPasswordChanged: false,
       }}
       validationSchema={yup.object().shape({
         siteName: yup.string().required("Title is required"),
         isPasswordProtected: yup.boolean(),
+        password: yup
+          .string()
+          .when("isPasswordChanged", {
+            is: false,
+            then: yup.string().notRequired(),
+          })
+          .when("isPasswordChanged", {
+            is: true,
+            then: yup.string().when("isPasswordProtected", {
+              is: true,
+              then: yup
+                .string()
+                .required("Password is required")
+                .min(6, "Password must be at least 6 characters")
+                .matches(
+                  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/,
+                  "Password must have one letter and one number"
+                ),
+            }),
+          }),
       })}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, dirty, isValid, setFieldValue }) => (
+      {({ isSubmitting, dirty, setFieldValue }) => (
         <FormikForm>
           <div className="border-b-2 pb-4">
             <Input
@@ -81,29 +103,29 @@ const Form = ({ websiteDetails }) => {
                 disabled={!changePassword}
                 id="password"
                 label="Password"
-                minlength="6"
                 name="password"
                 type="password"
                 placeholder={
                   changePassword
-                    ? "Enter a six character password to proceed"
+                    ? "Enter a six letter password with one number"
                     : "********"
                 }
               />
-              {websiteDetails.passwordDigest && (
-                <Button
-                  className="h-7 mt-12 mb-2 ml-1"
-                  disabled={changePassword}
-                  label="Change Password"
-                  size="small"
-                  onClick={() => setChangePassword(true)}
-                />
-              )}
+              <Button
+                className="h-7 mt-12 mb-2 ml-1"
+                disabled={changePassword}
+                label="Change Password"
+                size="small"
+                onClick={() => {
+                  setChangePassword(true);
+                  setFieldValue("isPasswordChanged", true);
+                }}
+              />
             </div>
           )}
           <div className="mt-6 flex">
             <Button
-              disabled={isSubmitting || !(isValid && dirty)}
+              disabled={isSubmitting || !dirty}
               label="Save Changes"
               type="submit"
             />

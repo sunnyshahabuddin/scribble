@@ -7,3 +7,4 @@ en:
   article:
     slug:
       immutable: "is immutable!"
+  redirection: "Adding this causes redirection loop"

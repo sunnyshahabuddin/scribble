@@ -7,7 +7,7 @@ import organizationApi from "apis/organization";
 import Form from "./Form";
 
 const General = () => {
-  const [websiteDetails, setWebsiteDetails] = useState({});
+  const [organizationDetails, setOrganizationDetails] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchWebsiteDetails();
@@ -16,9 +16,8 @@ const General = () => {
     try {
       setLoading(true);
       const response = await organizationApi.show();
-      setWebsiteDetails({
+      setOrganizationDetails({
         name: response.data.name,
-        passwordDigest: response.data.password_digest,
         isPasswordProtected: response.data.is_password_protected,
       });
     } catch (error) {
@@ -41,7 +40,7 @@ const General = () => {
       <Typography className="neeto-ui-text-gray-600" style="body2">
         Configure general attributes of scribble.
       </Typography>
-      <Form websiteDetails={websiteDetails} />
+      <Form organizationDetails={organizationDetails} />
     </div>
   );
 };

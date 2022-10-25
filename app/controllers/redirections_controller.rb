@@ -10,9 +10,8 @@ class RedirectionsController < ApplicationController
 
   def create
     redirection = Redirection.new(redirection_params)
-    if redirection.save!
-      respond_with_success(t("successfully_created", entity: "Redirection"))
-    end
+    redirection.save!
+    respond_with_success(t("successfully_created", entity: "Redirection"))
   end
 
   def update
@@ -28,7 +27,7 @@ class RedirectionsController < ApplicationController
   private
 
     def load_redirections!
-      @redirection = Redirection.find_by!(id: params[:id])
+      @redirection = Redirection.find(params[:id])
     end
 
     def redirection_params

@@ -12,7 +12,7 @@ task populate_with_sample_data: [:environment] do
     create_sample_organization_name!
     create_sample_user!
     create_sample_category!
-    puts "Done! Sample data has been added."
+    puts "Done! Sample data added."
   end
 end
 
@@ -22,7 +22,7 @@ def create_sample_category!
     name: "Electronics",
     user_id: 1
   )
-  puts "Done! Category Electronics has been created."
+  puts "Done! Category Electronics created."
 end
 
 def create_sample_user!
@@ -32,14 +32,14 @@ def create_sample_user!
     email: "oliver@example.com",
     organization_id: 1
   )
-  puts "Done! The default User is now Oliver Smith."
+  puts "Done! User Oliver Smith created."
 end
 
 def create_sample_organization_name!
-  puts "Seeding with sample website name..."
+  puts "Seeding with sample oragnization name and password..."
   Organization.create!(
     name: "Spinkart",
-    password: "welcome"
+    password: "welcome123"
   )
-  puts "Done! Website name Spinkart has been created."
+  puts "Done! Oragnization Spinkart has been created."
 end

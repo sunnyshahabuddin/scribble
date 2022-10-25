@@ -23,7 +23,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const authToken = JSON.parse(localStorage.getItem("authToken"));
   const [redirectionsList, setRedirectionsList] = useState([]);
-  const [websiteDetails, setWebsiteDetails] = useState({});
+  const [organizationDetails, setOrganizationDetails] = useState({});
   const [isPasswordValidated, setIsPasswordValidated] = useState(true);
 
   useEffect(() => {
@@ -36,9 +36,8 @@ const App = () => {
   const fetchRedirectionsDetailsAndCheckPasswordValidation = async () => {
     try {
       const response = await organizationApi.show();
-      setWebsiteDetails({
+      setOrganizationDetails({
         name: response.data.name,
-        passwordDigest: response.data.password_digest,
         isPasswordProtected: response.data.is_password_protected,
       });
       const {
@@ -77,8 +76,8 @@ const App = () => {
         {isPasswordValidated && <Redirect from="/public/login" to="/public" />}
         <Route exact path="/public/login">
           <PasswordAuthentication
+            organizationDetails={organizationDetails}
             setIsPasswordValidated={setIsPasswordValidated}
-            websiteDetails={websiteDetails}
           />
         </Route>
         <PrivateRoute
