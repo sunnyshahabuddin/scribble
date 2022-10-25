@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class CategoriesController < ApplicationController
-  before_action :load_category!, only: [:update, :destroy, :show]
+  before_action :current_user!, except: %i[new edit show]
+  before_action :load_category!, only: [:update, :destroy,]
 
   def index
-    current_user = load_current_user!
-    @categories = Category.where(user_id: current_user.id).order("position ASC")
+    @categories = @_current_user.categories.order("position ASC")
     render
   end
 

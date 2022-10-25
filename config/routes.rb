@@ -23,7 +23,6 @@ Rails.application.routes.draw do
     end
 
     resource :organization, only: %i[create update show]
-    resource :user, only: %i[show]
     resources :redirections, only: %i[create index update destroy]
   end
 

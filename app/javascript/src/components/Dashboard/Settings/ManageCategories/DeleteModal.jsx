@@ -14,6 +14,7 @@ const DeleteModal = ({
   categoryList,
 }) => {
   const [moveArticlesToCategory, setMoveArticlesToCategory] = useState({});
+
   const handleSubmit = async id => {
     setShowDeleteModal(false);
     try {
@@ -22,17 +23,19 @@ const DeleteModal = ({
           previous_category_id: id,
           updated_category_id: moveArticlesToCategory.value,
         });
-        await categoriesApi.destroy(id);
-      } else if (
-        categoryList.length === 1 &&
-        categoryList[0].articles.length === 0
-      ) {
-        await categoriesApi.destroy(id);
-      } else {
-        await categoriesApi.update(id, {
+      } else if (category.name !== "General") {
+        await categoriesApi.create({
           name: "General",
         });
+        const {
+          data: { categories },
+        } = await categoriesApi.fetch();
+        await articlesApi.batchUpdate({
+          previous_category_id: id,
+          updated_category_id: categories[1].id,
+        });
       }
+      await categoriesApi.destroy(id);
       refetch();
     } catch (error) {
       logger.error(error);
@@ -42,9 +45,7 @@ const DeleteModal = ({
   return (
     <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
       <Modal.Header>
-        <Typography id="dialog1Title" style="h2">
-          Delete Category
-        </Typography>
+        <Typography style="h2">Delete Category</Typography>
       </Modal.Header>
       {category.articles.length === 0 && (
         <Modal.Body className="space-y-2">
@@ -54,12 +55,25 @@ const DeleteModal = ({
           </Typography>
         </Modal.Body>
       )}
+      {category.articles.length > 0 &&
+        categoryList.length === 1 &&
+        category.name === "General" && (
+          <Modal.Body className="space-y-2">
+            <Typography className="mt-2" lineHeight="normal" style="body2">
+              You are deleting the <strong>General category,</strong> this
+              has&nbsp;{category.articles.length} articles. Deleting this will
+              delete all associated articles.
+            </Typography>
+          </Modal.Body>
+        )}
       {category.articles.length > 0 && (
         <Modal.Body className="space-y-2">
-          <Typography className="mt-2" lineHeight="normal" style="body2">
-            You are permanently deleting the {category.name} category. This
-            action cannot be undone. Are you sure you wish to continue?
-          </Typography>
+          {category.name !== "General" && (
+            <Typography className="mt-2" lineHeight="normal" style="body2">
+              You are permanently deleting the {category.name} category. This
+              action cannot be undone. Are you sure you wish to continue?
+            </Typography>
+          )}
           {categoryList.length > 1 && (
             <Callout icon={Warning} style="danger">
               <div>
@@ -73,7 +87,7 @@ const DeleteModal = ({
               </div>
             </Callout>
           )}
-          {categoryList.length === 1 && (
+          {categoryList.length === 1 && category.name !== "General" && (
             <Callout icon={Warning} style="danger">
               <div>
                 Category <strong>{category.name}</strong> has&nbsp;
@@ -113,11 +127,11 @@ const DeleteModal = ({
         <Button
           label="Proceed"
           style="danger"
-          type="submit"
           disabled={
             moveArticlesToCategory.value === undefined &&
             categoryList.length > 1 &&
-            category.articles.length > 0
+            category.articles.length > 0 &&
+            category.name !== "General"
           }
           onClick={() => {
             setShowDeleteModal(false);
@@ -127,7 +141,6 @@ const DeleteModal = ({
         <Button
           label="Cancel"
           style="text"
-          type="cancel"
           onClick={() => setShowDeleteModal(false)}
         />
       </Modal.Footer>

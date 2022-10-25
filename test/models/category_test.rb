@@ -3,15 +3,10 @@
 require "test_helper"
 
 class CategoryTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
   def setup
-    @category = build(:category)
-  end
-
-  def test_category_should_be_valid
-    assert @category.valid?
+    @organization = create(:organization)
+    @user = create(:user, organization: @organization)
+    @category = create(:category, user: @user)
   end
 
   def test_name_shouldnt_be_valid_and_saved_without_name
@@ -46,5 +41,11 @@ class CategoryTest < ActiveSupport::TestCase
   def test_shouldnt_create_category_without_user
     @category.user = nil
     assert_not @category.valid?
+  end
+
+  def test_should_delete_category_when_user_is_deleted
+    @category.save!
+    @user.destroy
+    assert_not Category.exists?(@category.id)
   end
 end

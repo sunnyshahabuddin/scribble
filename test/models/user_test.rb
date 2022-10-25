@@ -3,11 +3,9 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
   def setup
-    @user = create(:user)
+    @organization = create(:organization)
+    @user = create(:user, organization: @organization)
   end
 
   def test_user_should_be_valid
@@ -61,5 +59,11 @@ class UserTest < ActiveSupport::TestCase
       @user.email = email
       assert @user.invalid?
     end
+  end
+
+  def test_should_delete_user_when_organization_is_deleted
+    @user.save!
+    @organization.destroy
+    assert_not User.exists?(@user.id)
   end
 end

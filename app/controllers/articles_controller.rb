@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 class ArticlesController < ApplicationController
+  before_action :current_user!, except: %i[new edit]
   before_action :load_article!, only: %i[show update destroy]
   before_action :load_articles!, only: :batch_update
-  before_action :load_current_user!, only: %i[index list_published ]
 
   def index
-    @articles = Article.joins(:category).where(user_id: @current_user.id).order("updated_at DESC")
+    @articles = @_current_user.articles.order("updated_at DESC")
     render
   end
 
   def list_published
-    @articles = Article.joins(:category).where(status: 1, user_id: @current_user.id).order("updated_at DESC")
+    @articles = @_current_user.articles.where(status: 1).order("updated_at DESC")
     render
   end
 
