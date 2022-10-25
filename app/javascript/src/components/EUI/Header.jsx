@@ -5,7 +5,7 @@ import { Typography, PageLoader } from "neetoui";
 import organizationApi from "apis/organization";
 
 const Header = () => {
-  const [websiteName, setWebsiteName] = useState({});
+  const [organizationName, setOrganizationName] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchWebsiteDetails();
@@ -14,7 +14,7 @@ const Header = () => {
     try {
       setLoading(true);
       const response = await organizationApi.show();
-      setWebsiteName(response.data.name);
+      setOrganizationName(response.data.name);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -31,7 +31,7 @@ const Header = () => {
 
   return (
     <div className="flex h-12 w-full justify-center border-b-2 py-3">
-      <Typography style="h4">{websiteName}</Typography>
+      <Typography style="h4">{organizationName}</Typography>
     </div>
   );
 };

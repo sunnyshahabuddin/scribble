@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 
-import { Typography, PageLoader } from "neetoui";
+import { Plus } from "neetoicons";
+import { Typography, PageLoader, Button } from "neetoui";
 
 import redirectionsApi from "apis/redirections";
 
-import Table from "./Table";
+import { HEADER } from "./constants";
+import Form from "./Form";
+import Row from "./Row";
 
 const Redirections = () => {
   const [pageLoading, setPageLoading] = useState(true);
   const [redirectionsList, setRedirectionsList] = useState([]);
+  const [addRedirection, setAddRedirection] = useState(false);
   const fetchRedirectionsDetails = async () => {
     try {
       const {
@@ -38,10 +42,38 @@ const Redirections = () => {
         new links. All redirections are performed with 301 status codes to be
         SEO friendly.
       </Typography>
-      <div className="neeto-ui-bg-primary-100 mt-2 p-6">
-        <Table
-          redirectionsList={redirectionsList}
-          refetch={fetchRedirectionsDetails}
+      <div className="neeto-ui-bg-primary-100 mt-2 w-full p-6">
+        <div className="flex items-center justify-between">
+          {HEADER.map((title, idx) => (
+            <Typography key={idx} style="h5">
+              {title}
+            </Typography>
+          ))}
+        </div>
+        {redirectionsList.map((item, idx) => (
+          <Row
+            key={idx}
+            redirectionItem={item}
+            redirectionsList={redirectionsList}
+            refetch={fetchRedirectionsDetails}
+          />
+        ))}
+        {addRedirection && (
+          <Form
+            initialValues={{ from: "/", to: "/" }}
+            isEdit={false}
+            redirectionsList={redirectionsList}
+            refetch={fetchRedirectionsDetails}
+            setAddRedirection={setAddRedirection}
+          />
+        )}
+        <Button
+          className="mt-2"
+          icon={Plus}
+          iconPosition="left"
+          label="Add new redirections"
+          style="link"
+          onClick={() => setAddRedirection(true)}
         />
       </div>
     </div>

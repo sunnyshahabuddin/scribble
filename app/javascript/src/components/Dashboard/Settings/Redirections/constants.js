@@ -1,1 +1,1 @@
-export const TABLE_HEADER = ["FROM PATH", "TO PATH", "ACTIONS"];
+export const HEADER = ["FROM PATH", "TO PATH", "ACTIONS"];

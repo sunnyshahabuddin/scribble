@@ -2,8 +2,6 @@ import axios from "axios";
 
 const fetch = () => axios.get("/categories");
 
-const show = id => axios.get(`/categories/${id}`);
-
 const create = payload => axios.post("/categories", payload);
 
 const update = (id, payload) => axios.put(`/categories/${id}`, payload);
@@ -15,7 +13,6 @@ const position_update = payload =>
 
 const categoriesApi = {
   fetch,
-  show,
   create,
   update,
   destroy,
