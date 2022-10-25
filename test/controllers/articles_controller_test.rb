@@ -82,4 +82,18 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :ok
   end
+
+  def test_should_batch_update_category_of_all_articles
+    test_category = create(:category, user: @user)
+    first_article = create(:article, category: @category, user: @user)
+    second_article = create(:article, category: @category, user: @user)
+    third_article = create(:article, category: @category, user: @user)
+
+    put batch_update_articles_path,
+      params: { previous_category_id: @category.id, updated_category_id: test_category.id }, as: :json
+    assert_response :success
+
+    response_json = response.parsed_body
+    assert_equal t("successfully_moved", entity: Article), response_json["notice"]
+  end
 end

@@ -44,19 +44,6 @@ const LandingPage = () => {
       setLoading(false);
     }
   };
-  const destroyArticle = async slug => {
-    const deleteMessage = confirm(
-      "Are you sure you want to delete this article?"
-    );
-    if (deleteMessage) {
-      try {
-        await articlesApi.destroy(slug);
-        fetchArticlesCategories();
-      } catch (error) {
-        logger.error(error);
-      }
-    }
-  };
 
   const handleCheckedColumn = checkedIndex => {
     const checkedList = INITIAL_CHECKED_LIST;
@@ -92,7 +79,7 @@ const LandingPage = () => {
           setSearchArticleTitle={setSearchArticleTitle}
         />
         <Table
-          destroyArticle={destroyArticle}
+          refetch={fetchArticlesCategories}
           articles={utilityFunctions.combineSideMenuFilterAndSearchResult(
             utilityFunctions.filterArticle(articles, articleFilters),
             utilityFunctions.searchArticleList(articles, searchArticleTitle)
