@@ -7,7 +7,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     @organization = create(:organization)
   end
 
-  def test_should_get_index
+  def test_should_show_organization
     get organization_path
     assert_response :success
   end
@@ -27,7 +27,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_update_organization
     @organization.save!
-    put organization_path, params: { name: "new name", password: "new password" }, as: :json
+    put organization_path, params: { name: "new name", password: "newpassword123" }, as: :json
     assert_response :success
     assert_equal response.parsed_body["notice"], t("successfully_updated", entity: Organization)
   end

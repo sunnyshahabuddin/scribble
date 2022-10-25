@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
       @current_organization = Organization.first
     end
 
-    def load_current_user!
+    def current_user!
       current_organization = load_current_organization!
-      @current_user = User.where(organization_id: current_organization.id).first
+      @_current_user ||= @current_organization.users.first
     end
 end

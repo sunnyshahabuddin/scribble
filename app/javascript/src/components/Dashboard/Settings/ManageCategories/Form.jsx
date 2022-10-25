@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Check } from "neetoicons";
+import { Check, Close } from "neetoicons";
 import { Button } from "neetoui";
 import { Input } from "neetoui/formik";
 
 import categoryApi from "apis/categories";
+import TooltipWrapper from "components/Common/TooltipWrapper";
 
 const Form = ({
   refetch,
@@ -38,14 +39,41 @@ const Form = ({
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      <FormikForm>
-        <Input
-          required
-          name="name"
-          suffix={<Button icon={Check} style="text" type="submit" />}
-          type="text"
-        />
-      </FormikForm>
+      {({ isSubmitting, dirty, isValid }) => (
+        <FormikForm>
+          <Input
+            required
+            name="name"
+            type="text"
+            suffix={
+              <>
+                <TooltipWrapper
+                  content="Make changes to to update"
+                  disabled={isSubmitting || (isEdit && !(isValid && dirty))}
+                  followCursor="horizontal"
+                  position="bottom"
+                >
+                  <Button
+                    className="h-8"
+                    disabled={isSubmitting || (isEdit && !(isValid && dirty))}
+                    icon={Check}
+                    style="text"
+                    type="submit"
+                  />
+                </TooltipWrapper>
+                <Button
+                  icon={Close}
+                  style="text"
+                  type="reset"
+                  onClick={() =>
+                    isEdit ? setIsEdit(false) : setAddCategory(false)
+                  }
+                />
+              </>
+            }
+          />
+        </FormikForm>
+      )}
     </Formik>
   );
 };
