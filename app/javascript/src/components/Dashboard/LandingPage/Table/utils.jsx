@@ -2,6 +2,7 @@ import React from "react";
 
 import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
+import { Link } from "react-router-dom";
 
 import { formatDateToMonthDayYear } from "components/Dashboard/utils";
 
@@ -11,15 +12,24 @@ const renderStatus = status => (
   </Typography>
 );
 
-const renderTitle = title => (
-  <Typography className="text-indigo-500" style="h5">
-    {title}
-  </Typography>
-);
+const renderTitle = (title, slug, status) =>
+  status === 1 ? (
+    <Link target="_blank" to={`/public/${slug}`}>
+      <Typography className="text-indigo-500" style="h5">
+        {title}
+      </Typography>
+    </Link>
+  ) : (
+    <Typography style="h5">{title}</Typography>
+  );
 
-const renderDeleteEditButton = (id, destroyArticle) => (
+const renderDeleteEditButton = (id, title, destroyArticle) => (
   <div className="flex">
-    <Button icon={Delete} style="text" onClick={() => destroyArticle(id)} />
+    <Button
+      icon={Delete}
+      style="text"
+      onClick={() => destroyArticle({ id, title })}
+    />
     <Button icon={Edit} style="text" to={`/articles/${id}/edit`} />
   </div>
 );
@@ -54,7 +64,7 @@ export const buildTableColumnData = destroyArticle =>
       dataIndex: "title",
       key: "title",
       checked: INITIAL_CHECKED_LIST[0].checked,
-      render: renderTitle,
+      render: (title, { slug, status }) => renderTitle(title, slug, status),
     },
     {
       title: "LAST UPDATED AT",
@@ -90,6 +100,7 @@ export const buildTableColumnData = destroyArticle =>
       key: "more",
       width: "0.5%",
       checked: true,
-      render: (_, { id }) => renderDeleteEditButton(id, destroyArticle),
+      render: (_, { id, title }) =>
+        renderDeleteEditButton(id, title, destroyArticle),
     },
   ].filter(column => column.checked);
