@@ -6,6 +6,8 @@ import { Header } from "neetoui/layouts";
 
 import { ARTICLE_CREATE_PATH } from "components/routeConstants";
 
+import TooltipWrapper from "../../Common/TooltipWrapper";
+
 const { Menu, MenuItem } = Dropdown;
 
 const ActionBlock = ({
@@ -14,7 +16,6 @@ const ActionBlock = ({
   categoryList,
   searchArticleTitle,
   setSearchArticleTitle,
-  setIsCategoryAddCollapsed,
 }) => (
   <Header
     actionBlock={
@@ -44,24 +45,19 @@ const ActionBlock = ({
             ))}
           </Menu>
         </Dropdown>
-        {categoryList.length > 0 ? (
+        <TooltipWrapper
+          content="Add Category to create an article"
+          disabled={categoryList.length === 0}
+          followCursor="horizontal"
+          position="bottom"
+        >
           <Button
             className="mx-2"
+            disabled={categoryList.length === 0}
             label="Add New Article"
             to={ARTICLE_CREATE_PATH}
           />
-        ) : (
-          <Button
-            className="mx-2"
-            label="Add Category"
-            style="secondary"
-            tooltipProps={{
-              content: "Add Category to create an article",
-              position: "top",
-            }}
-            onClick={() => setIsCategoryAddCollapsed(false)}
-          />
-        )}
+        </TooltipWrapper>
       </div>
     }
     searchProps={{

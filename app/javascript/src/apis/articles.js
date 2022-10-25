@@ -12,6 +12,16 @@ const destroy = id => axios.delete(`/articles/${id}`);
 
 const batchUpdate = payload => axios.put("/articles/batch_update", payload);
 
-const articlesApi = { fetch, create, show, update, destroy, batchUpdate };
+const listPublishedArticles = () => axios.get("/articles/list_published");
+
+const articlesApi = {
+  fetch,
+  create,
+  show,
+  update,
+  destroy,
+  batchUpdate,
+  listPublishedArticles,
+};
 
 export default articlesApi;
