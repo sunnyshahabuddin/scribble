@@ -3,17 +3,11 @@
 require "test_helper"
 
 class ArticleTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
   def setup
-    @user = build(:user)
-    @category = build(:category, user: @user)
-    @article = build(:article, category: @category, user: @user)
-  end
-
-  def test_article_should_be_valid
-    assert @article.valid?
+    @organization = create(:organization)
+    @user = create(:user, organization: @organization)
+    @category = create(:category, user: @user)
+    @article = create(:article, category: @category, user: @user)
   end
 
   def test_article_should_not_be_valid_without_title
@@ -111,5 +105,11 @@ class ArticleTest < ActiveSupport::TestCase
     @article.save!
 
     assert_equal article_slug, @article.slug
+  end
+
+  def test_should_delete_all_articles_associated_with_a_category
+    @article.save!
+    @category.destroy
+    assert_empty Article.all
   end
 end

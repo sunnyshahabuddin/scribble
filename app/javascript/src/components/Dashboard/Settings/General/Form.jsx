@@ -6,6 +6,7 @@ import { Input, Checkbox } from "neetoui/formik";
 import * as yup from "yup";
 
 import organizationApi from "apis/organization";
+import TooltipWrapper from "components/Common/TooltipWrapper";
 
 const Form = ({ organizationDetails }) => {
   const [checkedValue, setCheckedValue] = useState(
@@ -124,11 +125,18 @@ const Form = ({ organizationDetails }) => {
             </div>
           )}
           <div className="mt-6 flex">
-            <Button
+            <TooltipWrapper
+              content="Make changes to to save"
               disabled={isSubmitting || !dirty}
-              label="Save Changes"
-              type="submit"
-            />
+              followCursor="horizontal"
+              position="bottom"
+            >
+              <Button
+                disabled={isSubmitting || !dirty}
+                label="Save Changes"
+                type="submit"
+              />
+            </TooltipWrapper>
             <Button
               label="Cancel"
               style="text"
