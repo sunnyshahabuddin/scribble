@@ -10,45 +10,6 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     @article = create(:article, category: @category, user: @user)
   end
 
-  def test_shouldnt_create_article_without_title
-    post articles_path,
-      params: { article: { title: "", category_id: @category.id, user_id: @user.id, body: @article.body } }, as: :json
-    assert_response :unprocessable_entity
-    response_json = response.parsed_body
-    assert_equal "Title can't be blank", response_json["error"]
-  end
-
-  def test_shouldnt_change_article_title_to_blank
-    article_params = { article: { title: "" } }
-
-    put article_path(@article.id), params: article_params, as: :json
-    assert_response :unprocessable_entity
-
-    response_json = response.parsed_body
-    assert_equal response_json["error"], "Title can't be blank"
-  end
-
-  def test_shouldnt_create_article_without_category
-    post articles_path,
-      params: {
-        article: {
-          title: @article.title, category_id: nil, user_id: @user.id,
-          body: @article.body
-        }
-      }, as: :json
-    assert_response :unprocessable_entity
-    response_json = response.parsed_body
-    assert_equal "Category must exist", response_json["error"]
-  end
-
-  def test_shouldnt_create_article_without_body
-    post articles_path,
-      params: { article: { title: @article.title, category_id: @category.id, user_id: @user.id, body: nil } }, as: :json
-    assert_response :unprocessable_entity
-    response_json = response.parsed_body
-    assert_equal "Body can't be blank", response_json["error"]
-  end
-
   def test_user_can_update_any_article_field
     article_id = @article.id
     article_title = @article.title
@@ -81,6 +42,8 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
       delete article_path(@article.id), as: :json
     end
     assert_response :ok
+    response_json = response.parsed_body
+    assert_equal t("successfully_deleted", entity: "Article"), response_json["notice"]
   end
 
   def test_should_batch_update_category_of_all_articles
@@ -95,5 +58,27 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     response_json = response.parsed_body
     assert_equal t("successfully_moved", entity: Article), response_json["notice"]
+  end
+
+  def test_should_show_all_articles
+    get articles_path, as: :json
+    assert_response :success
+    response_json = response.parsed_body
+    all_articles = @user.articles.count
+    assert_equal all_articles, response_json["articles"].count
+  end
+
+  def test_should_create_article
+    post articles_path,
+      params: {
+        article: {
+          title: @article.title, category_id: @category.id, user_id: @user.id,
+          body: @article.body
+        }
+      }, as: :json
+    assert_response :success
+
+    response_json = response.parsed_body
+    assert_equal t("successfully_created", entity: "Article"), response_json["notice"]
   end
 end
