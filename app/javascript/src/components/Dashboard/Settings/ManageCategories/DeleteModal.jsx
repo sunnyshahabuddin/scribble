@@ -41,13 +41,24 @@ const DeleteModal = ({
       logger.error(error);
     }
   };
+  if (category.name === "General" && categoryList.length === 1) {
+    return (
+      <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
+        <Modal.Header>
+          <Callout icon={Warning} style="danger">
+            Cannot delete the General category
+          </Callout>
+        </Modal.Header>
+      </Modal>
+    );
+  }
 
   return (
     <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
       <Modal.Header>
         <Typography style="h2">Delete Category</Typography>
       </Modal.Header>
-      {category.articles.length === 0 && (
+      {category.articles.length === 0 && category.name !== "General" && (
         <Modal.Body className="space-y-2">
           <Typography className="mt-2" lineHeight="normal" style="body2">
             <strong>{category.name}</strong> has no articles. Are you sure you
@@ -55,17 +66,6 @@ const DeleteModal = ({
           </Typography>
         </Modal.Body>
       )}
-      {category.articles.length > 0 &&
-        categoryList.length === 1 &&
-        category.name === "General" && (
-          <Modal.Body className="space-y-2">
-            <Typography className="mt-2" lineHeight="normal" style="body2">
-              You are deleting the <strong>General category,</strong> this
-              has&nbsp;{category.articles.length} articles. Deleting this will
-              delete all associated articles.
-            </Typography>
-          </Modal.Body>
-        )}
       {category.articles.length > 0 && (
         <Modal.Body className="space-y-2">
           {category.name !== "General" && (
@@ -130,8 +130,7 @@ const DeleteModal = ({
           disabled={
             moveArticlesToCategory.value === undefined &&
             categoryList.length > 1 &&
-            category.articles.length > 0 &&
-            category.name !== "General"
+            category.articles.length > 0
           }
           onClick={() => {
             setShowDeleteModal(false);
