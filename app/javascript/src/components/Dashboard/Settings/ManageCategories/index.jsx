@@ -33,7 +33,11 @@ const ManageCategories = () => {
   }, []);
 
   if (pageLoading) {
-    return <PageLoader />;
+    return (
+      <div className="h-screen w-screen">
+        <PageLoader />
+      </div>
+    );
   }
 
   const reorder = (categoryList, startIndex, endIndex) => {
