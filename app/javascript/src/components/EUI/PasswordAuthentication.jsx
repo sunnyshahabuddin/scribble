@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Formik, Form as FormikForm } from "formik";
-import { Typography, Button, Toastr } from "neetoui";
+import { Typography, Button } from "neetoui";
 import { Input } from "neetoui/formik";
 import * as yup from "yup";
 
@@ -28,7 +28,6 @@ const PasswordAuthentication = ({
       setIsPasswordValidated(true);
       window.location.href = "/public";
     } catch (error) {
-      Toastr.error("Invalid password");
       logger.error(error);
     }
   };
