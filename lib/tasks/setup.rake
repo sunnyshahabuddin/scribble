@@ -71,7 +71,7 @@ end
 def create_sample_articles!
   puts "Seeding with sample article..."
   Article.create!(
-    title: "Sample Article",
+    title: "New Article Title",
     body: "This is a sample article",
     category_id: 1,
     user_id: 1
