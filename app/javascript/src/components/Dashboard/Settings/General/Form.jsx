@@ -17,9 +17,7 @@ const Form = ({ organizationDetails }) => {
     try {
       await organizationApi.update({
         name: values.siteName,
-        password: checkedValue
-          ? values.password
-          : organizationDetails.password_digest,
+        password: values.password,
         is_password_protected: values.isPasswordProtected,
       });
       localStorage.setItem("authToken", JSON.stringify({ token: null }));
@@ -35,7 +33,7 @@ const Form = ({ organizationDetails }) => {
       initialValues={{
         siteName: organizationDetails.name,
         isPasswordProtected: organizationDetails.isPasswordProtected,
-        isPasswordChanged: false,
+        isPasswordChanged: true,
       }}
       validationSchema={yup.object().shape({
         siteName: yup.string().required("Title is required"),
@@ -101,27 +99,31 @@ const Form = ({ organizationDetails }) => {
               <Input
                 required
                 className="mt-6 mb-px"
-                disabled={!changePassword}
                 id="password"
                 label="Password"
                 name="password"
                 type="password"
+                disabled={
+                  !changePassword && organizationDetails.isPasswordPresent
+                }
                 placeholder={
-                  changePassword
+                  changePassword || !organizationDetails.isPasswordPresent
                     ? "Enter a six letter password with one number"
                     : "********"
                 }
               />
-              <Button
-                className="h-7 mt-12 mb-2 ml-1"
-                disabled={changePassword}
-                label="Change Password"
-                size="small"
-                onClick={() => {
-                  setChangePassword(true);
-                  setFieldValue("isPasswordChanged", true);
-                }}
-              />
+              {organizationDetails.isPasswordPresent && (
+                <Button
+                  className="h-7 mt-12 mb-2 ml-1"
+                  disabled={changePassword}
+                  label="Change Password"
+                  size="small"
+                  onClick={() => {
+                    setChangePassword(true);
+                    setFieldValue("isPasswordChanged", true);
+                  }}
+                />
+              )}
             </div>
           )}
           <div className="mt-6 flex">
@@ -141,9 +143,7 @@ const Form = ({ organizationDetails }) => {
               label="Cancel"
               style="text"
               type="reset"
-              onClick={() =>
-                setChangePassword(changePassword => !changePassword)
-              }
+              onClick={() => setChangePassword(false)}
             />
           </div>
         </FormikForm>
