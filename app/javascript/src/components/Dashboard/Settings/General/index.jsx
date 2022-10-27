@@ -19,6 +19,7 @@ const General = () => {
       setOrganizationDetails({
         name: response.data.name,
         isPasswordProtected: response.data.is_password_protected,
+        isPasswordPresent: !!response.data.password_digest,
       });
     } catch (error) {
       logger.error(error);
