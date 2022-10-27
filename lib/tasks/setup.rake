@@ -5,25 +5,27 @@ task setup: [:environment, "db:drop", "db:create", "db:migrate"] do
   Rake::Task["populate_with_sample_data"].invoke if Rails.env.development?
 end
 
+desc "Populates the database with sample data without resetting the database first"
 task populate_sample_data: [:environment] do
-  create_sample_organization_name!
-  create_sample_user!
-  create_sample_categories!
-  create_sample_articles!
+  create_sample_data!
   puts "sample data has been added."
 end
 
 task populate_with_sample_data: [:environment] do
   if Rails.env.production?
     puts "Skipping deleting and populating sample data in production"
-    Rake::Task["populate_sample_data"].invoke
   else
-    create_sample_organization_name!
-    create_sample_user!
-    create_sample_categories!
-    create_sample_articles!
+    create_sample_data!
     puts "Done! Sample data added."
   end
+  Rake::Task["populate_sample_data"].invoke
+end
+
+def create_sample_data!
+  create_sample_organization_name!
+  create_sample_user!
+  create_sample_categories!
+  create_sample_articles!
 end
 
 def create_sample_categories!
