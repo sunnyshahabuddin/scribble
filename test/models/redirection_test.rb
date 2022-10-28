@@ -28,15 +28,22 @@ class RedirectionTest < ActiveSupport::TestCase
     assert_not test_redirection.valid?
   end
 
-  def test_redirection_shouldnt_create_redirection_cycle
-    first_redirection = create(:redirection)
-    second_redirection = create(:redirection)
-    third_redirection = create(:redirection)
+  def test_shouldnt_create_cycle
+    first_redirection = build(:redirection)
+    second_redirection = build(:redirection)
+    third_redirection = build(:redirection)
 
     second_redirection.from = first_redirection.to
     third_redirection.from = second_redirection.to
     third_redirection.to = first_redirection.from
 
-    assert_not third_redirection.valid?
+    first_redirection.save!
+    second_redirection.save!
+
+    assert_raises ActiveRecord::RecordInvalid do
+      third_redirection.save!
+    end
+
+    assert_match t("redirection.cycle"), third_redirection.errors.full_messages.to_sentence
   end
 end

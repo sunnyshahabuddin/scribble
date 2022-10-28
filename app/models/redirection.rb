@@ -10,13 +10,13 @@ class Redirection < ApplicationRecord
 
     def to_and_from_not_equal
       if self.to == self.from
-        errors.add(t("redirection"))
+        errors.add(:redirection, t("redirection.equal"))
       end
     end
 
     def check_redirection_loop
       if to_exist_in_from? && from_exist_in_to?
-        errors.add(t("redirection"))
+        errors.add(:redirection, t("redirection.cycle"))
       end
     end
 
