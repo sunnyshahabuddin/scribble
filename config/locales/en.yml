@@ -7,6 +7,9 @@ en:
   article:
     slug:
       immutable: "is immutable!"
-  redirection: "Adding this causes redirection loop"
+  redirection:
+    cycle: "cycle detected!"
+    equal: "To and From cannot be equal"
+
   organization:
     incorrect_credential: "Invalid Password."
