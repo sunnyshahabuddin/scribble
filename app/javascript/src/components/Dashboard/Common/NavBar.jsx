@@ -40,7 +40,6 @@ const NavBar = () => {
       </div>
     );
   }
-  // console.log(x.status);
 
   return (
     <nav className="flex h-16 border-b-2 bg-white px-6">
