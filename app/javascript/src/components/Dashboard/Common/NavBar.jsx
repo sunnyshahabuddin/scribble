@@ -74,7 +74,7 @@ const NavBar = () => {
                 </Typography>
               ) : (
                 <Typography
-                  className="neeto-ui-rounded neeto-ui-bg-primary-100 neeto-ui-text-primary-800 mr-4 py-1 px-3"
+                  className="neeto-ui-rounded neeto-ui-bg-success-500 neeto-ui-text-white mr-4 py-1 px-3"
                   style="h5"
                 >
                   Published

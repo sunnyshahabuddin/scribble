@@ -26,3 +26,31 @@ export const VALIDATION_SCHEMA = categoryList =>
       })
       .required("Category is required"),
   });
+
+export const ARTICLE_HISTORY = [
+  {
+    id: 0,
+    date: "10:00AM, 12/20/2021",
+    status: "Article Drafted",
+  },
+  {
+    id: 1,
+    date: "10:00AM, 12/20/2021",
+    status: "Article Published",
+  },
+  {
+    id: 2,
+    date: "10:00AM, 12/20/2021",
+    status: "Article Published",
+  },
+  {
+    id: 3,
+    date: "10:00AM, 12/20/2021",
+    status: "Article Published",
+  },
+  {
+    id: 4,
+    date: "10:00AM, 12/20/2021",
+    status: "Article Drafted",
+  },
+];
