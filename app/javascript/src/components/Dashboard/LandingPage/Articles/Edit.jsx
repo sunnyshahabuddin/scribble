@@ -8,6 +8,7 @@ import utilityFunctions from "components/Dashboard/LandingPage/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
 import Form from "./Form";
+import VersionHistory from "./VersionHistory";
 
 const Edit = ({ history }) => {
   const [loading, setLoading] = useState(true);
@@ -55,13 +56,16 @@ const Edit = ({ history }) => {
   }
 
   return (
-    <div className="h-1/2 mx-auto mt-12 flex w-1/2">
-      <Form
-        handleSubmit={handleSubmit}
-        article={utilityFunctions.formatFetchedDataToInitialFormValue(
-          articleDetails
-        )}
-      />
+    <div className="flex">
+      <div className="h-1/2 mx-auto mt-10 w-1/3">
+        <Form
+          handleSubmit={handleSubmit}
+          article={utilityFunctions.formatFetchedDataToInitialFormValue(
+            articleDetails
+          )}
+        />
+      </div>
+      <VersionHistory articleDetails={articleDetails} />
     </div>
   );
 };
