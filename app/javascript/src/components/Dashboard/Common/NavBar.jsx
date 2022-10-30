@@ -61,6 +61,13 @@ const NavBar = () => {
           >
             <Typography style="h4">Settings</Typography>
           </NavLink>
+          <NavLink
+            activeClassName="neeto-ui-text-primary-500 mx-6"
+            className="neeto-ui-text-gray-500 mx-6"
+            to="/analytics"
+          >
+            <Typography style="h4">Analytics</Typography>
+          </NavLink>
         </div>
         <div className="flex">
           {pathname.includes("edit") && (
