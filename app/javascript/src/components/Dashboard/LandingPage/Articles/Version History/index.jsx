@@ -1,8 +1,10 @@
 import React from "react";
 
-import { Typography, Button } from "neetoui";
+import { Typography } from "neetoui";
 
-import { ARTICLE_HISTORY } from "./constants";
+import Version from "./Version";
+
+import { ARTICLE_HISTORY } from "../constants";
 
 const VersionHistory = ({ articleDetails }) => (
   <div className="border-l h-screen w-1/3">
@@ -14,10 +16,7 @@ const VersionHistory = ({ articleDetails }) => (
     </div>
     {ARTICLE_HISTORY.map(history => (
       <div className="mt-4 ml-4 flex" key={history.id}>
-        <Typography className="neeto-ui-text-gray-400 mr-4" style="h5">
-          {history.date}
-        </Typography>
-        <Button label={history.status} style="link" />
+        <Version articleDetails={articleDetails} history={history} />
       </div>
     ))}
   </div>
