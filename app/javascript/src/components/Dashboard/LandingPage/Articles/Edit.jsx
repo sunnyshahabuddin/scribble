@@ -8,7 +8,7 @@ import utilityFunctions from "components/Dashboard/LandingPage/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
 import Form from "./Form";
-import VersionHistory from "./VersionHistory";
+import VersionHistory from "./Version History";
 
 const Edit = ({ history }) => {
   const [loading, setLoading] = useState(true);
