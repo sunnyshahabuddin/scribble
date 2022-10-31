@@ -6,6 +6,8 @@ const create = payload => axios.post("/articles", payload);
 
 const show = id => axios.get(`/articles/${id}`);
 
+const showWithSlug = slug => axios.get(`/articles/${slug}/show_with_slug`);
+
 const update = ({ id, payload }) => axios.put(`/articles/${id}`, payload);
 
 const destroy = id => axios.delete(`/articles/${id}`);
@@ -21,6 +23,7 @@ const articlesApi = {
   update,
   destroy,
   batchUpdate,
+  showWithSlug,
   listPublishedArticles,
 };
 

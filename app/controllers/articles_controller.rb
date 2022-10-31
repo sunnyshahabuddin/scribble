@@ -25,6 +25,13 @@ class ArticlesController < ApplicationController
     render
   end
 
+  def show_with_slug
+    @article = @_current_user.articles.find_by!(slug: params[:slug])
+    @article.visits = @article.visits + 1
+    @article.save!
+    render
+  end
+
   def update
     @article.update!(article_params)
     respond_with_success(t("successfully_updated", entity: Article))
