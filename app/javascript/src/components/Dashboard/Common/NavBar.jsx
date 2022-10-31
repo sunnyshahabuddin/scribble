@@ -12,10 +12,10 @@ const NavBar = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    fetchArticlesCategories();
+    fetchArticles();
   }, []);
 
-  const fetchArticlesCategories = async () => {
+  const fetchArticles = async () => {
     try {
       setLoading(true);
       const {

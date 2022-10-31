@@ -24,14 +24,14 @@ const renderCategory = category => (
     {category.name}
   </Typography>
 );
-//TODO: Add column for article visits and remove
-const renderVisits = () => (
+
+const renderVisits = visits => (
   <Typography className="neeto-ui-text-gray-600" style="body2">
-    {100}
+    {visits}
   </Typography>
 );
 
-export const TABLE_HEADER = [
+export const buildTableColumnData = [
   {
     title: "TITLE",
     dataIndex: "title",
@@ -57,7 +57,8 @@ export const TABLE_HEADER = [
     title: "VISITS",
     dataIndex: "visits",
     key: "visits",
+    sorter: (a, b) => a.visits - b.visits,
     width: "10%",
-    render: renderVisits,
+    render: visits => renderVisits(visits),
   },
 ];

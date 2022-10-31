@@ -4,7 +4,7 @@ import { Table as NeetoUITable, PageLoader } from "neetoui";
 
 import articlesApi from "apis/articles";
 
-import { TABLE_HEADER } from "./utils";
+import { buildTableColumnData } from "./utils";
 
 const Analytics = () => {
   const [currentTablePageNumber, setCurrentTablePageNumber] = useState(1);
@@ -41,7 +41,7 @@ const Analytics = () => {
     <div className="mx-auto my-8 w-auto px-64">
       <NeetoUITable
         allowRowClick={false}
-        columnData={TABLE_HEADER}
+        columnData={buildTableColumnData}
         currentPageNumber={currentTablePageNumber}
         defaultPageSize={10}
         handlePageChange={e => setCurrentTablePageNumber(e)}
