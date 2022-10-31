@@ -75,12 +75,12 @@ const SideBar = () => {
                 No Articles
               </Typography>
             ) : (
-              category.publishedArticles.map((article, index) => (
+              category.publishedArticles.map(article => (
                 <NavLink
                   exact
                   activeClassName="neeto-ui-text-primary-500 mx-6"
                   className="neeto-ui-text-gray-500 mx-6"
-                  key={index}
+                  key={article.id}
                   to={`${url}/${article.slug}`}
                 >
                   <Typography style="h4">{article.title}</Typography>
@@ -91,14 +91,9 @@ const SideBar = () => {
         ))}
       </Accordion>
       <Switch>
-        {publishedArticles.map((article, index) => (
-          <Route key={index} path={`${path}/${article.slug}`}>
-            <ShowArticle
-              articleTitle={article.title}
-              body={article.body}
-              categoryTitle={article.category.name}
-              publishedDate={article.updated_at}
-            />
+        {publishedArticles.map(article => (
+          <Route key={article.id} path={`${path}/${article.slug}`}>
+            <ShowArticle slug={article.slug} />
           </Route>
         ))}
         <Redirect exact from="/public" to={`public/${defaultPath}`} />
