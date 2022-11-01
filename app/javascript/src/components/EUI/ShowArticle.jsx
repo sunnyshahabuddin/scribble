@@ -16,7 +16,7 @@ const ShowArticle = ({ slug }) => {
         title: article.title,
         bodyParagraphs: article.body.split("\n"),
         categoryName: article.category.name,
-        publishedDate: article.update_at,
+        publishedDate: article.updated_at,
       });
     } catch (error) {
       logger.error(error);
