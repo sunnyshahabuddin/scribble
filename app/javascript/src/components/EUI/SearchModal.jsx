@@ -4,7 +4,15 @@ import { Search } from "neetoicons";
 import { Modal, Select, Typography } from "neetoui";
 import { useRouteMatch, useHistory } from "react-router-dom";
 
-const SearchModal = ({ publishedArticles, showSearch, setShowSearch }) => {
+import { findActiveArticleIndex } from "./utils";
+
+const SearchModal = ({
+  publishedArticles,
+  showSearch,
+  setShowSearch,
+  categoryList,
+  setActiveArticleIndex,
+}) => {
   const { url } = useRouteMatch();
   const history = useHistory();
 
@@ -31,6 +39,7 @@ const SearchModal = ({ publishedArticles, showSearch, setShowSearch }) => {
         }
         onChange={article => {
           history.push(`${url}/${article.value}`);
+          findActiveArticleIndex(categoryList, setActiveArticleIndex);
           setShowSearch(false);
         }}
       />

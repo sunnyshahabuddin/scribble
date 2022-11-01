@@ -7,7 +7,7 @@ import organizationApi from "apis/organization";
 
 import SearchModal from "./SearchModal";
 
-const Header = () => {
+const Header = ({ categoryList, setActiveArticleIndex }) => {
   const [publishedArticles, setPublishedArticles] = useState([]);
   const [organizationName, setOrganizationName] = useState({});
   const [showSearch, setShowSearch] = useState(false);
@@ -58,7 +58,9 @@ const Header = () => {
       </div>
       {showSearch && (
         <SearchModal
+          categoryList={categoryList}
           publishedArticles={publishedArticles}
+          setActiveArticleIndex={setActiveArticleIndex}
           setShowSearch={setShowSearch}
           showSearch={showSearch}
         />
