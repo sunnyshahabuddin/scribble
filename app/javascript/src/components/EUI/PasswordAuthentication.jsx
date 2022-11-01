@@ -9,8 +9,6 @@ import { setAuthHeaders } from "apis/axios";
 import organizationApi from "apis/organization";
 import EuiPassword from "images/EuiPassword";
 
-import Header from "./Header";
-
 const PasswordAuthentication = ({
   organizationDetails,
   setIsPasswordValidated,
@@ -34,7 +32,9 @@ const PasswordAuthentication = ({
 
   return (
     <>
-      <Header />
+      <div className="flex h-12 w-full justify-center border-b-2 py-3">
+        <Typography style="h4">{organizationDetails.name}</Typography>
+      </div>
       <div className="mt-16 grid justify-center">
         <img className="mx-auto justify-center" src={EuiPassword} />
         <Typography className="mt-8" style="h2">
@@ -51,8 +51,14 @@ const PasswordAuthentication = ({
           onSubmit={handleSubmit}
         >
           <FormikForm className="mt-8">
-            <Input required label="Password" name="password" type="password" />
-            <Button className="mt-6" label="continue" type="submit" />
+            <Input
+              required
+              label="Password"
+              name="password"
+              placeholder="Enter password to continue"
+              type="password"
+            />
+            <Button className="mt-6" label="Continue" type="submit" />
           </FormikForm>
         </Formik>
       </div>
