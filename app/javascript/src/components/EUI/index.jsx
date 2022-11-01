@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { PageLoader } from "neetoui";
-import { useLocation } from "react-router-dom";
 
 import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
@@ -17,11 +16,9 @@ const Eui = () => {
   const [activeArticleIndex, setActiveArticleIndex] = useState(0);
   const [defaultPath, setDefaultPath] = useState("");
 
-  const location = useLocation();
-
   useEffect(() => {
     fetchArticlesCategoriesAndSlugMatch();
-  }, [location]);
+  }, []);
 
   const fetchArticlesCategoriesAndSlugMatch = async () => {
     try {
@@ -53,7 +50,10 @@ const Eui = () => {
 
   return (
     <>
-      <Header />
+      <Header
+        categoryList={categoryList}
+        setActiveArticleIndex={setActiveArticleIndex}
+      />
       <SideBar
         activeArticleIndex={activeArticleIndex}
         categoryList={categoryList}
