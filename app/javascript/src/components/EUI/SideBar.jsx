@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-import { Accordion, PageLoader, Typography } from "neetoui";
+import { Accordion, Typography } from "neetoui";
 import {
   NavLink,
   useRouteMatch,
@@ -9,52 +9,16 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import articlesApi from "apis/articles";
-import categoriesApi from "apis/categories";
-
 import EmptyState from "./EmptyState";
 import ShowArticle from "./ShowArticle";
-import { findActiveArticleIndex, findDefaultPath } from "./utils";
 
-const SideBar = () => {
-  const [loading, setLoading] = useState(true);
-  const [categoryList, setCategoryList] = useState({});
-  const [publishedArticles, setPublishedArticles] = useState([]);
-  const [activeArticleIndex, setActiveArticleIndex] = useState(0);
-  const [defaultPath, setDefaultPath] = useState("");
+const SideBar = ({
+  activeArticleIndex,
+  categoryList,
+  defaultPath,
+  publishedArticles,
+}) => {
   const { url, path } = useRouteMatch();
-
-  useEffect(() => {
-    fetchArticlesCategoriesAndSlugMatch();
-  }, []);
-
-  const fetchArticlesCategoriesAndSlugMatch = async () => {
-    try {
-      setLoading(true);
-      const {
-        data: { categories },
-      } = await categoriesApi.fetch();
-      const {
-        data: { articles: publishedArticles },
-      } = await articlesApi.listPublishedArticles();
-      setCategoryList(categories);
-      setPublishedArticles(publishedArticles);
-      findDefaultPath(categories, setDefaultPath, setActiveArticleIndex);
-      findActiveArticleIndex(categories, setActiveArticleIndex);
-    } catch (error) {
-      logger.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="h-screen w-screen">
-        <PageLoader />
-      </div>
-    );
-  }
 
   if (categoryList.length === 0) {
     return (
@@ -68,8 +32,8 @@ const SideBar = () => {
         className="border-r h-screen w-1/4 px-5"
         defaultActiveKey={activeArticleIndex}
       >
-        {categoryList.map((category, idx) => (
-          <Accordion.Item key={idx} title={category.name}>
+        {categoryList.map(category => (
+          <Accordion.Item key={category.id} title={category.name}>
             {category.publishedArticles.length === 0 ? (
               <Typography className="neeto-ui-text-pastel-red" style="h4">
                 No Articles
@@ -80,7 +44,7 @@ const SideBar = () => {
                   exact
                   activeClassName="neeto-ui-text-primary-500 mx-6"
                   className="neeto-ui-text-gray-500 mx-6"
-                  key={article.id}
+                  key={article.slug}
                   to={`${url}/${article.slug}`}
                 >
                   <Typography style="h4">{article.title}</Typography>

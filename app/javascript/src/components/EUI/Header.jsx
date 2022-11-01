@@ -45,7 +45,7 @@ const Header = () => {
     <>
       <div className="flex h-12 border-b-2">
         <div
-          className="border neeto-ui-rounded-sm mt-2 ml-4 h-8 w-64 pl-2 pt-1"
+          className="border neeto-ui-rounded-sm mt-2 ml-4 h-8 w-64 cursor-pointer pl-2 pt-1"
           onClick={() => setShowSearch(true)}
         >
           <Typography className="neeto-ui-text-gray-400">
