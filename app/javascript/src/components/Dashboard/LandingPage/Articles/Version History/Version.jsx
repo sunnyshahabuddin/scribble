@@ -2,19 +2,23 @@ import React, { useState } from "react";
 
 import { Typography, Button } from "neetoui";
 
+import { formatDateToMonthDayYear } from "components/Dashboard/utils";
+
 import Modal from "./RestoreModal";
 
-const Version = ({ articleDetails, history }) => {
+const Version = ({ articleDetails }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
       <Typography className="neeto-ui-text-gray-400 mr-4" style="h5">
-        {history.date}
+        {formatDateToMonthDayYear(articleDetails.date)}
       </Typography>
       <Button
-        label={history.status}
         style="link"
+        label={
+          articleDetails.status === 1 ? "Article Published" : "Article Draft"
+        }
         onClick={() => setShowModal(true)}
       />
       {showModal && (
