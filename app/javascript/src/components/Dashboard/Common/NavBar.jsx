@@ -7,31 +7,28 @@ import { NavLink, useLocation } from "react-router-dom";
 import articlesApi from "apis/articles";
 
 const NavBar = () => {
-  const [loading, setLoading] = useState(true);
-  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [articleDetails, setArticleDetails] = useState([]);
   const { pathname } = useLocation();
+  const isEditArticle = pathname.includes("edit");
 
   useEffect(() => {
-    fetchArticles();
-  }, []);
+    fetchArticle();
+  }, [isEditArticle]);
 
-  const fetchArticles = async () => {
-    try {
-      setLoading(true);
-      const {
-        data: { articles },
-      } = await articlesApi.fetch();
-      setArticles(articles);
-    } catch (error) {
-      logger.error(error);
-    } finally {
-      setLoading(false);
+  const fetchArticle = async () => {
+    if (isEditArticle) {
+      try {
+        setLoading(true);
+        const article = await articlesApi.show(pathname.split("/")[2]);
+        setArticleDetails(article.data);
+      } catch (error) {
+        logger.error(error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
-
-  const articleDetails = articles.find(
-    article => article.id === parseInt(pathname.split("/")[2])
-  );
 
   if (loading) {
     return (

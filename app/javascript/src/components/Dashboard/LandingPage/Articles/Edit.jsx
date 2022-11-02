@@ -13,6 +13,7 @@ import VersionHistory from "./Version History";
 const Edit = ({ history }) => {
   const [loading, setLoading] = useState(true);
   const [articleDetails, setArticleDetails] = useState({});
+  const [articleVersions, setArticleVersions] = useState([]);
   const { id } = useParams();
 
   const handleSubmit = async article => {
@@ -32,10 +33,25 @@ const Edit = ({ history }) => {
     }
   };
 
-  const fetchArticleDetails = async () => {
+  const fetchArticleDetailsAndVersion = async () => {
     try {
       const article = await articlesApi.show(id);
       setArticleDetails(article.data);
+      const {
+        data: { article_versions },
+      } = await articlesApi.articleVersions(id);
+      const response = article_versions
+        .map(articleVersion => articleVersion.object)
+        .slice(1);
+      setArticleVersions(
+        response.map(articleVersion => ({
+          title: articleVersion.title,
+          body: articleVersion.body,
+          categoryName: article.data.category.name,
+          date: articleVersion.updated_at,
+          status: articleVersion.status,
+        }))
+      );
     } catch (error) {
       logger.error(error);
     } finally {
@@ -44,7 +60,7 @@ const Edit = ({ history }) => {
   };
 
   useEffect(() => {
-    fetchArticleDetails();
+    fetchArticleDetailsAndVersion();
   }, []);
 
   if (loading) {
@@ -65,7 +81,10 @@ const Edit = ({ history }) => {
           )}
         />
       </div>
-      <VersionHistory articleDetails={articleDetails} />
+      <VersionHistory
+        articleDetails={articleDetails}
+        articleVersions={articleVersions}
+      />
     </div>
   );
 };

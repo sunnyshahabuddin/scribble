@@ -25,7 +25,7 @@ const RestoreModal = ({ articleDetails, showModal, setShowModal }) => (
             Category
           </Typography>
           <div className="border h-8 overflow-y-auto p-1">
-            {articleDetails.category.name}
+            {articleDetails.categoryName}
           </div>
         </div>
       </div>
