@@ -10,9 +10,9 @@ const General = () => {
   const [organizationDetails, setOrganizationDetails] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetchWebsiteDetails();
+    fetchOrganizationDetails();
   }, []);
-  const fetchWebsiteDetails = async () => {
+  const fetchOrganizationDetails = async () => {
     try {
       setLoading(true);
       const response = await organizationApi.show();
