@@ -6,6 +6,7 @@ class Article < ApplicationRecord
   validates :body, :status, presence: true
   validate :slug_not_changed
 
+  has_paper_trail only: [:title, :body, :status, :category_id]
   belongs_to :category
   belongs_to :user
 

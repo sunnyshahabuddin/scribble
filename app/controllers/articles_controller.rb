@@ -2,7 +2,7 @@
 
 class ArticlesController < ApplicationController
   before_action :current_user!, except: %i[new edit]
-  before_action :load_article!, only: %i[show update destroy]
+  before_action :load_article!, only: %i[show update destroy versions]
   before_action :load_articles!, only: :batch_update
 
   def index
@@ -45,6 +45,11 @@ class ArticlesController < ApplicationController
   def batch_update
     @articles.update(category_id: params[:updated_category_id])
     respond_with_success(t("successfully_moved", entity: Article))
+  end
+
+  def versions
+    @article_versions = @article.versions
+    render
   end
 
   private

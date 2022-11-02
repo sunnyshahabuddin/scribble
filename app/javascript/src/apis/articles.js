@@ -16,6 +16,8 @@ const batchUpdate = payload => axios.put("/articles/batch_update", payload);
 
 const listPublishedArticles = () => axios.get("/articles/list_published");
 
+const articleVersions = id => axios.get(`/articles/${id}/versions`);
+
 const articlesApi = {
   fetch,
   create,
@@ -24,6 +26,7 @@ const articlesApi = {
   destroy,
   batchUpdate,
   showWithSlug,
+  articleVersions,
   listPublishedArticles,
 };
 
