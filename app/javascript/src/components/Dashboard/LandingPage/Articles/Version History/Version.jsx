@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Typography, Button } from "neetoui";
 
-import { formatDateToMonthDayYear } from "components/Dashboard/utils";
+import { formatToDateAndTime } from "components/Dashboard/utils";
 
 import Modal from "./RestoreModal";
 
@@ -12,7 +12,7 @@ const Version = ({ articleDetails }) => {
   return (
     <>
       <Typography className="neeto-ui-text-gray-400 mr-4" style="h5">
-        {formatDateToMonthDayYear(articleDetails.date)}
+        {formatToDateAndTime(articleDetails.date)}
       </Typography>
       <Button
         style="link"
