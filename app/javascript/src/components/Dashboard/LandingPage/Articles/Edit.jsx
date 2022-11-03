@@ -14,6 +14,7 @@ const Edit = ({ history }) => {
   const [loading, setLoading] = useState(true);
   const [articleDetails, setArticleDetails] = useState({});
   const [articleVersions, setArticleVersions] = useState([]);
+
   const { id } = useParams();
 
   const handleSubmit = async article => {
@@ -45,8 +46,10 @@ const Edit = ({ history }) => {
         .slice(1);
       setArticleVersions(
         response.map(articleVersion => ({
+          id: articleVersion.id,
           title: articleVersion.title,
           body: articleVersion.body,
+          categoryId: articleVersion.category_id,
           categoryName: article.data.category.name,
           date: articleVersion.updated_at,
           status: articleVersion.status,
