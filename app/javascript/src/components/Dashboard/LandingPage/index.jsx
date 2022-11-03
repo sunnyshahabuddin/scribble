@@ -10,7 +10,6 @@ import ActionBlock from "./ActionBlock";
 import SideMenuBar from "./SideMenuBar";
 import Table from "./Table";
 import { INITIAL_CHECKED_LIST } from "./Table/utils";
-import utilityFunctions from "./utils";
 
 const LandingPage = () => {
   const [loading, setLoading] = useState(true);
@@ -19,20 +18,24 @@ const LandingPage = () => {
   const [checkedColumn, setCheckedColumn] = useState(INITIAL_CHECKED_LIST);
   const [searchArticleTitle, setSearchArticleTitle] = useState("");
   const [articleFilters, setArticleFilters] = useState({
-    status: null,
+    status: 2,
     category_id: [],
   });
 
   useEffect(() => {
     fetchArticlesCategories();
-  }, []);
+  }, [articleFilters, searchArticleTitle]);
 
   const fetchArticlesCategories = async () => {
+    const payload = {
+      search_filter: searchArticleTitle,
+      status_filter: articleFilters.status,
+      category_filter: articleFilters.category_id,
+    };
     try {
-      setLoading(true);
       const {
         data: { articles },
-      } = await articlesApi.fetch();
+      } = await articlesApi.fetch(payload);
       const {
         data: { categories },
       } = await categoriesApi.fetch();
@@ -78,13 +81,7 @@ const LandingPage = () => {
           searchArticleTitle={searchArticleTitle}
           setSearchArticleTitle={setSearchArticleTitle}
         />
-        <Table
-          refetch={fetchArticlesCategories}
-          articles={utilityFunctions.combineSideMenuFilterAndSearchResult(
-            utilityFunctions.filterArticle(articles, articleFilters),
-            utilityFunctions.searchArticleList(articles, searchArticleTitle)
-          )}
-        />
+        <Table articles={articles} refetch={fetchArticlesCategories} />
       </Container>
     </div>
   );

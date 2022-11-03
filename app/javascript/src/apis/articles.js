@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const fetch = () => axios.get("/articles");
+const fetch = payload =>
+  axios.get(
+    `/articles/?search_filter=${payload.search_filter}&status_filter=${payload.status_filter}&category_filter=${payload.category_filter}`
+  );
 
 const create = payload => axios.post("/articles", payload);
 
