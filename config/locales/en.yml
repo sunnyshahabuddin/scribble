@@ -10,6 +10,8 @@ en:
   redirection:
     cycle: "cycle detected!"
     equal: "To and From cannot be equal"
+  category:
+    deletion_error: "General category cannot be deleted!"
 
   organization:
     incorrect_credential: "Invalid Password."

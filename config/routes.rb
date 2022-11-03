@@ -5,7 +5,6 @@ Rails.application.routes.draw do
     resources :articles, except: %i[new edit] do
       collection do
         get :list_published
-        put :batch_update
       end
       member do
         get :versions

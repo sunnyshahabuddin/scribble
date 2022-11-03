@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Warning } from "neetoicons";
 import { Modal, Button, Typography, Callout, Select } from "neetoui";
 
-import articlesApi from "apis/articles";
 import categoriesApi from "apis/categories";
 
 const DeleteModal = ({
@@ -18,47 +17,22 @@ const DeleteModal = ({
   const handleSubmit = async id => {
     setShowDeleteModal(false);
     try {
-      if (categoryList.length > 1) {
-        await articlesApi.batchUpdate({
-          previous_category_id: id,
-          updated_category_id: moveArticlesToCategory.value,
-        });
-      } else if (category.name !== "General") {
-        await categoriesApi.create({
-          name: "General",
-        });
-        const {
-          data: { categories },
-        } = await categoriesApi.fetch();
-        await articlesApi.batchUpdate({
-          previous_category_id: id,
-          updated_category_id: categories[1].id,
-        });
-      }
-      await categoriesApi.destroy(id);
+      await categoriesApi.destroy({
+        new_category_id: moveArticlesToCategory.value,
+        category_id: id,
+      });
       refetch();
     } catch (error) {
       logger.error(error);
     }
   };
-  if (category.name === "General" && categoryList.length === 1) {
-    return (
-      <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
-        <Modal.Header>
-          <Callout icon={Warning} style="danger">
-            Cannot delete the General category
-          </Callout>
-        </Modal.Header>
-      </Modal>
-    );
-  }
 
   return (
     <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
       <Modal.Header>
         <Typography style="h2">Delete Category</Typography>
       </Modal.Header>
-      {category.articles.length === 0 && category.name !== "General" && (
+      {category.articles.length === 0 && (
         <Modal.Body className="space-y-2">
           <Typography className="mt-2" lineHeight="normal" style="body2">
             <strong>{category.name}</strong> has no articles. Are you sure you
