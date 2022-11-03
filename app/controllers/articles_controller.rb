@@ -3,7 +3,6 @@
 class ArticlesController < ApplicationController
   before_action :current_user!, except: %i[new edit]
   before_action :load_article!, only: %i[show update destroy versions]
-  before_action :load_articles!, only: :batch_update
 
   def index
     @articles = @_current_user.articles.order("updated_at DESC")
@@ -47,11 +46,6 @@ class ArticlesController < ApplicationController
     respond_with_success(t("successfully_deleted", entity: Article))
   end
 
-  def batch_update
-    @articles.update(category_id: params[:updated_category_id])
-    respond_with_success(t("successfully_moved", entity: Article))
-  end
-
   def versions
     @article_versions = @article.versions
     render
@@ -61,10 +55,6 @@ class ArticlesController < ApplicationController
 
     def load_article!
       @article = @_current_user.articles.find(params[:id])
-    end
-
-    def load_articles!
-      @articles = @_current_user.articles.where(category_id: params[:previous_category_id])
     end
 
     def article_params

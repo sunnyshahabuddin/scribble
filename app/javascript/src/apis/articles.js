@@ -15,8 +15,6 @@ const update = ({ id, payload }) => axios.put(`/articles/${id}`, payload);
 
 const destroy = id => axios.delete(`/articles/${id}`);
 
-const batchUpdate = payload => axios.put("/articles/batch_update", payload);
-
 const listPublishedArticles = () => axios.get("/articles/list_published");
 
 const articleVersions = id => axios.get(`/articles/${id}/versions`);
@@ -27,7 +25,6 @@ const articlesApi = {
   show,
   update,
   destroy,
-  batchUpdate,
   showWithSlug,
   articleVersions,
   listPublishedArticles,
