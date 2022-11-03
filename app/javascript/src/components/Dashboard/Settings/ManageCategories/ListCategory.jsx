@@ -4,6 +4,8 @@ import { Delete, Edit } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { Draggable } from "react-beautiful-dnd";
 
+import TooltipWrapper from "components/Common/TooltipWrapper";
+
 import DeleteModal from "./DeleteModal";
 import Form from "./Form";
 
@@ -36,12 +38,24 @@ const ListCategory = ({ category, index, refetch, categoryList }) => {
                     {category.name}
                   </Typography>
                 </div>
-                <div className="mt-2">
-                  <Button
-                    icon={Delete}
-                    style="text"
-                    onClick={() => setShowDeleteModal(true)}
-                  />
+                <div className="mt-2 flex">
+                  <TooltipWrapper
+                    content="Cannot delete the General category"
+                    followCursor="horizontal"
+                    position="bottom"
+                    disabled={
+                      category.name === "General" && categoryList.length === 1
+                    }
+                  >
+                    <Button
+                      icon={Delete}
+                      style="text"
+                      disabled={
+                        category.name === "General" && categoryList.length === 1
+                      }
+                      onClick={() => setShowDeleteModal(true)}
+                    />
+                  </TooltipWrapper>
                   <Button
                     icon={Edit}
                     style="text"

@@ -2,7 +2,7 @@
 
 class CategoriesController < ApplicationController
   before_action :current_user!, except: %i[new edit show]
-  before_action :load_category!, only: [:update, :destroy,]
+  before_action :load_category!, only: %i[update destroy]
 
   def index
     @categories = @_current_user.categories.order("position ASC")
@@ -33,8 +33,11 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    @category.destroy!
-    respond_with_success(t("successfully_deleted", entity: Category))
+    if CategoryDeletionService.new(params[:id], params[:new_category_id], @_current_user).process
+      respond_with_success(t("successfully_deleted", entity: Category))
+    else
+      respond_with_error(t("category.deletion_error"))
+    end
   end
 
   private
