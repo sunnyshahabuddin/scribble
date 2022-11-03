@@ -12,9 +12,9 @@ const VersionHistory = ({ articleDetails, articleVersions }) => (
         Version history of {articleDetails.title} in Scribble.
       </Typography>
     </div>
-    {articleVersions.map(articleVersion => (
-      <div className="mt-4 ml-4 flex" key={articleVersion.date}>
-        <Version articleDetails={articleVersion} />
+    {articleVersions.map(version => (
+      <div className="mt-4 ml-4 flex" key={version.id}>
+        <Version version={version} />
       </div>
     ))}
   </div>
