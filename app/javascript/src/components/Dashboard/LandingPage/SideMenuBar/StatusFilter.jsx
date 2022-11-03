@@ -15,7 +15,7 @@ const StatusFilter = ({ articleFilters, setArticleFilters, article }) => (
       onClick={() =>
         setArticleFilters(articleFilters => ({
           ...articleFilters,
-          status: null,
+          status: 2,
         }))
       }
     />

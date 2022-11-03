@@ -60,14 +60,6 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     assert_equal t("successfully_moved", entity: Article), response_json["notice"]
   end
 
-  def test_should_show_all_articles
-    get articles_path, as: :json
-    assert_response :success
-    response_json = response.parsed_body
-    all_articles = @user.articles.count
-    assert_equal all_articles, response_json["articles"].count
-  end
-
   def test_should_create_article
     post articles_path,
       params: {

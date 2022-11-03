@@ -7,6 +7,9 @@ class ArticlesController < ApplicationController
 
   def index
     @articles = @_current_user.articles.order("updated_at DESC")
+    @articles = ArticleFilterationService.new(
+      @articles, params[:search_filter], params[:status_filter],
+      params[:category_filter]).process
     render
   end
 
