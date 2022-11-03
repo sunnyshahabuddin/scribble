@@ -26,6 +26,7 @@ const Edit = ({ history }) => {
           body: article.body,
           status: article.status ? article.status : 0,
           category_id: article.category.value,
+          version_status: false,
         },
       });
       history.push(LANDING_PAGE_PATH);
@@ -34,27 +35,21 @@ const Edit = ({ history }) => {
     }
   };
 
-  const fetchArticleDetailsAndVersion = async () => {
+  const fetchArticleDetailsVersion = async () => {
     try {
       const article = await articlesApi.show(id);
       setArticleDetails(article.data);
       const {
         data: { article_versions },
       } = await articlesApi.articleVersions(id);
-      const response = article_versions
-        .map(articleVersion => articleVersion.object)
-        .slice(1);
-      setArticleVersions(
-        response.map(articleVersion => ({
+      const articleVersions = article_versions
+        .map(articleVersion => ({
           id: articleVersion.id,
-          title: articleVersion.title,
-          body: articleVersion.body,
-          categoryId: articleVersion.category_id,
-          categoryName: article.data.category.name,
-          date: articleVersion.updated_at,
-          status: articleVersion.status,
+          article: articleVersion.object,
+          category: articleVersion.category,
         }))
-      );
+        .slice(1);
+      setArticleVersions(articleVersions);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -63,7 +58,7 @@ const Edit = ({ history }) => {
   };
 
   useEffect(() => {
-    fetchArticleDetailsAndVersion();
+    fetchArticleDetailsVersion();
   }, []);
 
   if (loading) {

@@ -4,19 +4,21 @@ import { Button, Typography, Modal } from "neetoui";
 import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/articles";
+import TooltipWrapper from "components/Common/TooltipWrapper";
 
-const RestoreModal = ({ articleDetails, showModal, setShowModal }) => {
+const RestoreModal = ({ version, showModal, setShowModal }) => {
   const history = useHistory();
 
   const handleRestore = async () => {
     try {
       await articlesApi.update({
-        id: articleDetails.id,
+        id: version.article.id,
         payload: {
-          title: articleDetails.title,
-          body: articleDetails.body,
+          title: version.article.title,
+          body: version.article.body,
           status: 0,
-          category_id: articleDetails.categoryId,
+          category_id: version.article.categoryId,
+          version_status: true,
         },
       });
       history.go(0);
@@ -30,7 +32,7 @@ const RestoreModal = ({ articleDetails, showModal, setShowModal }) => {
       <Modal.Header>
         <Typography style="h2">Version history.</Typography>
         <Typography className="neeto-ui-text-gray-600 mt-1" style="body2">
-          Version history of {articleDetails.title} in Scribble.
+          Version history of {version.article.title} in Scribble.
         </Typography>
       </Modal.Header>
       <Modal.Body className="space-y-2 p-2">
@@ -40,7 +42,7 @@ const RestoreModal = ({ articleDetails, showModal, setShowModal }) => {
               Article Title
             </Typography>
             <div className="border h-8 overflow-y-auto p-1">
-              {articleDetails.title}
+              {version.article.title}
             </div>
           </div>
           <div className="w-1/2">
@@ -48,7 +50,7 @@ const RestoreModal = ({ articleDetails, showModal, setShowModal }) => {
               Category
             </Typography>
             <div className="border h-8 overflow-y-auto p-1">
-              {articleDetails.categoryName}
+              {version.category ? version.category : "Category was deleted"}
             </div>
           </div>
         </div>
@@ -56,18 +58,26 @@ const RestoreModal = ({ articleDetails, showModal, setShowModal }) => {
           Article Content
         </Typography>
         <div className="border h-48 overflow-y-auto p-1">
-          {articleDetails.body}
+          {version.article.body}
         </div>
         <div className="mt-6 flex py-4">
-          <Button
-            className="h-8"
-            label="Restore version"
-            type="submit"
-            onClick={() => {
-              setShowModal(false);
-              handleRestore();
-            }}
-          />
+          <TooltipWrapper
+            content="Cannot restore, category was deleted"
+            disabled={!version.category}
+            followCursor="horizontal"
+            position="bottom"
+          >
+            <Button
+              className="h-8"
+              disabled={!version.category}
+              label="Restore version"
+              type="submit"
+              onClick={() => {
+                setShowModal(false);
+                handleRestore();
+              }}
+            />
+          </TooltipWrapper>
           <Button
             className="h-8"
             label="Cancel"

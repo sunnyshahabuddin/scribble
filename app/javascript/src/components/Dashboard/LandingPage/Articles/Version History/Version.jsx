@@ -6,26 +6,28 @@ import { formatToDateAndTime } from "components/Dashboard/utils";
 
 import Modal from "./RestoreModal";
 
-const Version = ({ articleDetails }) => {
+const Version = ({ version }) => {
   const [showModal, setShowModal] = useState(false);
+
+  const articleStatus = version.article.status === 0 ? "Draft" : "Published";
 
   return (
     <>
       <Typography className="neeto-ui-text-gray-400 mr-4" style="h5">
-        {formatToDateAndTime(articleDetails.date)}
+        {formatToDateAndTime(version.article.date)}
       </Typography>
       <Button
         style="link"
-        label={
-          articleDetails.status === 1 ? "Article Published" : "Article Draft"
-        }
+        label={`Article ${
+          version.article.version_status ? "Restored" : articleStatus
+        }`}
         onClick={() => setShowModal(true)}
       />
       {showModal && (
         <Modal
-          articleDetails={articleDetails}
           setShowModal={setShowModal}
           showModal={showModal}
+          version={version}
         />
       )}
     </>
