@@ -13,8 +13,8 @@
    def process
      @articles = @articles.all
      @articles = filter_by_status if status_filter.present?
-     @articles = filter_by_search if search_filter.present?
      @articles = filter_by_category if category_filter.present?
+     @articles = filter_by_search if search_filter.present?
 
      articles
    end
@@ -32,8 +32,6 @@
      end
 
      def filter_by_category
-       articles.select do |article|
-         category_filter.include?(article.category_id.to_s)
-       end
+       @articles = articles.where(category_id: category_filter.split(",").map(&:to_i))
      end
  end
