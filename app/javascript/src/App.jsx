@@ -10,7 +10,6 @@ import {
 import { ToastContainer } from "react-toastify";
 
 import organizationApi from "apis/admin/organization";
-import redirectionsApi from "apis/admin/redirections";
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
 import { initializeLogger } from "common/logger";
 import PrivateRoute from "components/Common/PrivateRoute";
@@ -22,7 +21,6 @@ import PasswordAuthentication from "./components/EUI/PasswordAuthentication";
 const App = () => {
   const [loading, setLoading] = useState(true);
   const authToken = JSON.parse(localStorage.getItem("authToken"));
-  const [redirectionsList, setRedirectionsList] = useState([]);
   const [organizationDetails, setOrganizationDetails] = useState({});
   const [isPasswordValidated, setIsPasswordValidated] = useState(true);
 
@@ -30,24 +28,20 @@ const App = () => {
     initializeLogger();
     registerIntercepts();
     setAuthHeaders(setLoading);
-    fetchRedirectionsDetailsAndCheckPasswordValidation();
+    fetchRedirectionsAndCheckPasswordValidation();
   }, []);
 
-  const fetchRedirectionsDetailsAndCheckPasswordValidation = async () => {
+  const fetchRedirectionsAndCheckPasswordValidation = async () => {
     try {
       const response = await organizationApi.show();
       setOrganizationDetails({
         name: response.data.name,
         isPasswordProtected: response.data.is_password_protected,
       });
-      const {
-        data: { redirections },
-      } = await redirectionsApi.fetch();
       setIsPasswordValidated(
         (authToken && authToken.token) || !response.data.is_password_protected
       );
       setLoading(false);
-      setRedirectionsList(redirections);
     } catch (error) {
       logger.error(error);
       setLoading(false);
@@ -66,13 +60,6 @@ const App = () => {
     <Router>
       <ToastContainer />
       <Switch>
-        {redirectionsList.map(redirection => (
-          <Route exact from={redirection.from} key={redirection.from}>
-            <Redirect
-              to={{ pathname: redirection.to, state: { status: 301 } }}
-            />
-          </Route>
-        ))}
         {isPasswordValidated && <Redirect from="/public/login" to="/public" />}
         <Route exact path="/public/login">
           <PasswordAuthentication

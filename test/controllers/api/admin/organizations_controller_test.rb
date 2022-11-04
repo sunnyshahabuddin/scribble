@@ -8,7 +8,7 @@ class Api::Admin::OrganizationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_show_organization
-    get api_admin_organization_path
+    get api_admin_organization_path, as: :json
     assert_response :success
   end
 
@@ -26,7 +26,6 @@ class Api::Admin::OrganizationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_update_organization
-    @organization.save!
     put api_admin_organization_path, params: { name: "new name", password: "newpassword123" }, as: :json
     assert_response :success
     assert_equal response.parsed_body["notice"], t("successfully_updated", entity: Organization)

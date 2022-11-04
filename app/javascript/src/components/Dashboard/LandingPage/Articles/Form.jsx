@@ -5,6 +5,7 @@ import { Dropdown, Button, PageLoader } from "neetoui";
 import { Input, Textarea, Select } from "neetoui/formik";
 
 import categoriesApi from "apis/admin/categories";
+import TooltipWrapper from "components/Common/TooltipWrapper";
 
 import { VALIDATION_SCHEMA } from "./constants";
 
@@ -18,7 +19,8 @@ const Form = ({ article, handleSubmit }) => {
   const [submitted, setSubmitted] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [categoryList, setCategoryList] = useState([]);
-  const fetchCategoriesDetails = async () => {
+
+  const fetchCategories = async () => {
     try {
       const {
         data: { categories },
@@ -32,7 +34,7 @@ const Form = ({ article, handleSubmit }) => {
   };
 
   useEffect(() => {
-    fetchCategoriesDetails();
+    fetchCategories();
   }, []);
 
   if (pageLoading) {
@@ -51,7 +53,7 @@ const Form = ({ article, handleSubmit }) => {
       validationSchema={VALIDATION_SCHEMA(categoryList)}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, setFieldValue, dirty, isValid }) => (
+      {({ isSubmitting, setFieldValue, dirty }) => (
         <FormikForm className="w-full">
           <div className="space-between flex w-full">
             <Input
@@ -84,16 +86,23 @@ const Form = ({ article, handleSubmit }) => {
           />
           <div className="mt-4 flex items-center">
             <div className="flex">
-              <Button
-                className="mr-px"
-                disabled={isSubmitting || !(isValid && dirty)}
-                label={dropdownLabel}
-                loading={isSubmitting}
-                size="medium"
-                style="primary"
-                type="submit"
-                onClick={() => setSubmitted(true)}
-              />
+              <TooltipWrapper
+                content="Make changes to save"
+                disabled={isSubmitting || !dirty}
+                followCursor="horizontal"
+                position="bottom"
+              >
+                <Button
+                  className="mr-px"
+                  disabled={isSubmitting || !dirty}
+                  label={dropdownLabel}
+                  loading={isSubmitting}
+                  size="medium"
+                  style="primary"
+                  type="submit"
+                  onClick={() => setSubmitted(true)}
+                />
+              </TooltipWrapper>
               <Dropdown className="mr-3" disabled={isSubmitting} type="submit">
                 <Menu>
                   {listSaveStatus.map((status, idx) => (

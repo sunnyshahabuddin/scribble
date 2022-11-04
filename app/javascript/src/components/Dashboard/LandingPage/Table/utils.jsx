@@ -57,6 +57,7 @@ export const INITIAL_CHECKED_LIST = [
   { title: "Category", checked: true },
   { title: "Status", checked: true },
 ];
+
 export const buildTableColumnData = destroyArticle =>
   [
     {

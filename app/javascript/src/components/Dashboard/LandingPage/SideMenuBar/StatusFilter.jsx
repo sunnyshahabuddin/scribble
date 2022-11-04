@@ -1,16 +1,22 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect } from "react";
 
 import { MenuBar } from "neetoui/layouts";
 
 import { ARTICLES_STATUS } from "./constants";
 
-const StatusFilter = ({ articleFilters, setArticleFilters, article }) => {
-  const unfilteredArticles = useMemo(() => article, []);
+const StatusFilter = ({ articleFilters, setArticleFilters, articles }) => {
+  const [allArticles, setAllArticles] = useState(articles);
+
+  useEffect(() => {
+    if (articleFilters.status === "") {
+      setAllArticles(articles);
+    }
+  }, [articles]);
 
   return (
     <>
       <MenuBar.Block
-        count={unfilteredArticles.length}
+        count={allArticles.length}
         label="All"
         active={
           !articleFilters.status && typeof articleFilters.status !== "number"
@@ -31,9 +37,8 @@ const StatusFilter = ({ articleFilters, setArticleFilters, article }) => {
             typeof articleFilters.status === "number"
           }
           count={
-            unfilteredArticles.filter(
-              article => article.status === status.value
-            ).length
+            allArticles.filter(article => article.status === status.value)
+              .length
           }
           onClick={() => {
             setArticleFilters(articleFilters => ({

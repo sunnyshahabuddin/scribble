@@ -22,7 +22,6 @@ const Eui = () => {
 
   const fetchArticlesCategoriesAndSlugMatch = async () => {
     try {
-      setLoading(true);
       const {
         data: { categories },
       } = await categoriesApi.fetch();

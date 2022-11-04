@@ -4,12 +4,12 @@ import { Formik, Form as FormikForm } from "formik";
 import { Check, Close } from "neetoicons";
 import { Button } from "neetoui";
 import { Input } from "neetoui/formik";
-import * as yup from "yup";
 
 import redirectionsApi from "apis/admin/redirections";
 import TooltipWrapper from "components/Common/TooltipWrapper";
+import { useKey } from "hooks/forms/useKey";
 
-import { checkRedirectionCycle } from "./utils";
+import { formValidationSchema } from "./constants";
 
 const Form = ({
   isEdit,
@@ -20,6 +20,11 @@ const Form = ({
   setAddRedirection,
 }) => {
   const [fromValue, setFromValue] = useState(initialValues.from);
+
+  useKey("Escape", () => {
+    isEdit ? setIsEdit(false) : setAddRedirection(false);
+  });
+
   const handleSubmit = async values => {
     try {
       if (isEdit) {
@@ -46,22 +51,7 @@ const Form = ({
     <Formik
       validateOnChange
       initialValues={initialValues}
-      validationSchema={yup.object().shape({
-        from: yup
-          .string()
-          .matches(/^\//, "From must be in the format of '/path'")
-          .notOneOf([yup.ref("to"), null], "To and From should not be equal")
-          .required("From Path is required"),
-        to: yup
-          .string()
-          .matches(/^\//, "To must be in the format of '/path'")
-          .test(
-            "checkForRedirectionLoop",
-            "This will create a redirection loop",
-            value => checkRedirectionCycle(redirectionsList, fromValue, value)
-          )
-          .required("To Path is required"),
-      })}
+      validationSchema={formValidationSchema(redirectionsList, fromValue)}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, dirty, setFieldValue }) => (

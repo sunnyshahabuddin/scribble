@@ -35,7 +35,7 @@ const Edit = ({ history }) => {
     }
   };
 
-  const fetchArticleDetailsVersion = async () => {
+  const fetchArticleDetailsAndVersions = async () => {
     try {
       const article = await articlesApi.show(id);
       setArticleDetails(article.data);
@@ -58,7 +58,7 @@ const Edit = ({ history }) => {
   };
 
   useEffect(() => {
-    fetchArticleDetailsVersion();
+    fetchArticleDetailsAndVersions();
   }, []);
 
   if (loading) {

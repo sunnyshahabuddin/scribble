@@ -33,7 +33,7 @@
 
      def filter_by_category
        articles.select do |article|
-        category_filter.include?(article.category_id.to_s)
-      end
+         category_filter.include?(article.category_id.to_s)
+       end
      end
  end

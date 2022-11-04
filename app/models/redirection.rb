@@ -3,8 +3,9 @@
 class Redirection < ApplicationRecord
   validates :from, presence: true, uniqueness: true
   validates :to, presence: true
-
   validate :check_redirection_loop, :to_and_from_not_equal
+
+  belongs_to :organization
 
   private
 

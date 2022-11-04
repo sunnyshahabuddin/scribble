@@ -17,7 +17,6 @@ const Analytics = () => {
 
   const fetchArticles = async () => {
     try {
-      setLoading(true);
       const {
         data: { articles: publishedArticles },
       } = await articlesApi.listPublishedArticles();

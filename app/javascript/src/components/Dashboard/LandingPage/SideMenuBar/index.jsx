@@ -7,7 +7,7 @@ import StatusFilter from "./StatusFilter";
 
 const SideMenuBar = ({
   refetch,
-  article,
+  articles,
   categoryList,
   setArticleFilters,
   articleFilters,
@@ -15,8 +15,8 @@ const SideMenuBar = ({
   <div className="flex">
     <MenuBar showMenu title="Articles">
       <StatusFilter
-        article={article}
         articleFilters={articleFilters}
+        articles={articles}
         setArticleFilters={setArticleFilters}
       />
       <CategoryFilter
