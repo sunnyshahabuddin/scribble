@@ -66,8 +66,8 @@ const LandingPage = () => {
   return (
     <div className="flex items-start">
       <SideMenuBar
-        article={articles}
         articleFilters={articleFilters}
+        articles={articles}
         categoryList={categoryList}
         refetch={fetchArticlesCategories}
         setArticleFilters={setArticleFilters}

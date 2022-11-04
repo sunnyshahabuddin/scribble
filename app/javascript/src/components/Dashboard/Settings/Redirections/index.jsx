@@ -5,7 +5,7 @@ import { Typography, PageLoader, Button } from "neetoui";
 
 import redirectionsApi from "apis/admin/redirections";
 
-import { HEADER } from "./constants";
+import { REDIRECTION_HEADER } from "./constants";
 import Form from "./Form";
 import Row from "./Row";
 
@@ -13,6 +13,7 @@ const Redirections = () => {
   const [pageLoading, setPageLoading] = useState(true);
   const [redirectionsList, setRedirectionsList] = useState([]);
   const [addRedirection, setAddRedirection] = useState(false);
+
   const fetchRedirectionsDetails = async () => {
     try {
       const {
@@ -48,7 +49,7 @@ const Redirections = () => {
       </Typography>
       <div className="neeto-ui-bg-primary-100 mt-2 w-full p-6">
         <div className="flex items-center justify-between">
-          {HEADER.map((title, idx) => (
+          {REDIRECTION_HEADER.map((title, idx) => (
             <Typography key={idx} style="h5">
               {title}
             </Typography>

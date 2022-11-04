@@ -10,14 +10,13 @@
    end
 
    def process
-     if @_current_user.categories.count == 1
-       if Category.find_by!(id: category_id).name == "General"
-         return nil
-       end
-
+     if @_current_user.categories.count == 1 && Category.find_by!(id: category_id).name == "General"
+       return nil
+     elsif @_current_user.categories.count == 1
        new_category = Category.create(name: "General", user_id: @_current_user.id)
        self.new_category_id = new_category.id
      end
+
      update
      destroy
    end

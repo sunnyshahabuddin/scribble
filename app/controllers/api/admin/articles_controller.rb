@@ -18,8 +18,7 @@ class Api::Admin::ArticlesController < ApplicationController
   end
 
   def create
-    article = @_current_user.articles.new(article_params)
-    article.save!
+    article = @_current_user.articles.create!(article_params)
     respond_with_success(t("successfully_created", entity: Article))
   end
 
@@ -28,8 +27,6 @@ class Api::Admin::ArticlesController < ApplicationController
   end
 
   def update
-    @article.version_status = params[:version_status]
-    @article.save!
     @article.update!(article_params)
     respond_with_success(t("successfully_updated", entity: Article))
   end
@@ -51,6 +48,6 @@ class Api::Admin::ArticlesController < ApplicationController
     end
 
     def article_params
-      params.require(:article).permit(:title, :body, :status, :category_id, :user_id)
+      params.require(:article).permit(:title, :body, :status, :category_id, :user_id, :version_status)
     end
 end

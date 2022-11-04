@@ -8,8 +8,8 @@ import MenuBar from "./MenuBar";
 import Redirections from "./Redirections";
 
 const Settings = () => {
-  const useQuery = () => new URLSearchParams(useLocation().search);
-  const currentTab = useQuery().get("tab");
+  const { search } = useLocation();
+  const currentTab = new URLSearchParams(search).get("tab");
 
   return (
     <div className="flex">

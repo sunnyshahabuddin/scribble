@@ -4,6 +4,7 @@ module.exports = {
   resolve: {
     alias: {
       apis: "src/apis",
+      hooks: "src/hooks",
       common: "src/common",
       components: "src/components",
       neetoui: "@bigbinary/neetoui",

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 json.articles @articles do |article|
-  json.extract! article, :id, :title, :body, :slug, :category_id, :status, :updated_at, :visits
-  json.category article.category, :id, :name
+  json.partial! "api/public/articles/article", article: article
   json.author article.user, :name
 end

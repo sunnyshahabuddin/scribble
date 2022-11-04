@@ -9,6 +9,7 @@ import articlesApi from "apis/admin/articles";
 const NavBar = () => {
   const [loading, setLoading] = useState(false);
   const [articleDetails, setArticleDetails] = useState([]);
+
   const { pathname } = useLocation();
   const isEditArticle = pathname.includes("edit");
 
@@ -19,7 +20,6 @@ const NavBar = () => {
   const fetchArticle = async () => {
     if (isEditArticle) {
       try {
-        setLoading(true);
         const article = await articlesApi.show(pathname.split("/")[2]);
         setArticleDetails(article.data);
       } catch (error) {

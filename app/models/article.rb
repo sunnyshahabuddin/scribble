@@ -2,16 +2,18 @@
 
 class Article < ApplicationRecord
   MAX_TITLE_LENGTH = 255
+
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }
   validates :body, :status, presence: true
   validate :slug_not_changed
 
-  has_paper_trail only: [:title, :body, :status, :category_id]
   belongs_to :category
   belongs_to :user
 
   before_create :set_slug
   before_update :set_slug
+
+  has_paper_trail only: [:title, :body, :status, :category_id]
 
   private
 

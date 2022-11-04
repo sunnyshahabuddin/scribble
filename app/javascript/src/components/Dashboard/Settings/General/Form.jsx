@@ -3,16 +3,20 @@ import React, { useState } from "react";
 import { Formik, Form as FormikForm } from "formik";
 import { Typography, Button } from "neetoui";
 import { Input, Checkbox } from "neetoui/formik";
-import * as yup from "yup";
 
 import organizationApi from "apis/admin/organization";
 import TooltipWrapper from "components/Common/TooltipWrapper";
+
+import { formValidationSchema } from "./constants";
 
 const Form = ({ organizationDetails }) => {
   const [checkedValue, setCheckedValue] = useState(
     organizationDetails.isPasswordProtected
   );
-  const [changePassword, setChangePassword] = useState(false);
+  const [changePassword, setChangePassword] = useState(
+    !organizationDetails.isPasswordProtected
+  );
+
   const handleSubmit = async values => {
     try {
       await organizationApi.update({
@@ -30,35 +34,12 @@ const Form = ({ organizationDetails }) => {
   return (
     <Formik
       validateOnChange
+      validationSchema={formValidationSchema(checkedValue, changePassword)}
       initialValues={{
         siteName: organizationDetails.name,
         isPasswordProtected: organizationDetails.isPasswordProtected,
         isPasswordChanged: true,
       }}
-      validationSchema={yup.object().shape({
-        siteName: yup.string().required("Title is required"),
-        isPasswordProtected: yup.boolean(),
-        password: yup
-          .string()
-          .when("isPasswordChanged", {
-            is: false,
-            then: yup.string().notRequired(),
-          })
-          .when("isPasswordChanged", {
-            is: true,
-            then: yup.string().when("isPasswordProtected", {
-              is: true,
-              then: yup
-                .string()
-                .required("Password is required")
-                .min(6, "Password must be at least 6 characters")
-                .matches(
-                  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$/,
-                  "Password must have one letter and one number"
-                ),
-            }),
-          }),
-      })}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, dirty, setFieldValue }) => (
@@ -128,7 +109,7 @@ const Form = ({ organizationDetails }) => {
           )}
           <div className="mt-6 flex">
             <TooltipWrapper
-              content="Make changes to to save"
+              content="Make changes to save"
               disabled={isSubmitting || !dirty}
               followCursor="horizontal"
               position="bottom"

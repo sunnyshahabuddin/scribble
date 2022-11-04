@@ -5,6 +5,7 @@ import { Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
 
 import utilityFunctions from "components/Dashboard/LandingPage/utils";
+import { useKey } from "hooks/forms/useKey";
 
 import Form from "./Form";
 
@@ -18,6 +19,11 @@ const CategoryFilter = ({
     useState(true);
   const [searchCategory, setSearchCategory] = useState("");
   const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
+
+  useKey("Escape", () => {
+    setIsCategorySearchCollapsed(true);
+    setIsCategoryAddCollapsed(true);
+  });
 
   return (
     <>
@@ -86,6 +92,7 @@ const CategoryFilter = ({
                 if (articleFilters.category_id?.includes(category.id)) {
                   return {
                     ...articleFilters,
+                    status: "",
                     category_id: articleFilters.category_id.filter(
                       id => id !== category.id
                     ),
@@ -94,6 +101,7 @@ const CategoryFilter = ({
 
                 return {
                   ...articleFilters,
+                  status: "",
                   category_id: [...articleFilters.category_id, category.id],
                 };
               })
