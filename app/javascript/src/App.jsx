@@ -28,10 +28,10 @@ const App = () => {
     initializeLogger();
     registerIntercepts();
     setAuthHeaders(setLoading);
-    fetchRedirectionsAndCheckPasswordValidation();
+    fetchOrganizationAndValidatePassword();
   }, []);
 
-  const fetchRedirectionsAndCheckPasswordValidation = async () => {
+  const fetchOrganizationAndValidatePassword = async () => {
     try {
       const response = await organizationApi.show();
       setOrganizationDetails({
