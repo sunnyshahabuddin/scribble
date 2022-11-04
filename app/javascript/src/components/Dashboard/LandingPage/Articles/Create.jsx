@@ -1,6 +1,6 @@
 import React from "react";
 
-import articlesApi from "apis/articles";
+import articlesApi from "apis/admin/articles";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
 import { FORM_INITIAL_VALUES } from "./constants";

@@ -5,7 +5,7 @@ import { Typography, Button } from "neetoui";
 import { Input, Checkbox } from "neetoui/formik";
 import * as yup from "yup";
 
-import organizationApi from "apis/organization";
+import organizationApi from "apis/admin/organization";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 
 const Form = ({ organizationDetails }) => {

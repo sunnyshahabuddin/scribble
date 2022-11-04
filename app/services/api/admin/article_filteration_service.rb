@@ -1,6 +1,6 @@
  # frozen_string_literal: true
 
- class ArticleFilterationService
+ class Api::Admin::ArticleFilterationService
    attr_reader :articles, :search_filter, :status_filter, :category_filter
 
    def initialize(articles, search_filter, status_filter, category_filter)
@@ -11,7 +11,8 @@
    end
 
    def process
-     @articles = filter_by_status if status_filter != "2"
+     @articles = @articles.all
+     @articles = filter_by_status if status_filter.present?
      @articles = filter_by_search if search_filter.present?
      @articles = filter_by_category if category_filter.present?
 

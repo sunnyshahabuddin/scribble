@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class ArticlesControllerTest < ActionDispatch::IntegrationTest
+class Api::Admin::ArticlesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @organization = create(:organization)
     @user = create(:user, organization: @organization)
@@ -14,7 +14,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
     article_id = @article.id
     article_title = @article.title
 
-    post articles_path,
+    post api_admin_articles_path,
       params: {
         article: {
           title: @article.title, category_id: @category.id, user_id: @user.id,
@@ -25,7 +25,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
     @article.reload
 
-    put article_path(article_id),
+    put api_admin_article_path(article_id),
       params: {
         article: {
           title: @article.title, category_id: @category.id, user_id: @user.id,
@@ -39,7 +39,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   def test_should_destroy_article
     assert_difference "Article.count", -1 do
-      delete article_path(@article.id), as: :json
+      delete api_admin_article_path(@article.id), as: :json
     end
     assert_response :ok
     response_json = response.parsed_body
@@ -47,7 +47,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_create_article
-    post articles_path,
+    post api_admin_articles_path,
       params: {
         article: {
           title: @article.title, category_id: @category.id, user_id: @user.id,

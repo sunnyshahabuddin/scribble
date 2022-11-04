@@ -4,7 +4,7 @@ import { Plus } from "neetoicons";
 import { Typography, Button, PageLoader } from "neetoui";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-import categoriesApi from "apis/categories";
+import categoriesApi from "apis/admin/categories";
 
 import Form from "./Form";
 import ListCategory from "./ListCategory";
