@@ -22,7 +22,7 @@
    end
 
    def update
-     @_current_user.articles.update(category_id: new_category_id)
+     @_current_user.articles.where(category_id: category_id).update(category_id: new_category_id)
    end
 
    def destroy
