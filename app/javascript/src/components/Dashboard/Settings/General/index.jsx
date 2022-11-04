@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
 
-import organizationApi from "apis/organization";
+import organizationApi from "apis/admin/organization";
 
 import Form from "./Form";
 

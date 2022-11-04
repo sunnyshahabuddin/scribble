@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
 
-import articlesApi from "apis/articles";
-import organizationApi from "apis/organization";
+import organizationApi from "apis/admin/organization";
+import articlesApi from "apis/public/articles";
 
 import SearchModal from "./SearchModal";
 
@@ -23,7 +23,7 @@ const Header = ({ categoryList, setActiveArticleIndex }) => {
       const response = await organizationApi.show();
       const {
         data: { articles: publishedArticles },
-      } = await articlesApi.listPublishedArticles();
+      } = await articlesApi.fetch();
       setOrganizationName(response.data.name);
       setPublishedArticles(publishedArticles);
     } catch (error) {

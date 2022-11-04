@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CategoriesController < ApplicationController
+class Api::Admin::CategoriesController < ApplicationController
   before_action :current_user!, except: %i[new edit show]
   before_action :load_category!, only: %i[update destroy]
 
@@ -33,7 +33,7 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-    if CategoryDeletionService.new(params[:id], params[:new_category_id], @_current_user).process
+    if Api::Admin::CategoryDeletionService.new(params[:id], params[:new_category_id], @_current_user).process
       respond_with_success(t("successfully_deleted", entity: Category))
     else
       respond_with_error(t("category.deletion_error"))

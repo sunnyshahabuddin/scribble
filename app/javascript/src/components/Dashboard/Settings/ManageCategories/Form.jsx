@@ -5,7 +5,7 @@ import { Check, Close } from "neetoicons";
 import { Button } from "neetoui";
 import { Input } from "neetoui/formik";
 
-import categoryApi from "apis/categories";
+import categoryApi from "apis/admin/categories";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 
 const Form = ({

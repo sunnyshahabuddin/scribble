@@ -5,8 +5,8 @@ import { Typography, Button } from "neetoui";
 import { Input } from "neetoui/formik";
 import * as yup from "yup";
 
+import organizationApi from "apis/admin/organization";
 import { setAuthHeaders } from "apis/axios";
-import organizationApi from "apis/organization";
 import EuiPassword from "images/EuiPassword";
 
 const PasswordAuthentication = ({

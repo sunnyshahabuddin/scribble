@@ -4,7 +4,7 @@ import { ExternalLink } from "neetoicons";
 import { Typography, Button, PageLoader } from "neetoui";
 import { NavLink, useLocation } from "react-router-dom";
 
-import articlesApi from "apis/articles";
+import articlesApi from "apis/admin/articles";
 
 const NavBar = () => {
   const [loading, setLoading] = useState(false);

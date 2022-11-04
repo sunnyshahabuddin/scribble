@@ -9,9 +9,9 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import organizationApi from "apis/admin/organization";
+import redirectionsApi from "apis/admin/redirections";
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
-import organizationApi from "apis/organization";
-import redirectionsApi from "apis/redirections";
 import { initializeLogger } from "common/logger";
 import PrivateRoute from "components/Common/PrivateRoute";
 import Dashboard from "components/Dashboard";

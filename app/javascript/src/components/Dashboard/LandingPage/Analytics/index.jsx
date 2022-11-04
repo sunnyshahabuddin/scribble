@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Table as NeetoUITable, PageLoader } from "neetoui";
 
-import articlesApi from "apis/articles";
+import articlesApi from "apis/admin/articles";
 
 import { buildTableColumnData } from "./utils";
 
