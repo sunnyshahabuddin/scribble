@@ -28,8 +28,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_user_shouldnt_valid_if_email_not_unique
-    @user.save!
-
     test_user = @user.dup
     assert_not test_user.valid?
   end
@@ -62,7 +60,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_should_delete_user_when_organization_is_deleted
-    @user.save!
     @organization.destroy
     assert_not User.exists?(@user.id)
   end

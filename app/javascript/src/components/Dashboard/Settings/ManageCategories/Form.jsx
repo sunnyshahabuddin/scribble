@@ -7,6 +7,7 @@ import { Input } from "neetoui/formik";
 
 import categoryApi from "apis/admin/categories";
 import TooltipWrapper from "components/Common/TooltipWrapper";
+import { useKey } from "hooks/forms/useKey";
 
 const Form = ({
   refetch,
@@ -18,6 +19,11 @@ const Form = ({
   setAddCategory,
 }) => {
   const [submitted, setSubmitted] = useState(false);
+
+  useKey("Escape", () => {
+    isEdit ? setIsEdit(false) : setAddCategory(false);
+  });
+
   const handleSubmit = async category => {
     try {
       isEdit

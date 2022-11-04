@@ -14,12 +14,11 @@ const Header = ({ categoryList, setActiveArticleIndex }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchWebsiteAndPublishedArticleDetails();
+    fetchOrganizationAndPublishedArticles();
   }, []);
 
-  const fetchWebsiteAndPublishedArticleDetails = async () => {
+  const fetchOrganizationAndPublishedArticles = async () => {
     try {
-      setLoading(true);
       const response = await organizationApi.show();
       const {
         data: { articles: publishedArticles },

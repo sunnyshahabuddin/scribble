@@ -6,15 +6,15 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/admin/categories";
 
+import { FORM_INITIAL_VALUES, FORM_VALIDATION_SCHEMA } from "./constants";
 import Form from "./Form";
 import ListCategory from "./ListCategory";
-
-import { FORM_INITIAL_VALUES, FORM_VALIDATION_SCHEMA } from "../constants";
 
 const ManageCategories = () => {
   const [addCategory, setAddCategory] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [sortedCategoryList, setSortedCategoryList] = useState([]);
+
   const fetchCategoriesDetails = async () => {
     try {
       const {

@@ -14,11 +14,17 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
       await articlesApi.update({
         id: version.article.id,
         payload: {
+          version_status: true,
+        },
+      });
+      await articlesApi.update({
+        id: version.article.id,
+        payload: {
           title: version.article.title,
           body: version.article.body,
           status: 0,
           category_id: version.article.categoryId,
-          version_status: true,
+          version_status: false,
         },
       });
       history.go(0);

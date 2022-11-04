@@ -11,6 +11,7 @@ import { FORM_INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
 
 const Form = ({ setIsCategoryAddCollapsed, refetch }) => {
   const [submitted, setSubmitted] = useState(false);
+
   const handleSubmit = async category => {
     try {
       await categoryApi.create(category);

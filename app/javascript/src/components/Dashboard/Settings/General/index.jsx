@@ -9,9 +9,11 @@ import Form from "./Form";
 const General = () => {
   const [organizationDetails, setOrganizationDetails] = useState({});
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     fetchOrganizationDetails();
   }, []);
+
   const fetchOrganizationDetails = async () => {
     try {
       setLoading(true);
@@ -27,6 +29,7 @@ const General = () => {
       setLoading(false);
     }
   };
+
   if (loading) {
     return (
       <div className="h-screen w-screen">

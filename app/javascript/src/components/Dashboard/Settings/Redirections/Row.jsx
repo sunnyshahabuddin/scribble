@@ -9,6 +9,7 @@ import Form from "./Form";
 const Row = ({ redirectionItem, refetch, redirectionsList }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+
   if (isEdit) {
     return (
       <Form
