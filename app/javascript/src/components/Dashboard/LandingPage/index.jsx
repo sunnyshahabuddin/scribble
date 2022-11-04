@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { PageLoader } from "neetoui";
 import { Container } from "neetoui/layouts";
 
-import articlesApi from "apis/articles";
-import categoriesApi from "apis/categories";
+import articlesApi from "apis/admin/articles";
+import categoriesApi from "apis/admin/categories";
 
 import ActionBlock from "./ActionBlock";
 import SideMenuBar from "./SideMenuBar";
@@ -18,7 +18,7 @@ const LandingPage = () => {
   const [checkedColumn, setCheckedColumn] = useState(INITIAL_CHECKED_LIST);
   const [searchArticleTitle, setSearchArticleTitle] = useState("");
   const [articleFilters, setArticleFilters] = useState({
-    status: 2,
+    status: "",
     category_id: [],
   });
 

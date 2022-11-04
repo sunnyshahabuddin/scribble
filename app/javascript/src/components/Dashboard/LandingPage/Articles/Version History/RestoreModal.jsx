@@ -3,7 +3,7 @@ import React from "react";
 import { Button, Typography, Modal } from "neetoui";
 import { useHistory } from "react-router-dom";
 
-import articlesApi from "apis/articles";
+import articlesApi from "apis/admin/articles";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 
 const RestoreModal = ({ version, showModal, setShowModal }) => {

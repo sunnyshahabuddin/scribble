@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { PageLoader } from "neetoui";
 import { useParams } from "react-router-dom";
 
-import articlesApi from "apis/articles";
+import articlesApi from "apis/admin/articles";
 import utilityFunctions from "components/Dashboard/LandingPage/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 

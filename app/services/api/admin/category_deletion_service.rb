@@ -1,6 +1,6 @@
  # frozen_string_literal: true
 
- class CategoryDeletionService
+ class Api::Admin::CategoryDeletionService
    attr_accessor :category_id, :new_category_id, :_current_user
 
    def initialize(category_id, new_category_id, current_user)

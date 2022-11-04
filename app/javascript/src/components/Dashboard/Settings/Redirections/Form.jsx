@@ -6,7 +6,7 @@ import { Button } from "neetoui";
 import { Input } from "neetoui/formik";
 import * as yup from "yup";
 
-import redirectionsApi from "apis/redirections";
+import redirectionsApi from "apis/admin/redirections";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 
 import { checkRedirectionCycle } from "./utils";

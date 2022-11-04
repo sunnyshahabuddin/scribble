@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-class ArticlesController < ApplicationController
+class Api::Admin::ArticlesController < ApplicationController
   before_action :current_user!, except: %i[new edit]
   before_action :load_article!, only: %i[show update destroy versions]
 
   def index
     @articles = @_current_user.articles.order("updated_at DESC")
-    @articles = ArticleFilterationService.new(
+    @articles = Api::Admin::ArticleFilterationService.new(
       @articles, params[:search_filter], params[:status_filter],
       params[:category_filter]).process
     render
@@ -24,13 +24,6 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    render
-  end
-
-  def show_with_slug
-    @article = @_current_user.articles.find_by!(slug: params[:slug])
-    @article.visits = @article.visits + 1
-    @article.save!
     render
   end
 

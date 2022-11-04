@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import { PageLoader } from "neetoui";
 
-import articlesApi from "apis/articles";
-import categoriesApi from "apis/categories";
+import articlesApi from "apis/public/articles";
+import categoriesApi from "apis/public/categories";
 
 import Header from "./Header";
 import SideBar from "./SideBar";
@@ -28,7 +28,7 @@ const Eui = () => {
       } = await categoriesApi.fetch();
       const {
         data: { articles: publishedArticles },
-      } = await articlesApi.listPublishedArticles();
+      } = await articlesApi.fetch();
       setCategoryList(categories);
       setPublishedArticles(publishedArticles);
       findDefaultPath(categories, setDefaultPath, setActiveArticleIndex);

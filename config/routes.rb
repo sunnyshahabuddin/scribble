@@ -2,29 +2,24 @@
 
 Rails.application.routes.draw do
   constraints(lambda { |req| req.format == :json }) do
-    resources :articles, except: %i[new edit] do
-      collection do
-        get :list_published
+    namespace :api do
+      namespace :admin do
+        resources :articles, except: %i[new edit] do
+          get :list_published, on: :collection
+          get :versions, on: :member
+        end
+        resources :categories, only: %i[index create destroy update] do
+          put :position_update, on: :collection
+        end
+        resource :organization, only: %i[create update show]
+        resources :redirections, only: %i[create index update destroy]
       end
-      member do
-        get :versions
-      end
-    end
-    resources :articles, only: %i[show], param: :slug do
-      member do
-        get :show_with_slug
-      end
-    end
 
-    resources :categories, only: %i[index create destroy]
-    resources :categories, only: :update do
-      collection do
-        put :position_update
+      namespace :public do
+        resources :categories, only: :index
+        resources :articles, only: %i[index show], param: :slug
       end
     end
-
-    resource :organization, only: %i[create update show]
-    resources :redirections, only: %i[create index update destroy]
   end
 
   root "home#index"

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Typography, PageLoader } from "neetoui";
 
-import articlesApi from "apis/articles";
+import articlesApi from "apis/public/articles";
 import { formatDateToDayMonthYear } from "components/Dashboard/utils";
 
 const ShowArticle = ({ slug }) => {
@@ -11,7 +11,7 @@ const ShowArticle = ({ slug }) => {
 
   const fetchArticleDetails = async () => {
     try {
-      const { data: article } = await articlesApi.showWithSlug(slug);
+      const { data: article } = await articlesApi.show(slug);
       setArticleDetails({
         title: article.title,
         bodyParagraphs: article.body.split("\n"),
