@@ -59,4 +59,24 @@ class Api::Admin::ArticlesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal t("successfully_created", entity: "Article"), response_json["notice"]
   end
+
+  def test_should_list_all_versions_of_articles
+    get versions_api_admin_article_path(@article.id), as: :json
+    assert_response :success
+  end
+
+  def test_should_list_published_articles
+    get list_published_api_admin_articles_path, as: :json
+    assert_response :success
+  end
+
+  def test_should_show_article
+    get api_admin_article_path(@article.id), as: :json
+    assert_response :success
+  end
+
+  def test_should_list_all_articles
+    get api_admin_articles_path, as: :json
+    assert_response :success
+  end
 end

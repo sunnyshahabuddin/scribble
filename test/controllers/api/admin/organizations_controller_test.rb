@@ -22,11 +22,18 @@ class Api::Admin::OrganizationsControllerTest < ActionDispatch::IntegrationTest
     post api_admin_organization_path, params: { organization: { password: "invalid password" } }, as: :json
     assert_response :unauthorized
     response_json = response.parsed_body
-    assert_equal t("organization.incorrect_credential"), response_json["error"]
+    assert_equal response_json["error"], t("organization.incorrect_credential")
   end
 
   def test_should_update_organization
     put api_admin_organization_path, params: { name: "new name", password: "newpassword123" }, as: :json
+    assert_response :success
+    assert_equal response.parsed_body["notice"], t("successfully_updated", entity: Organization)
+  end
+
+  def test_should_update_password
+    put api_admin_organization_path,
+      params: { name: "new name", password: "newpassword123", is_password_protected: true }, as: :json
     assert_response :success
     assert_equal response.parsed_body["notice"], t("successfully_updated", entity: Organization)
   end
