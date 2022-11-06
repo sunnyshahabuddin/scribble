@@ -57,4 +57,5 @@ gem "bcrypt", "~> 3.1.13"
 gem "paper_trail"
 gem "react-rails"
 gem "responders"
+gem "simplecov", require: false, group: :test
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]

@@ -9,7 +9,7 @@ class Api::Admin::RedirectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_all_redirection
-    get api_admin_redirections_path
+    get api_admin_redirections_path, as: :json
     assert_response :ok
   end
 

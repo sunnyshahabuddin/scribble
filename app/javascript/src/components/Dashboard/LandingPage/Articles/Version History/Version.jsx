@@ -14,7 +14,7 @@ const Version = ({ version }) => {
   return (
     <>
       <Typography className="neeto-ui-text-gray-400 mr-4" style="h5">
-        {formatToDateAndTime(version.article.date)}
+        {formatToDateAndTime(version.article.updated_at)}
       </Typography>
       <Button
         style="link"

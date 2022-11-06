@@ -110,6 +110,6 @@ class ArticleTest < ActiveSupport::TestCase
   def test_should_delete_all_articles_associated_with_a_category
     @article.save!
     @category.destroy
-    assert_empty Article.all
+    assert_empty @user.articles
   end
 end

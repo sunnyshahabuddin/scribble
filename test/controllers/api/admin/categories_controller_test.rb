@@ -44,4 +44,11 @@ class Api::Admin::CategoriesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal t("position_successfully_updated", entity: Category), response_json["notice"]
   end
+
+  def test_should_ensure_category_is_deleted_with_the_service
+    delete api_admin_category_path(@category.id), as: :json
+    assert_response :ok
+    response_json = response.parsed_body
+    assert_equal t("successfully_deleted", entity: Category), response_json["notice"]
+  end
 end
