@@ -112,4 +112,19 @@ class ArticleTest < ActiveSupport::TestCase
     @category.destroy
     assert_empty @user.articles
   end
+
+  def test_shouldnt_change_the_slug
+    article = create(:article, category: @category, user: @user)
+    article.slug = "new-slug"
+    assert_raises ActiveRecord::RecordInvalid do
+      article.save!
+    end
+    assert_match t("article.slug.immutable"), article.errors_to_sentence
+  end
+
+  def test_should_change_errors_to_sentence
+    @article.title = ""
+    @article.save
+    assert_match "Title can't be blank", @article.errors_to_sentence
+  end
 end

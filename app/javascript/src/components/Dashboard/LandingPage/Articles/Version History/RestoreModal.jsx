@@ -15,6 +15,7 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
         id: version.article.id,
         payload: {
           version_status: true,
+          restored_at: version.article.updated_at,
         },
       });
       await articlesApi.update({
