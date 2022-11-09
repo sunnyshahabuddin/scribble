@@ -51,4 +51,16 @@ class Api::Admin::CategoriesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal t("successfully_deleted", entity: Category), response_json["notice"]
   end
+
+  def test_shouldnt_create_category_with_same_name
+    post api_admin_categories_path, params: { category: { name: @category.name, user_id: @user.id } }, as: :json
+    assert_response :unprocessable_entity
+    response_json = response.parsed_body
+    assert_equal "Name has already been taken", response_json["error"]
+  end
+
+  def test_shouldnt_update_category_if_parameter_is_missing
+    put api_admin_category_path(@category.id), params: { category: {} }, as: :json
+    assert_response :internal_server_error
+  end
 end

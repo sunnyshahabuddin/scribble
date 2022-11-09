@@ -55,10 +55,10 @@ const Form = ({ article, handleSubmit }) => {
     >
       {({ isSubmitting, setFieldValue, dirty }) => (
         <FormikForm className="w-full">
-          <div className="space-between flex w-full">
+          <div className="space-between flex">
             <Input
               required
-              className="mr-5 w-full"
+              className="mr-5"
               label="Article Title"
               name="title"
               placeholder="Enter Article Title"
@@ -66,7 +66,6 @@ const Form = ({ article, handleSubmit }) => {
             <Select
               isSearchable
               required
-              className="w-full flex-grow-0"
               label="Category"
               name="category"
               placeholder="Select a Category"
@@ -78,13 +77,13 @@ const Form = ({ article, handleSubmit }) => {
           </div>
           <Textarea
             required
-            className="mt-6 w-full flex-grow-0"
+            className="mt-6"
             label="Article Body"
             name="body"
             placeholder="Enter Article"
             rows={10}
           />
-          <div className="mt-4 flex items-center">
+          <div className="mt-4 flex">
             <div className="flex">
               <TooltipWrapper
                 content="Make changes to save"
@@ -103,7 +102,7 @@ const Form = ({ article, handleSubmit }) => {
                   onClick={() => setSubmitted(true)}
                 />
               </TooltipWrapper>
-              <Dropdown className="mr-3" disabled={isSubmitting} type="submit">
+              <Dropdown disabled={isSubmitting} type="submit">
                 <Menu>
                   {listSaveStatus.map((status, idx) => (
                     <MenuItem.Button
@@ -123,7 +122,7 @@ const Form = ({ article, handleSubmit }) => {
               </Dropdown>
             </div>
             <Button
-              className="mx-3"
+              className="mx-2"
               label="Cancel"
               size="medium"
               style="text"

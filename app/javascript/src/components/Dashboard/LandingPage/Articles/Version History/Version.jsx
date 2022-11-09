@@ -9,20 +9,32 @@ import Modal from "./RestoreModal";
 const Version = ({ version }) => {
   const [showModal, setShowModal] = useState(false);
 
-  const articleStatus = version.article.status === 0 ? "Draft" : "Published";
-
   return (
     <>
-      <Typography className="neeto-ui-text-gray-400 mr-4" style="h5">
-        {formatToDateAndTime(version.article.updated_at)}
-      </Typography>
-      <Button
-        style="link"
-        label={`Article ${
-          version.article.version_status ? "Restored" : articleStatus
-        }`}
-        onClick={() => setShowModal(true)}
-      />
+      <div className="border neeto-ui-rounded-md mr-4 w-full p-4">
+        <div className="flex justify-between">
+          <div>
+            <Typography className="neeto-ui-text-gray-500 mr-4" style="body2">
+              {formatToDateAndTime(version.article.updated_at)}
+            </Typography>
+            {version.article.version_status && (
+              <Typography className="neeto-ui-text-gray-500 mr-4" style="body2">
+                Restored from (
+                {formatToDateAndTime(version.article.restored_at)})
+              </Typography>
+            )}
+          </div>
+          <Button
+            style="link"
+            label={
+              version.article.status === 0
+                ? "Article Drafted"
+                : "Article Published"
+            }
+            onClick={() => setShowModal(true)}
+          />
+        </div>
+      </div>
       {showModal && (
         <Modal
           setShowModal={setShowModal}

@@ -79,4 +79,9 @@ class Api::Admin::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_admin_articles_path, as: :json
     assert_response :success
   end
+
+  def test_shouldnt_show_article_if_not_found
+    get api_admin_article_path(0), as: :json
+    assert_response :not_found
+  end
 end

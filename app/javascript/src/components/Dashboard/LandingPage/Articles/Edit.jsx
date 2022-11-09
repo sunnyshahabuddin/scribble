@@ -71,7 +71,7 @@ const Edit = ({ history }) => {
 
   return (
     <div className="flex">
-      <div className="h-1/2 mx-auto mt-10 w-1/3">
+      <div className="mx-auto mt-10 w-1/3">
         <Form
           handleSubmit={handleSubmit}
           article={utilityFunctions.formatFetchedDataToInitialFormValue(

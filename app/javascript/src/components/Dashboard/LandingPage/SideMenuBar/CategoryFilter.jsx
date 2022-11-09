@@ -21,6 +21,7 @@ const CategoryFilter = ({
   const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
 
   useKey("Escape", () => {
+    setSearchCategory("");
     setIsCategorySearchCollapsed(true);
     setIsCategoryAddCollapsed(true);
   });
