@@ -13,8 +13,10 @@ const update = ({ id, payload }) =>
 
 const destroy = id => axios.delete(`/api/admin/articles/${id}`);
 
-const listPublishedArticles = () =>
-  axios.get("/api/admin/articles/list_published");
+const listPublishedArticles = payload =>
+  axios.get(
+    `/api/admin/articles/list_published/?page_number=${payload.page_number}`
+  );
 
 const articleVersions = id => axios.get(`/api/admin/articles/${id}/versions`);
 

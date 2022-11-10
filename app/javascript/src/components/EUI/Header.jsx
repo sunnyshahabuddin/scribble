@@ -26,7 +26,6 @@ const Header = ({ categoryList, setActiveArticleIndex }) => {
       } else if (event.key === "Escape") {
         setShowSearch(false);
       }
-      window.removeEventListener("keydown", event);
     });
     fetchOrganizationAndPublishedArticles();
   }, [showSearch]);
