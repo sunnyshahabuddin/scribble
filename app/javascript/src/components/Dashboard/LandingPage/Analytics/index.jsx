@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Table as NeetoUITable, PageLoader } from "neetoui";
+import { Table as NeetoUITable, PageLoader, Pagination } from "neetoui";
 
 import articlesApi from "apis/admin/articles";
 
@@ -13,13 +13,16 @@ const Analytics = () => {
 
   useEffect(() => {
     fetchArticles();
-  }, []);
+  }, [currentTablePageNumber]);
 
   const fetchArticles = async () => {
+    setLoading(true);
     try {
       const {
         data: { articles: publishedArticles },
-      } = await articlesApi.listPublishedArticles();
+      } = await articlesApi.listPublishedArticles({
+        page_number: currentTablePageNumber,
+      });
       setPublishedArticles(publishedArticles);
     } catch (error) {
       logger.error(error);
@@ -41,11 +44,21 @@ const Analytics = () => {
       <NeetoUITable
         allowRowClick={false}
         columnData={buildTableColumnData}
-        currentPageNumber={currentTablePageNumber}
-        defaultPageSize={10}
-        handlePageChange={e => setCurrentTablePageNumber(e)}
         rowData={publishedArticles}
       />
+      <div className="flex w-full justify-end">
+        <Pagination
+          className="mt-4"
+          navigate={pageNumber => setCurrentTablePageNumber(pageNumber)}
+          pageNo={currentTablePageNumber}
+          pageSize={10}
+          count={
+            publishedArticles.length === 10
+              ? currentTablePageNumber * 10 + 1
+              : currentTablePageNumber * 10
+          }
+        />
+      </div>
     </div>
   );
 };

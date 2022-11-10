@@ -2,6 +2,7 @@
 
 class Article < ApplicationRecord
   MAX_TITLE_LENGTH = 255
+  MAX_PAGE_SIZE = 10
 
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }
   validates :body, :status, presence: true
@@ -13,6 +14,7 @@ class Article < ApplicationRecord
   before_create :set_slug
   before_update :set_slug
 
+  paginates_per MAX_PAGE_SIZE
   has_paper_trail only: [:title, :body, :status, :category_id]
 
   private
