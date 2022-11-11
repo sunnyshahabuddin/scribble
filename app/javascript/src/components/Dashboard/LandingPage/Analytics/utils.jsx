@@ -62,3 +62,34 @@ export const buildTableColumnData = [
     render: visits => renderVisits(visits),
   },
 ];
+export const ArticleVisitsColumnData = [
+  {
+    title: "DATE",
+    dataIndex: "date",
+    key: "date",
+    width: "5%",
+    render: date => (
+      <Typography className="text-gray-700" lineHeight="loose" style="h5">
+        {date}
+      </Typography>
+    ),
+  },
+  {
+    title: "Visits",
+    dataIndex: "visits",
+    key: "visits",
+    width: "5%",
+    render: visits => (
+      <Typography className="text-gray-700" style="h5">
+        {visits}
+      </Typography>
+    ),
+  },
+];
+
+export const buildRowData = datesWiseVisits =>
+  Object.keys(datesWiseVisits).map((date, index) => ({
+    id: index,
+    date,
+    visits: datesWiseVisits[date],
+  }));

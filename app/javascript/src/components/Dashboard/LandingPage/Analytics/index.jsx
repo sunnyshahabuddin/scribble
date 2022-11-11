@@ -4,7 +4,11 @@ import { Table as NeetoUITable, PageLoader, Pagination } from "neetoui";
 
 import articlesApi from "apis/admin/articles";
 
-import { buildTableColumnData } from "./utils";
+import {
+  buildTableColumnData,
+  ArticleVisitsColumnData,
+  buildRowData,
+} from "./utils";
 
 const Analytics = () => {
   const [currentTablePageNumber, setCurrentTablePageNumber] = useState(1);
@@ -45,6 +49,17 @@ const Analytics = () => {
         allowRowClick={false}
         columnData={buildTableColumnData}
         rowData={publishedArticles}
+        expandable={{
+          expandedRowRender: record => (
+            <div className="m-0 w-64 pl-8">
+              <NeetoUITable
+                allowRowClick={false}
+                columnData={ArticleVisitsColumnData}
+                rowData={buildRowData(record.date_wise_visits)}
+              />
+            </div>
+          ),
+        }}
       />
       <div className="flex w-full justify-end">
         <Pagination
