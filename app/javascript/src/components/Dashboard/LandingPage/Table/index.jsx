@@ -26,7 +26,7 @@ const Table = ({ articles = [], refetch }) => {
         columnData={buildTableColumnData(destroyArticle)}
         currentPageNumber={currentTablePageNumber}
         defaultPageSize={10}
-        handlePageChange={e => setCurrentTablePageNumber(e)}
+        handlePageChange={pageNumber => setCurrentTablePageNumber(pageNumber)}
         rowData={articles}
       />
       {showDeleteAlert && (

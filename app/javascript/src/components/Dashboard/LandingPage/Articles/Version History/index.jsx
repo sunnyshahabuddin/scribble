@@ -7,7 +7,7 @@ import { formatToDateAndTime } from "components/Dashboard/utils";
 import Version from "./Version";
 
 const VersionHistory = ({ articleDetails, articleVersions }) => (
-  <div className="border-l z-40 h-screen overflow-y-auto px-4">
+  <div className="border-l h-screen overflow-y-auto px-4">
     <div className="sticky top-0 z-40  bg-white">
       <Typography style="h2">Version History</Typography>
       <Typography className="neeto-ui-text-gray-600 mt-1" style="body1">
@@ -22,6 +22,11 @@ const VersionHistory = ({ articleDetails, articleVersions }) => (
             <Typography className="neeto-ui-text-gray-500" style="body2">
               Current Version
             </Typography>
+            {articleDetails.restoredAt && (
+              <Typography className="neeto-ui-text-gray-500 mr-4" style="body2">
+                Restored from ({formatToDateAndTime(articleDetails.restoredAt)})
+              </Typography>
+            )}
           </div>
           <Typography className="ml-4 mt-3" style="h4">
             {`Article ${articleDetails.status === 0 ? "Draft" : "Published"}`}
@@ -30,7 +35,7 @@ const VersionHistory = ({ articleDetails, articleVersions }) => (
       </div>
     </div>
     {articleVersions.reverse().map(version => (
-      <div className="mt-4 flex overflow-y-auto" key={version.id}>
+      <div className="mt-4 flex" key={version.id}>
         <Version version={version} />
       </div>
     ))}

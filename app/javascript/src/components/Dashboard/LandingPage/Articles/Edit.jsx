@@ -26,7 +26,7 @@ const Edit = ({ history }) => {
           body: article.body,
           status: article.status ? article.status : 0,
           category_id: article.category.value,
-          version_status: false,
+          restored_at: null,
         },
       });
       history.push(LANDING_PAGE_PATH);
@@ -38,7 +38,10 @@ const Edit = ({ history }) => {
   const fetchArticleDetailsAndVersions = async () => {
     try {
       const article = await articlesApi.show(id);
-      setArticleDetails(article.data);
+      setArticleDetails({
+        ...article.data,
+        restoredAt: article.data.restored_at,
+      });
       const {
         data: { article_versions },
       } = await articlesApi.articleVersions(id);

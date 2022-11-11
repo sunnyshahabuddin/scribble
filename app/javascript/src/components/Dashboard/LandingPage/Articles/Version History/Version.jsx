@@ -17,7 +17,7 @@ const Version = ({ version }) => {
             <Typography className="neeto-ui-text-gray-500 mr-4" style="body2">
               {formatToDateAndTime(version.article.updated_at)}
             </Typography>
-            {version.article.version_status && (
+            {version.article.restored_at && (
               <Typography className="neeto-ui-text-gray-500 mr-4" style="body2">
                 Restored from (
                 {formatToDateAndTime(version.article.restored_at)})

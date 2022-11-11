@@ -14,18 +14,11 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
       await articlesApi.update({
         id: version.article.id,
         payload: {
-          version_status: true,
-          restored_at: version.article.updated_at,
-        },
-      });
-      await articlesApi.update({
-        id: version.article.id,
-        payload: {
           title: version.article.title,
           body: version.article.body,
           status: 0,
-          category_id: version.article.categoryId,
-          version_status: false,
+          category_id: version.article.category_id,
+          restored_at: version.article.updated_at,
         },
       });
       history.go(0);
@@ -67,16 +60,20 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
         <div className="border h-48 overflow-y-auto p-1">
           {version.article.body}
         </div>
-        <div className="mt-6 flex py-4">
+        <div className="mt-6 flex pt-4">
           <TooltipWrapper
-            content="Cannot restore, category was deleted"
-            disabled={!version.category}
+            disabled={!version.category || version.article.restored_at}
             followCursor="horizontal"
             position="bottom"
+            content={
+              !version.category
+                ? "Cannot restore, category was deleted"
+                : "Already restored, check restored from"
+            }
           >
             <Button
               className="h-8"
-              disabled={!version.category}
+              disabled={!version.category || version.article.restored_at}
               label="Restore version"
               type="submit"
               onClick={() => {
@@ -93,6 +90,9 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
             onClick={() => setShowModal(false)}
           />
         </div>
+        <Typography className="mb-2" style="body3">
+          Note: After restoration the article will be draft by default.
+        </Typography>
       </Modal.Body>
     </Modal>
   );

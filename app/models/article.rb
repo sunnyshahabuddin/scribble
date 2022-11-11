@@ -10,6 +10,7 @@ class Article < ApplicationRecord
 
   belongs_to :category
   belongs_to :user
+  has_many :visits
 
   before_create :set_slug
   before_update :set_slug
