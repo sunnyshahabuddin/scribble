@@ -25,7 +25,7 @@ const Analytics = () => {
       const {
         data: { articles: publishedArticles },
       } = await articlesApi.listPublishedArticles({
-        page_number: currentTablePageNumber,
+        pageNumber: currentTablePageNumber,
       });
       setPublishedArticles(publishedArticles);
     } catch (error) {

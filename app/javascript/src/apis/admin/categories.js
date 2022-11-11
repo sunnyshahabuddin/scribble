@@ -9,7 +9,7 @@ const update = (id, payload) =>
 
 const destroy = payload =>
   axios.delete(
-    `/api/admin/categories/${payload.category_id}?new_category_id=${payload.new_category_id}`
+    `/api/admin/categories/${payload.categoryId}?new_category_id=${payload.newCategoryId}`
   );
 
 const position_update = payload =>

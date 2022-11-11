@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     namespace :api do
       namespace :admin do
         resources :articles, except: %i[new edit] do
-          get :list_published, on: :collection
+          get :list_published, :total_count, on: :collection
           get :versions, on: :member
         end
         resources :categories, only: %i[index create destroy update] do
