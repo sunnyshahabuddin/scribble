@@ -93,7 +93,6 @@ const CategoryFilter = ({
                 if (articleFilters.category_id?.includes(category.id)) {
                   return {
                     ...articleFilters,
-                    status: "",
                     category_id: articleFilters.category_id.filter(
                       id => id !== category.id
                     ),
@@ -102,7 +101,6 @@ const CategoryFilter = ({
 
                 return {
                   ...articleFilters,
-                  status: "",
                   category_id: [...articleFilters.category_id, category.id],
                 };
               })

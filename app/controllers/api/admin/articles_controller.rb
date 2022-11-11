@@ -5,7 +5,7 @@ class Api::Admin::ArticlesController < ApplicationController
 
   def index
     @articles = Api::Admin::ArticleFilterationService.new(
-      current_user, params[:search_filter], params[:status_filter],
+      current_user.articles, params[:search_filter], params[:status_filter],
       params[:category_filter]).process.page(params[:page_number]).order("updated_at DESC")
     render
   end
