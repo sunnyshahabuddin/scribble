@@ -41,6 +41,7 @@ const Edit = ({ history }) => {
       setArticleDetails({
         ...article.data,
         restoredAt: article.data.restored_at,
+        updatedAt: article.data.updated_at,
       });
       const {
         data: { article_versions },

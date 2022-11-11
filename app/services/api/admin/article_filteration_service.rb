@@ -1,20 +1,20 @@
  # frozen_string_literal: true
 
  class Api::Admin::ArticleFilterationService
-   attr_reader :articles, :search_filter, :status_filter, :category_filter
+   attr_reader :current_user, :search_filter, :status_filter, :category_filter
 
-   def initialize(articles, search_filter, status_filter, category_filter)
-     @articles = articles
+   def initialize(current_user, search_filter, status_filter, category_filter)
+     @current_user = current_user
      @search_filter = search_filter
      @status_filter = status_filter
      @category_filter = category_filter
    end
 
    def process
-     @articles = @articles.all
-     @articles = filter_by_status if status_filter.present?
-     @articles = filter_by_category if category_filter.present?
-     @articles = filter_by_search if search_filter.present?
+     articles = current_user.articles
+     articles = filter_by_status if status_filter.present?
+     articles = filter_by_category if category_filter.present?
+     articles = filter_by_search if search_filter.present?
 
      articles
    end
@@ -22,16 +22,14 @@
    private
 
      def filter_by_search
-       articles.select do |article|
-          article.title.downcase.include?(search_filter.downcase)
-        end
+       current_user.articles.where("title iLIKE ?", "%#{search_filter}%")
      end
 
      def filter_by_status
-       articles.where(status: status_filter)
+       current_user.articles.where(status: status_filter)
      end
 
      def filter_by_category
-       @articles = articles.where(category_id: category_filter.split(",").map(&:to_i))
+       current_user.articles.where(category_id: category_filter.split(",").map(&:to_i))
      end
  end

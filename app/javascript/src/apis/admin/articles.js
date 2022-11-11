@@ -2,7 +2,7 @@ import axios from "axios";
 
 const fetch = payload =>
   axios.get(
-    `/api/admin/articles/?search_filter=${payload.search_filter}&status_filter=${payload.status_filter}&category_filter=${payload.category_filter}`
+    `/api/admin/articles/?search_filter=${payload.searchFilter}&status_filter=${payload.statusFilter}&category_filter=${payload.categoryFilter}&page_number=${payload.pageNumber}`
   );
 const create = payload => axios.post("/api/admin/articles", payload);
 
@@ -15,10 +15,12 @@ const destroy = id => axios.delete(`/api/admin/articles/${id}`);
 
 const listPublishedArticles = payload =>
   axios.get(
-    `/api/admin/articles/list_published/?page_number=${payload.page_number}`
+    `/api/admin/articles/list_published/?page_number=${payload.pageNumber}`
   );
 
 const articleVersions = id => axios.get(`/api/admin/articles/${id}/versions`);
+
+const totalCount = () => axios.get("/api/admin/articles/total_count");
 
 const articlesApi = {
   fetch,
@@ -26,6 +28,7 @@ const articlesApi = {
   show,
   update,
   destroy,
+  totalCount,
   articleVersions,
   listPublishedArticles,
 };

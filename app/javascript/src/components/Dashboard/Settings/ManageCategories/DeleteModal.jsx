@@ -18,8 +18,8 @@ const DeleteModal = ({
     setShowDeleteModal(false);
     try {
       await categoriesApi.destroy({
-        new_category_id: moveArticlesToCategory.value,
-        category_id: id,
+        newCategoryId: moveArticlesToCategory.value,
+        categoryId: id,
       });
       refetch();
     } catch (error) {

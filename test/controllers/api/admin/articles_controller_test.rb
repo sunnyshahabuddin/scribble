@@ -84,4 +84,9 @@ class Api::Admin::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get api_admin_article_path(0), as: :json
     assert_response :not_found
   end
+
+  def test_should_show_all_articles_count
+    get total_count_api_admin_articles_path, as: :json
+    assert_response :success
+  end
 end
