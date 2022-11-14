@@ -1,9 +1,5 @@
 ---
 - name: "Getting Started"
-  user_id: 1
 - name: "Welcome to Scribble"
-  user_id: 1
 - name: "Miscellaneous"
-  user_id: 1
 - name: "Electronics"
-  user_id: 1
