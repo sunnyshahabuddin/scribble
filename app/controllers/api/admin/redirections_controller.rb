@@ -5,11 +5,10 @@ class Api::Admin::RedirectionsController < ApplicationController
 
   def index
     @redirections = current_organization.redirections
-    render
   end
 
   def create
-    redirection = current_organization.redirections.create!(redirection_params)
+    current_organization.redirections.create!(redirection_params)
     respond_with_success(t("successfully_created", entity: "Redirection"))
   end
 

@@ -5,11 +5,10 @@ class Api::Admin::CategoriesController < ApplicationController
 
   def index
     @categories = current_user.categories.order("position ASC")
-    render
   end
 
   def create
-    category = current_user.categories.create!(category_params)
+    current_user.categories.create!(category_params)
     respond_with_success(t("successfully_created", entity: Category))
   end
 
