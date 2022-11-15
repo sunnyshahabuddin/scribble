@@ -9,7 +9,7 @@ class Article < ApplicationRecord
   validate :slug_not_changed
 
   belongs_to :category
-  belongs_to :user
+  belongs_to :user, counter_cache: :articles_count
   has_many :visits
 
   before_create :set_slug, if: -> { status == 1 }
