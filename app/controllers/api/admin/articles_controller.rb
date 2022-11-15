@@ -38,7 +38,9 @@ class Api::Admin::ArticlesController < ApplicationController
   end
 
   def total_count
-    @articles = current_user.articles
+    @articles_count = current_user.articles_count
+    @draft_articles_count = current_user.articles.where(status: 0).size
+    @published_articles_count = current_user.articles.where(status: 1).size
   end
 
   private

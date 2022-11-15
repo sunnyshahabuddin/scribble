@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_14_172349) do
+ActiveRecord::Schema.define(version: 2022_11_15_190852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2022_11_14_172349) do
     t.datetime "restored_at"
     t.uuid "category_id"
     t.uuid "user_id"
+    t.integer "visits_count", default: 0, null: false
   end
 
   create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -63,6 +64,7 @@ ActiveRecord::Schema.define(version: 2022_11_14_172349) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "email", null: false
     t.uuid "organization_id"
+    t.integer "articles_count", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -79,7 +81,6 @@ ActiveRecord::Schema.define(version: 2022_11_14_172349) do
   create_table "visits", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "visits", default: 0
     t.uuid "article_id"
   end
 

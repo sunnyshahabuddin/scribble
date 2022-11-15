@@ -82,6 +82,7 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   def test_should_make_slug_nil_if_article_is_drafted_for_first_time
+    @article.status = 0
     @article.save!
     assert_nil @article.slug
   end
@@ -108,9 +109,9 @@ class ArticleTest < ActiveSupport::TestCase
   end
 
   def test_should_delete_all_articles_associated_with_a_category
-    @article.save!
+    category_id = @category.id
     @category.destroy
-    assert_empty @user.articles
+    assert_empty @user.articles.where(category_id: category_id)
   end
 
   def test_shouldnt_change_the_slug
