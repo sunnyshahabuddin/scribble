@@ -27,7 +27,7 @@ def create_sample_categories!
   puts "Seeding with sample category..."
   categories = YAML.load_file("lib/assets/categories.yml")
   for category in categories
-    Category.create!(category)
+    User.first.categories.create!(category)
   end
 end
 
@@ -36,7 +36,7 @@ def create_sample_user!
   User.create!(
     name: "Oliver Smith",
     email: "oliver@example.com",
-    organization_id: 1
+    organization_id: Organization.first.id,
   )
   puts "Done! User Oliver Smith created."
 end
@@ -54,7 +54,8 @@ def create_sample_articles!
   puts "Seeding with sample article..."
   articles = YAML.load_file("lib/assets/articles.yml")
   for article in articles
-    Article.create!(article)
+    article["category_id"] = Category.first.id
+    User.first.articles.create!(article)
   end
   puts "Done! Sample articles created."
 end

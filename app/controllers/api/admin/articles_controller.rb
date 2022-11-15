@@ -6,12 +6,12 @@ class Api::Admin::ArticlesController < ApplicationController
   def index
     @articles = Api::Admin::ArticleFilterationService.new(
       current_user.articles, params[:search_filter], params[:status_filter],
-      params[:category_filter]).process.page(params[:page_number]).order("updated_at DESC")
-    render
+      params[:category_filter]).process
+    @articles = @articles.order("updated_at DESC").page(params[:page_number])
   end
 
   def create
-    article = current_user.articles.create!(article_params)
+    current_user.articles.create!(article_params)
     respond_with_success(t("successfully_created", entity: Article))
   end
 
@@ -31,17 +31,14 @@ class Api::Admin::ArticlesController < ApplicationController
 
   def versions
     @article_versions = @article.versions
-    render
   end
 
   def list_published
     @articles = current_user.articles.where(status: 1).order("updated_at DESC").page(params[:page_number])
-    render
   end
 
   def total_count
     @articles = current_user.articles
-    render
   end
 
   private

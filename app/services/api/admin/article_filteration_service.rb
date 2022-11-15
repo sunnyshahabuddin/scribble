@@ -30,6 +30,6 @@
      end
 
      def filter_by_category
-       articles.where(category_id: category_filter.split(",").map(&:to_i))
+       articles.where(category_id: category_filter.split(","))
      end
  end

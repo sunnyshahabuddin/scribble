@@ -16,16 +16,15 @@ class Redirection < ApplicationRecord
     end
 
     def check_redirection_loop
-      if to_exist_in_from? && from_exist_in_to?
-        errors.add(:redirection, t("redirection.cycle"))
+      to_path = self.to
+      while to_path != self.from
+        redirection = Redirection.find_by(from: to_path)
+        if redirection != nil && self.from == redirection.to
+          errors.add(:redirection, t("redirection.cycle"))
+        elsif redirection == nil
+          break
+        end
+        to_path = redirection.to
       end
-    end
-
-    def to_exist_in_from?
-      Redirection.where(to: self.from).present?
-    end
-
-    def from_exist_in_to?
-      Redirection.where(from: self.to).present?
     end
 end

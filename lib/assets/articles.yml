@@ -1,20 +1,14 @@
 ---
 - title: "My first article"
   body: "This is my first article"
-  category_id: 1
-  user_id: 1
 - title: "Welcome to Scribble"
   body: "This is the welcome article, you can edit it in the admin panel, or delete it."
-  category_id: 2
-  user_id: 1
   status: 1
 - title: "My second article"
   body:
     "This is my second article, it's a draft, so it won't be visible on the front-end.
     You can edit it in the admin panel, or delete it.
     You can also change the status of the article in the admin panel."
-  category_id: 1
-  user_id: 1
   status: 0
 - title: "Laboris pariatur reprehenderit"
   body:
@@ -23,8 +17,6 @@
     eu est non. Adipisicing ad culpa reprehenderit qui ipsum est ex ad velit ut commodo enim
     duis cupidatat. Minim minim aliqua cillum ad sunt eiusmod anim adipisicing ex. Excepteur
     occaecat aliqua deserunt ad nulla."
-  category_id: 2
-  user_id: 1
   status: 1
 - title: "Lorem ipsum dolor sit amet"
   body:
@@ -32,8 +24,6 @@
     ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
     laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
     voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat"
-  category_id: 4
-  user_id: 1
   status: 0
 - title: "Minim magna sunt magna aliqua"
   body:
@@ -43,8 +33,6 @@
     amet officia esse officia commodo non dolor. Lorem do in eu est non. Adipisicing ad culpa reprehenderit
     qui ipsum est ex ad velit ut commodo enim duis cupidatat. Minim minim aliqua cillum ad sunt eiusmod
     anim adipisicing ex. Excepteur occaecat aliqua deserunt ad nulla."
-  category_id: 3
-  user_id: 1
   status: 1
 - title: "Laboris pariatur reprehenderit"
   body:
@@ -53,8 +41,6 @@
     eu est non. Adipisicing ad culpa reprehenderit qui ipsum est ex ad velit ut commodo enim
     duis cupidatat. Minim minim aliqua cillum ad sunt eiusmod anim adipisicing ex. Excepteur
     occaecat aliqua deserunt ad nulla."
-  category_id: 2
-  user_id: 1
   status: 1
 - title: "Lorem ipsum dolor sit amet, consectetur."
   body:
@@ -62,8 +48,6 @@
     ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
     laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
     voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat"
-  category_id: 3
-  user_id: 1
   status: 1
 - title: "Minim magna sunt magna aliqua veniam."
   body:
@@ -72,8 +56,6 @@
     enim qui esse dolor adipisicing minim nostrud commodo officia tempor. Veniam nisi laboris pariatur
     amet officia esse officia commodo non dolor. Lorem do in eu est non. Adipisicing ad culpa reprehenderit
     qui ipsum est ex ad velit ut commodo enim duis cupidatat. Minim minim aliqua cillum ad sunt eiusmod"
-  category_id: 2
-  user_id: 1
   status: 1
 - title: "Laboris pariatur reprehenderit."
   body:
@@ -82,6 +64,4 @@
     eu est non. Adipisicing ad culpa reprehenderit qui ipsum est ex ad velit ut commodo enim
     duis cupidatat. Minim minim aliqua cillum ad sunt eiusmod anim adipisicing ex. Excepteur
     occaecat aliqua deserunt ad nulla."
-  category_id: 4
-  user_id: 1
   status: 1
