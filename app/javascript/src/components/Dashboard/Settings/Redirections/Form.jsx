@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Formik, Form as FormikForm } from "formik";
 import { Check, Close } from "neetoicons";
@@ -19,8 +19,6 @@ const Form = ({
   redirectionsList,
   setAddRedirection,
 }) => {
-  const [fromValue, setFromValue] = useState(initialValues.from);
-
   useKey("Escape", () => {
     isEdit ? setIsEdit(false) : setAddRedirection(false);
   });
@@ -51,10 +49,10 @@ const Form = ({
     <Formik
       validateOnChange
       initialValues={initialValues}
-      validationSchema={formValidationSchema(redirectionsList, fromValue)}
+      validationSchema={formValidationSchema(redirectionsList)}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, dirty, setFieldValue }) => (
+      {({ isSubmitting, dirty }) => (
         <FormikForm className="mt-2 flex w-full bg-white p-4">
           <Input
             required
@@ -62,11 +60,6 @@ const Form = ({
             name="from"
             placeholder="Enter to path with /"
             type="text"
-            value={fromValue}
-            onChange={e => (
-              setFromValue(e.target.value),
-              setFieldValue("from", e.target.value)
-            )}
           />
           <Input
             required

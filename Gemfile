@@ -55,6 +55,7 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "acts_as_list"
 gem "bcrypt", "~> 3.1.13"
+gem "counter_culture", "~> 3.2"
 gem "kaminari"
 gem "paper_trail"
 gem "react-rails"

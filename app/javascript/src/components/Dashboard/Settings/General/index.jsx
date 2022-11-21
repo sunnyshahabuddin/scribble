@@ -17,11 +17,10 @@ const General = () => {
   const fetchOrganizationDetails = async () => {
     try {
       setLoading(true);
-      const response = await organizationApi.show();
+      const { data: organizationDetails } = await organizationApi.show();
       setOrganizationDetails({
-        name: response.data.name,
-        isPasswordProtected: response.data.is_password_protected,
-        isPasswordPresent: !!response.data.password_digest,
+        name: organizationDetails.name,
+        isPasswordProtected: organizationDetails.is_password_protected,
       });
     } catch (error) {
       logger.error(error);
