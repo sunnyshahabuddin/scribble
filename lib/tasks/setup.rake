@@ -45,7 +45,6 @@ def create_sample_organization_name!
   puts "Seeding with sample oragnization name and password..."
   Organization.create!(
     name: "Spinkart",
-    password: "welcome123"
   )
   puts "Done! Oragnization Spinkart has been created."
 end

@@ -9,7 +9,7 @@ class Article < ApplicationRecord
   validate :slug_not_changed
 
   belongs_to :category
-  belongs_to :user, counter_cache: :articles_count
+  belongs_to :user
   has_many :visits
 
   before_create :set_slug, if: -> { status == 1 }
@@ -17,6 +17,8 @@ class Article < ApplicationRecord
 
   paginates_per MAX_PAGE_SIZE
   has_paper_trail only: [:title, :body, :status, :category_id]
+  counter_culture :user, column_name: proc { |model|
+ model.status == 0 ? "draft_articles_count" : "published_articles_count" }
 
   private
 

@@ -85,15 +85,15 @@ const Form = ({ organizationDetails }) => {
                 name="password"
                 type="password"
                 disabled={
-                  !changePassword && organizationDetails.isPasswordPresent
+                  !changePassword && organizationDetails.isPasswordProtected
                 }
                 placeholder={
-                  changePassword || !organizationDetails.isPasswordPresent
+                  changePassword || !organizationDetails.isPasswordProtected
                     ? "Enter a six letter password with one number"
                     : "********"
                 }
               />
-              {organizationDetails.isPasswordPresent && (
+              {organizationDetails.isPasswordProtected && (
                 <Button
                   className="h-7 mt-12 mb-2 ml-1"
                   disabled={changePassword}

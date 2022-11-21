@@ -33,13 +33,15 @@ const App = () => {
 
   const fetchOrganizationAndValidatePassword = async () => {
     try {
-      const response = await organizationApi.show();
+      const { data: organizationDetails } = await organizationApi.show();
       setOrganizationDetails({
-        name: response.data.name,
-        isPasswordProtected: response.data.is_password_protected,
+        name: organizationDetails.name,
+        isPasswordProtected: organizationDetails.is_password_protected,
+        authenticationToken: organizationDetails.authentication_token,
       });
       setIsPasswordValidated(
-        (authToken && authToken.token) || !response.data.is_password_protected
+        authToken?.token === organizationDetails.authentication_token ||
+          !organizationDetails.is_password_protected
       );
       setLoading(false);
     } catch (error) {
