@@ -26,3 +26,23 @@ export const VALIDATION_SCHEMA = categoryList =>
       })
       .required("Category is required"),
   });
+export const ARTICLE_STATUS = [
+  { id: 0, value: "Save Draft" },
+  { id: 1, value: "Publish" },
+  { id: 2, value: "Publish later" },
+  { id: 3, value: "Unpublish later" },
+];
+
+export const findStatus = status => {
+  if (status === "Save Draft") {
+    return 0;
+  } else if (status === "Publish") {
+    return 1;
+  } else if (status === "Publish later") {
+    return 2;
+  } else if (status === "Unpublish later") {
+    return 3;
+  }
+
+  return 0;
+};
