@@ -7,10 +7,10 @@ import { Input, Textarea, Select } from "neetoui/formik";
 import categoriesApi from "apis/admin/categories";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 
-import { VALIDATION_SCHEMA } from "./constants";
+import { VALIDATION_SCHEMA, ARTICLE_STATUS, findStatus } from "./constants";
+import Schedule from "./Schedule";
 
 const { Menu, MenuItem } = Dropdown;
-const listSaveStatus = ["Publish", "Save Draft"];
 
 const Form = ({ article, handleSubmit }) => {
   const [dropdownLabel, setDropdownLabel] = useState(
@@ -19,6 +19,7 @@ const Form = ({ article, handleSubmit }) => {
   const [submitted, setSubmitted] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [categoryList, setCategoryList] = useState([]);
+  const [showSchedule, setShowSchedule] = useState(false);
 
   const fetchCategories = async () => {
     try {
@@ -46,93 +47,98 @@ const Form = ({ article, handleSubmit }) => {
   }
 
   return (
-    <Formik
-      initialValues={article}
-      validateOnBlur={submitted}
-      validateOnChange={submitted}
-      validationSchema={VALIDATION_SCHEMA(categoryList)}
-      onSubmit={handleSubmit}
-    >
-      {({ isSubmitting, setFieldValue, dirty }) => (
-        <FormikForm className="w-full">
-          <div className="space-between flex">
-            <Input
-              required
-              className="mr-5"
-              label="Article Title"
-              name="title"
-              placeholder="Enter Article Title"
-            />
-            <Select
-              isSearchable
-              required
-              label="Category"
-              name="category"
-              placeholder="Select a Category"
-              options={categoryList.map(category => ({
-                label: category.name,
-                value: category.id,
-              }))}
-            />
-          </div>
-          <Textarea
-            required
-            className="mt-6"
-            label="Article Body"
-            name="body"
-            placeholder="Enter Article"
-            rows={10}
-          />
-          <div className="mt-4 flex">
-            <div className="flex">
-              <TooltipWrapper
-                content="Make changes to save"
-                disabled={isSubmitting || !dirty}
-                followCursor="horizontal"
-                position="bottom"
-              >
-                <Button
-                  className="mr-px"
-                  disabled={isSubmitting || !dirty}
-                  label={dropdownLabel}
-                  loading={isSubmitting}
-                  size="medium"
-                  style="primary"
-                  type="submit"
-                  onClick={() => setSubmitted(true)}
-                />
-              </TooltipWrapper>
-              <Dropdown disabled={isSubmitting} type="submit">
-                <Menu>
-                  {listSaveStatus.map((status, idx) => (
-                    <MenuItem.Button
-                      key={idx}
-                      onClick={() => {
-                        setDropdownLabel(status);
-                        setFieldValue(
-                          "status",
-                          status === "Save Draft" ? 0 : 1
-                        );
-                      }}
-                    >
-                      {status}
-                    </MenuItem.Button>
-                  ))}
-                </Menu>
-              </Dropdown>
+    <>
+      <Formik
+        initialValues={article}
+        validateOnBlur={submitted}
+        validateOnChange={submitted}
+        validationSchema={VALIDATION_SCHEMA(categoryList)}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting, setFieldValue, dirty }) => (
+          <FormikForm className="w-full">
+            <div className="space-between flex">
+              <Input
+                required
+                className="mr-5"
+                label="Article Title"
+                name="title"
+                placeholder="Enter Article Title"
+              />
+              <Select
+                isSearchable
+                required
+                label="Category"
+                name="category"
+                placeholder="Select a Category"
+                options={categoryList.map(category => ({
+                  label: category.name,
+                  value: category.id,
+                }))}
+              />
             </div>
-            <Button
-              className="mx-2"
-              label="Cancel"
-              size="medium"
-              style="text"
-              to="/"
-              type="reset"
+            <Textarea
+              required
+              className="mt-6"
+              label="Article Body"
+              name="body"
+              placeholder="Enter Article"
+              rows={10}
             />
-          </div>
-        </FormikForm>
+            <div className="mt-4 flex">
+              <div className="flex">
+                <TooltipWrapper
+                  content="Make changes to save"
+                  disabled={isSubmitting || !dirty}
+                  followCursor="horizontal"
+                  position="bottom"
+                >
+                  <Button
+                    className="mr-px"
+                    disabled={isSubmitting || !dirty}
+                    label={dropdownLabel}
+                    loading={isSubmitting}
+                    size="medium"
+                    style="primary"
+                    type="submit"
+                    onClick={() => setSubmitted(true)}
+                  />
+                </TooltipWrapper>
+                <Dropdown disabled={isSubmitting} type="submit">
+                  <Menu>
+                    {ARTICLE_STATUS.map(status => (
+                      <MenuItem.Button
+                        key={status.id}
+                        onClick={() => {
+                          setDropdownLabel(status.value);
+                          setFieldValue("status", findStatus(status.value));
+                        }}
+                      >
+                        {status.value}
+                      </MenuItem.Button>
+                    ))}
+                  </Menu>
+                </Dropdown>
+              </div>
+              <Button
+                className="mx-2"
+                label="Cancel"
+                size="medium"
+                style="text"
+                to="/"
+                type="reset"
+              />
+            </div>
+          </FormikForm>
+        )}
+      </Formik>
+      {showSchedule && (
+        <Schedule
+          setShowSchedule={setShowSchedule}
+          showSchedule={showSchedule}
+        />
       )}
-    </Formik>
+    </>
   );
 };
 

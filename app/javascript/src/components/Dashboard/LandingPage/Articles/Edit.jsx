@@ -8,30 +8,36 @@ import utilityFunctions from "components/Dashboard/LandingPage/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
 import Form from "./Form";
+import Schedule from "./Schedule";
 import VersionHistory from "./Version History";
 
 const Edit = ({ history }) => {
   const [loading, setLoading] = useState(true);
   const [articleDetails, setArticleDetails] = useState({});
   const [articleVersions, setArticleVersions] = useState([]);
+  const [showSchedule, setShowSchedule] = useState(false);
 
   const { id } = useParams();
 
   const handleSubmit = async article => {
-    try {
-      await articlesApi.update({
-        id,
-        payload: {
-          title: article.title,
-          body: article.body,
-          status: article.status ? article.status : 0,
-          category_id: article.category.value,
-          restored_at: null,
-        },
-      });
-      history.push(LANDING_PAGE_PATH);
-    } catch (error) {
-      logger.error(error);
+    if (article.status === 0 || article.status === 1) {
+      try {
+        await articlesApi.update({
+          id,
+          payload: {
+            title: article.title,
+            body: article.body,
+            status: article.status ? article.status : 0,
+            category_id: article.category.value,
+            restored_at: null,
+          },
+        });
+        history.push(LANDING_PAGE_PATH);
+      } catch (error) {
+        logger.error(error);
+      }
+    } else if (article.status === 2 || article.status === 3) {
+      setShowSchedule(true);
     }
   };
 
@@ -74,20 +80,28 @@ const Edit = ({ history }) => {
   }
 
   return (
-    <div className="flex">
-      <div className="mx-auto mt-10 w-1/3">
-        <Form
-          handleSubmit={handleSubmit}
-          article={utilityFunctions.formatFetchedDataToInitialFormValue(
-            articleDetails
-          )}
+    <>
+      <div className="flex">
+        <div className="mx-auto mt-10 w-1/3">
+          <Form
+            handleSubmit={handleSubmit}
+            article={utilityFunctions.formatFetchedDataToInitialFormValue(
+              articleDetails
+            )}
+          />
+        </div>
+        <VersionHistory
+          articleDetails={articleDetails}
+          articleVersions={articleVersions}
         />
       </div>
-      <VersionHistory
-        articleDetails={articleDetails}
-        articleVersions={articleVersions}
-      />
-    </div>
+      {showSchedule && (
+        <Schedule
+          setShowSchedule={setShowSchedule}
+          showSchedule={showSchedule}
+        />
+      )}
+    </>
   );
 };
 
