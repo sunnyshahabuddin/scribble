@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import articlesApi from "apis/admin/articles";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
-import { FORM_INITIAL_VALUES } from "./constants";
+import { FORM_INITIAL_VALUES, CREATE_ARTICLE_STATUS } from "./constants";
 import Form from "./Form";
-import Schedule from "./Schedule";
+import ScheduleLater from "./ScheduleLater";
 
 const Create = ({ history }) => {
-  const [showSchedule, setShowSchedule] = useState(false);
+  const [showScheduleLater, setShowScheduleLater] = useState(false);
+  const [formValues, setFormValues] = useState({});
   const handleSubmit = async article => {
     const { title, body, status } = article;
     const category_id = article.category.value;
@@ -18,27 +19,35 @@ const Create = ({ history }) => {
       category_id,
       status,
     };
-    if (status === 1 || status === 0) {
+    if (status === 0 || status === 1) {
+      payload.schedule_at = null;
+      payload.schedule_status = null;
       try {
         await articlesApi.create(payload);
         history.push(LANDING_PAGE_PATH);
       } catch (error) {
         logger.error(error);
       }
-    } else if (status === 2 || status === 3) {
-      setShowSchedule(true);
+    } else {
+      setFormValues(payload);
+      setShowScheduleLater(true);
     }
   };
 
   return (
     <>
       <div className="h-1/2 mx-auto mt-12 flex w-1/2">
-        <Form article={FORM_INITIAL_VALUES} handleSubmit={handleSubmit} />
+        <Form
+          article={FORM_INITIAL_VALUES}
+          articleStatus={CREATE_ARTICLE_STATUS}
+          handleSubmit={handleSubmit}
+        />
       </div>
-      {showSchedule && (
-        <Schedule
-          setShowSchedule={setShowSchedule}
-          showSchedule={showSchedule}
+      {showScheduleLater && (
+        <ScheduleLater
+          formValues={formValues}
+          setShowSchedule={setShowScheduleLater}
+          showSchedule={showScheduleLater}
         />
       )}
     </>

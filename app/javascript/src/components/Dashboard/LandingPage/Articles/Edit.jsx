@@ -7,15 +7,16 @@ import articlesApi from "apis/admin/articles";
 import utilityFunctions from "components/Dashboard/LandingPage/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
+import { EDIT_ARTICLE_STATUS } from "./constants";
 import Form from "./Form";
-import Schedule from "./Schedule";
+import ScheduleLater from "./ScheduleLater";
 import VersionHistory from "./Version History";
 
 const Edit = ({ history }) => {
   const [loading, setLoading] = useState(true);
   const [articleDetails, setArticleDetails] = useState({});
   const [articleVersions, setArticleVersions] = useState([]);
-  const [showSchedule, setShowSchedule] = useState(false);
+  const [showScheduleLater, setShowScheduleLater] = useState(false);
 
   const { id } = useParams();
 
@@ -37,7 +38,7 @@ const Edit = ({ history }) => {
         logger.error(error);
       }
     } else if (article.status === 2 || article.status === 3) {
-      setShowSchedule(true);
+      setShowScheduleLater(true);
     }
   };
 
@@ -84,6 +85,7 @@ const Edit = ({ history }) => {
       <div className="flex">
         <div className="mx-auto mt-10 w-1/3">
           <Form
+            articleStatus={EDIT_ARTICLE_STATUS}
             handleSubmit={handleSubmit}
             article={utilityFunctions.formatFetchedDataToInitialFormValue(
               articleDetails
@@ -95,10 +97,10 @@ const Edit = ({ history }) => {
           articleVersions={articleVersions}
         />
       </div>
-      {showSchedule && (
-        <Schedule
-          setShowSchedule={setShowSchedule}
-          showSchedule={showSchedule}
+      {showScheduleLater && (
+        <ScheduleLater
+          setShowSchedule={setShowScheduleLater}
+          showSchedule={showScheduleLater}
         />
       )}
     </>
