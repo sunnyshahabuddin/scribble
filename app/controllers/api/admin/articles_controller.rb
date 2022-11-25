@@ -50,6 +50,8 @@ class Api::Admin::ArticlesController < ApplicationController
     end
 
     def article_params
-      params.require(:article).permit(:title, :body, :status, :category_id, :user_id, :restored_at)
+      params.require(:article).permit(
+        :title, :body, :status, :category_id, :user_id, :restored_at, :schedule_at,
+        :schedule_status)
     end
 end

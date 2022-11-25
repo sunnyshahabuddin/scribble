@@ -60,5 +60,6 @@ gem "kaminari"
 gem "paper_trail"
 gem "react-rails"
 gem "responders"
+gem "sidekiq", "<7"
 gem "simplecov", require: false, group: :test
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
