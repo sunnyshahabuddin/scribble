@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { DatePicker } from "antd";
+import dayjs from "dayjs";
 import { Button, Typography, Modal } from "neetoui";
 import { useHistory } from "react-router-dom";
 
@@ -8,7 +9,13 @@ import articlesApi from "apis/admin/articles";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
-const ScheduleLater = ({ formValues, showSchedule, setShowSchedule }) => {
+const ScheduleLater = ({
+  articleId,
+  isEdit,
+  formValues,
+  showSchedule,
+  setShowSchedule,
+}) => {
   const [dateTime, setDateTime] = useState("");
 
   const history = useHistory();
@@ -19,10 +26,19 @@ const ScheduleLater = ({ formValues, showSchedule, setShowSchedule }) => {
 
   const handleSubmit = async formValues => {
     formValues.schedule_at = dateTime;
-    formValues.status = 0;
-    formValues.schedule_status = 1;
     try {
-      await articlesApi.create(formValues);
+      if (!isEdit) {
+        formValues.status = 0;
+        formValues.schedule_status = 1;
+        await articlesApi.create(formValues);
+      } else {
+        formValues.schedule_status = formValues.status === 2 ? 1 : 0;
+        formValues.status = formValues.status === 2 ? 0 : 1;
+        await articlesApi.update({
+          id: articleId,
+          payload: formValues,
+        });
+      }
       history.push(LANDING_PAGE_PATH);
     } catch (error) {
       logger.error(error);
@@ -46,15 +62,17 @@ const ScheduleLater = ({ formValues, showSchedule, setShowSchedule }) => {
             showTime
             className="w-full"
             format="YYYY-MM-DD HH:mm"
-            getPopupContainer={triggerNode => triggerNode.parentNode}
             placeholder="Select date and time to schedule the article"
+            disabledDate={current =>
+              current && current < dayjs().startOf("day")
+            }
             onChange={formatDateAndTime}
           />
         </div>
       </Modal.Body>
       <div className="mt-8 mb-8 flex pt-4">
         <TooltipWrapper
-          content="Select date and time to schedule the article"
+          content="Select date and time to schedule the article for later"
           disabled={!dateTime}
           followCursor="horizontal"
           position="bottom"
@@ -62,8 +80,10 @@ const ScheduleLater = ({ formValues, showSchedule, setShowSchedule }) => {
           <Button
             className="ml-4 h-8"
             disabled={!dateTime}
-            label="Publish Later"
             type="submit"
+            label={
+              formValues.status === 2 ? "Publish later" : "Unpublish later"
+            }
             onClick={() => {
               handleSubmit(formValues);
               setShowSchedule(false);
