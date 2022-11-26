@@ -7,13 +7,17 @@ import articlesApi from "apis/admin/articles";
 import utilityFunctions from "components/Dashboard/LandingPage/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
-import { EDIT_ARTICLE_STATUS } from "./constants";
+import {
+  EDIT_PUBLISHED_ARTICLE_STATUS,
+  EDIT_DRAFT_ARTICLE_STATUS,
+} from "./constants";
 import Form from "./Form";
 import ScheduleLater from "./ScheduleLater";
 import VersionHistory from "./Version History";
 
 const Edit = ({ history }) => {
   const [loading, setLoading] = useState(true);
+  const [formValues, setFormValues] = useState({});
   const [articleDetails, setArticleDetails] = useState({});
   const [articleVersions, setArticleVersions] = useState([]);
   const [showScheduleLater, setShowScheduleLater] = useState(false);
@@ -21,23 +25,25 @@ const Edit = ({ history }) => {
   const { id } = useParams();
 
   const handleSubmit = async article => {
+    const payload = {
+      title: article.title,
+      body: article.body,
+      status: article.status,
+      category_id: article.category.value,
+      restored_at: null,
+    };
     if (article.status === 0 || article.status === 1) {
       try {
         await articlesApi.update({
           id,
-          payload: {
-            title: article.title,
-            body: article.body,
-            status: article.status ? article.status : 0,
-            category_id: article.category.value,
-            restored_at: null,
-          },
+          payload,
         });
         history.push(LANDING_PAGE_PATH);
       } catch (error) {
         logger.error(error);
       }
     } else if (article.status === 2 || article.status === 3) {
+      setFormValues(payload);
       setShowScheduleLater(true);
     }
   };
@@ -85,11 +91,15 @@ const Edit = ({ history }) => {
       <div className="flex">
         <div className="mx-auto mt-10 w-1/3">
           <Form
-            articleStatus={EDIT_ARTICLE_STATUS}
             handleSubmit={handleSubmit}
             article={utilityFunctions.formatFetchedDataToInitialFormValue(
               articleDetails
             )}
+            articleStatus={
+              articleDetails.status === 0
+                ? EDIT_DRAFT_ARTICLE_STATUS
+                : EDIT_PUBLISHED_ARTICLE_STATUS
+            }
           />
         </div>
         <VersionHistory
@@ -99,6 +109,9 @@ const Edit = ({ history }) => {
       </div>
       {showScheduleLater && (
         <ScheduleLater
+          isEdit
+          articleId={id}
+          formValues={formValues}
           setShowSchedule={setShowScheduleLater}
           showSchedule={showScheduleLater}
         />

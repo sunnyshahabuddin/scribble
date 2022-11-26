@@ -46,6 +46,7 @@ const Create = ({ history }) => {
       {showScheduleLater && (
         <ScheduleLater
           formValues={formValues}
+          isEdit={false}
           setShowSchedule={setShowScheduleLater}
           showSchedule={showScheduleLater}
         />

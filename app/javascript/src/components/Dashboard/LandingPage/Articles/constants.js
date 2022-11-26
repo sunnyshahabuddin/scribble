@@ -26,11 +26,17 @@ export const VALIDATION_SCHEMA = categoryList =>
       })
       .required("Category is required"),
   });
-export const EDIT_ARTICLE_STATUS = [
+
+export const EDIT_PUBLISHED_ARTICLE_STATUS = [
+  { id: 0, value: "Save Draft" },
+  { id: 1, value: "Publish" },
+  { id: 3, value: "Unpublish later" },
+];
+
+export const EDIT_DRAFT_ARTICLE_STATUS = [
   { id: 0, value: "Save Draft" },
   { id: 1, value: "Publish" },
   { id: 2, value: "Publish later" },
-  { id: 3, value: "Unpublish later" },
 ];
 
 export const CREATE_ARTICLE_STATUS = [
