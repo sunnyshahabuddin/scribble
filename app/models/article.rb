@@ -14,8 +14,6 @@ class Article < ApplicationRecord
 
   before_create :set_slug, if: -> { status == 1 }
   before_update :set_slug, if: -> { slug.nil? && status == 1 }
-  after_create :invoke_worker
-  after_update :invoke_worker
 
   paginates_per MAX_PAGE_SIZE
   has_paper_trail only: [:title, :body, :status, :category_id]
@@ -44,12 +42,6 @@ class Article < ApplicationRecord
     def slug_not_changed
       if slug_changed? && self.persisted?
         errors.add(:slug, t("article.slug.immutable"))
-      end
-    end
-
-    def invoke_worker
-      if schedule_at.present?
-        ArticleScheduleLaterWorker.set(wait_until: schedule_at).perform_async(id, schedule_status)
       end
     end
 end
