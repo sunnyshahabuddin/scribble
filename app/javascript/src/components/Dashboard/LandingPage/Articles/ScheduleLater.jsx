@@ -25,14 +25,15 @@ const ScheduleLater = ({
   };
 
   const handleSubmit = async formValues => {
-    formValues.schedule_at = dateTime;
     try {
       if (!isEdit) {
         formValues.status = 0;
-        formValues.schedule_status = 1;
+        formValues.publish_at = dateTime;
         await articlesApi.create(formValues);
       } else {
-        formValues.schedule_status = formValues.status === 2 ? 1 : 0;
+        formValues.status === 2
+          ? (formValues.publish_at = dateTime)
+          : (formValues.unpublish_at = dateTime);
         formValues.status = formValues.status === 2 ? 0 : 1;
         await articlesApi.update({
           id: articleId,

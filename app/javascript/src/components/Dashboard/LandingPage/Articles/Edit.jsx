@@ -7,6 +7,7 @@ import articlesApi from "apis/admin/articles";
 import utilityFunctions from "components/Dashboard/LandingPage/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
+import Callout from "./Callout";
 import {
   EDIT_PUBLISHED_ARTICLE_STATUS,
   EDIT_DRAFT_ARTICLE_STATUS,
@@ -50,11 +51,13 @@ const Edit = ({ history }) => {
 
   const fetchArticleDetailsAndVersions = async () => {
     try {
-      const article = await articlesApi.show(id);
+      const { data: article } = await articlesApi.show(id);
       setArticleDetails({
-        ...article.data,
-        restoredAt: article.data.restored_at,
-        updatedAt: article.data.updated_at,
+        ...article,
+        restoredAt: article.restored_at,
+        updatedAt: article.updated_at,
+        publishAt: article.publish_at,
+        unpublishAt: article.unpublish_at,
       });
       const {
         data: { article_versions },
@@ -90,6 +93,12 @@ const Edit = ({ history }) => {
     <>
       <div className="flex">
         <div className="mx-auto mt-10 w-1/3">
+          {(articleDetails.publishAt || articleDetails.unpublishAt) && (
+            <Callout
+              publishAt={articleDetails.publishAt}
+              unpublishAt={articleDetails.unpublishAt}
+            />
+          )}
           <Form
             handleSubmit={handleSubmit}
             article={utilityFunctions.formatFetchedDataToInitialFormValue(

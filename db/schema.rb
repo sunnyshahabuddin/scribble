@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_25_194402) do
+ActiveRecord::Schema.define(version: 2022_11_27_130757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(version: 2022_11_25_194402) do
     t.uuid "category_id"
     t.uuid "user_id"
     t.integer "visits_count", default: 0, null: false
-    t.datetime "schedule_at"
-    t.integer "schedule_status"
+    t.datetime "publish_at"
+    t.datetime "unpublish_at"
   end
 
   create_table "categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
