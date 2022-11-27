@@ -1,28 +1,23 @@
 # frozen_string_literal: true
 
 class Api::Admin::ArticleScheduleLaterService
-  attr_reader :id, :schedule_status
+  attr_reader :article
 
-  def initialize(id, schedule_status)
-    @id = id
-    @schedule_status = schedule_status
+  def initialize(article)
+    @article = article
   end
 
   def process
-    if Article.where(id: id).present?
-      @article = Article.find(id)
-      publish_later if schedule_status == 1
-      unpublish_later if schedule_status == 0
-    end
+    article.publish_at.nil? ? unpublish_later : publish_later
   end
 
   private
 
     def publish_later
-      @article.update!(status: 1, schedule_at: nil)
+      article.update!(status: 1, publish_at: nil)
     end
 
     def unpublish_later
-      @article.update!(status: 0, schedule_at: nil)
+      article.update!(status: 0, unpublish_at: nil)
     end
 end
