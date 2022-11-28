@@ -30,8 +30,8 @@ const Edit = ({ history }) => {
       title: article.title,
       body: article.body,
       status: article.status,
-      category_id: article.category.value,
-      restored_at: null,
+      categoryId: article.category.value,
+      restoredAt: null,
     };
     if (article.status === 0 || article.status === 1) {
       try {
@@ -54,6 +54,7 @@ const Edit = ({ history }) => {
       const { data: article } = await articlesApi.show(id);
       setArticleDetails({
         ...article,
+        articleId: article.id,
         restoredAt: article.restored_at,
         updatedAt: article.updated_at,
         publishAt: article.publish_at,
@@ -95,8 +96,8 @@ const Edit = ({ history }) => {
         <div className="mx-auto mt-10 w-1/3">
           {(articleDetails.publishAt || articleDetails.unpublishAt) && (
             <Callout
-              publishAt={articleDetails.publishAt}
-              unpublishAt={articleDetails.unpublishAt}
+              articleDetails={articleDetails}
+              refetch={fetchArticleDetailsAndVersions}
             />
           )}
           <Form
@@ -121,6 +122,7 @@ const Edit = ({ history }) => {
           isEdit
           articleId={id}
           formValues={formValues}
+          refetch={fetchArticleDetailsAndVersions}
           setShowSchedule={setShowScheduleLater}
           showSchedule={showScheduleLater}
         />

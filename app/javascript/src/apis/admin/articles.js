@@ -15,7 +15,15 @@ const create = payload => axios.post("/api/admin/articles", payload);
 const show = id => axios.get(`/api/admin/articles/${id}`);
 
 const update = ({ id, payload }) =>
-  axios.put(`/api/admin/articles/${id}`, payload);
+  axios.put(`/api/admin/articles/${id}`, {
+    article: {
+      ...payload,
+      category_id: payload.categoryId,
+      restored_at: payload.restoredAt,
+      publish_at: payload.publishAt,
+      unpublish_at: payload.unpublishAt,
+    },
+  });
 
 const destroy = id => axios.delete(`/api/admin/articles/${id}`);
 
