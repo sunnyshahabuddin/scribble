@@ -17,8 +17,8 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
           title: version.article.title,
           body: version.article.body,
           status: 0,
-          category_id: version.article.category_id,
-          restored_at: version.article.updated_at,
+          categoryId: version.article.category_id,
+          restoredAt: version.article.updated_at,
         },
       });
       history.go(0);

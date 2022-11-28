@@ -13,6 +13,7 @@ const ScheduleLater = ({
   articleId,
   isEdit,
   formValues,
+  refetch,
   showSchedule,
   setShowSchedule,
 }) => {
@@ -28,19 +29,20 @@ const ScheduleLater = ({
     try {
       if (!isEdit) {
         formValues.status = 0;
-        formValues.publish_at = dateTime;
+        formValues.publishAt = dateTime;
         await articlesApi.create(formValues);
+        history.push(LANDING_PAGE_PATH);
       } else {
         formValues.status === 2
-          ? (formValues.publish_at = dateTime)
-          : (formValues.unpublish_at = dateTime);
+          ? (formValues.publishAt = dateTime)
+          : (formValues.unpublishAt = dateTime);
         formValues.status = formValues.status === 2 ? 0 : 1;
         await articlesApi.update({
           id: articleId,
           payload: formValues,
         });
+        refetch();
       }
-      history.push(LANDING_PAGE_PATH);
     } catch (error) {
       logger.error(error);
     }
