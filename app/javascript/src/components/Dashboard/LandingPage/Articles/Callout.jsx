@@ -6,14 +6,12 @@ import { Button, Callout as NeetoUICallout, Typography, Alert } from "neetoui";
 import articlesApi from "apis/admin/articles";
 import { formatToDateAndTime } from "components/Dashboard/utils";
 
-const Callout = ({ articleDetails, refetch }) => {
+const Callout = ({ articleDetails, message, refetch }) => {
   const [showAlert, setShowAlert] = useState(false);
 
   const handleSubmit = async id => {
-    const payload = {
-      publishAt: null,
-      unpublishAt: null,
-    };
+    const payload =
+      message === "published" ? { publishAt: null } : { unpublishAt: null };
     try {
       await articlesApi.update({
         id,
@@ -31,26 +29,19 @@ const Callout = ({ articleDetails, refetch }) => {
       <NeetoUICallout
         className="mb-4"
         icon={Info}
-        style={!articleDetails.publishAt ? "success" : "warning"}
+        style={message === "unpublished" ? "success" : "warning"}
       >
         <div>
           <div className="flex">
-            {articleDetails.publishAt && (
-              <Typography style="body2">
-                This article will be published at
-              </Typography>
-            )}
-            {articleDetails.unpublishAt && (
-              <Typography style="body2">
-                This article will be unpublished at
-              </Typography>
-            )}
+            <Typography style="body2">
+              This article will be {message} at
+            </Typography>
             <Typography className="mt-px" style="h5">
               &nbsp;"
               {formatToDateAndTime(
-                !articleDetails.publishAt
-                  ? articleDetails.unpublishAt
-                  : articleDetails.publishAt
+                message === "published"
+                  ? articleDetails.publishAt
+                  : articleDetails.unpublishAt
               )}
               ".
             </Typography>
@@ -71,9 +62,9 @@ const Callout = ({ articleDetails, refetch }) => {
           isOpen={showAlert}
           message="Are you sure you want to cancel this schedule? This cannot be undone."
           title={
-            !articleDetails.publishAt
-              ? "Cancel unpublish later Schedule"
-              : "Cancel publish later Schedule"
+            message === "published"
+              ? "Cancel publish later Schedule"
+              : "Cancel unpublish later Schedule"
           }
           onClose={() => setShowAlert(false)}
           onSubmit={() => handleSubmit(articleDetails.articleId)}

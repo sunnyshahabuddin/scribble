@@ -13,7 +13,6 @@ const ScheduleLater = ({
   articleId,
   isEdit,
   formValues,
-  refetch,
   showSchedule,
   setShowSchedule,
 }) => {
@@ -41,7 +40,7 @@ const ScheduleLater = ({
           id: articleId,
           payload: formValues,
         });
-        refetch();
+        history.go(0);
       }
     } catch (error) {
       logger.error(error);

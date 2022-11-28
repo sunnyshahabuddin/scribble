@@ -11,7 +11,7 @@ import { VALIDATION_SCHEMA, findStatus } from "./constants";
 
 const { Menu, MenuItem } = Dropdown;
 
-const Form = ({ article, articleStatus, handleSubmit }) => {
+const Form = ({ article, submitButtonActions, handleSubmit }) => {
   const [dropdownLabel, setDropdownLabel] = useState(
     article.status === 0 ? "Save Draft" : "Publish"
   );
@@ -103,7 +103,7 @@ const Form = ({ article, articleStatus, handleSubmit }) => {
               </TooltipWrapper>
               <Dropdown disabled={isSubmitting} type="submit">
                 <Menu>
-                  {articleStatus.map(status => (
+                  {submitButtonActions.map(status => (
                     <MenuItem.Button
                       key={status.id}
                       onClick={() => {
