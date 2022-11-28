@@ -27,19 +27,24 @@ export const VALIDATION_SCHEMA = categoryList =>
       .required("Category is required"),
   });
 
-export const EDIT_PUBLISHED_ARTICLE_STATUS = [
+export const SUBMIT_ACTIONS_WITH_UNPUBLISH_LATER = [
   { id: 0, value: "Save Draft" },
   { id: 1, value: "Publish" },
   { id: 3, value: "Unpublish later" },
 ];
 
-export const EDIT_DRAFT_ARTICLE_STATUS = [
+export const SUBMIT_ACTIONS_WITH_PUBLISH_LATER = [
   { id: 0, value: "Save Draft" },
   { id: 1, value: "Publish" },
   { id: 2, value: "Publish later" },
 ];
 
-export const CREATE_ARTICLE_STATUS = [
+export const SUBMIT_ACTIONS_WITHOUT_PUBLISH_LATER_OR_UNPUBLISH_LATER = [
+  { id: 0, value: "Save Draft" },
+  { id: 1, value: "Publish" },
+];
+
+export const CREATE_SUBMIT_BUTTON_ACTIONS = [
   { id: 0, value: "Save Draft" },
   { id: 1, value: "Publish" },
   { id: 2, value: "Publish later" },
@@ -57,4 +62,18 @@ export const findStatus = status => {
   }
 
   return 0;
+};
+
+export const findButtonActions = articleDetails => {
+  if (articleDetails.publishAt && articleDetails.unpublishAt) {
+    return SUBMIT_ACTIONS_WITHOUT_PUBLISH_LATER_OR_UNPUBLISH_LATER;
+  } else if (articleDetails.unpublishAt) {
+    return SUBMIT_ACTIONS_WITH_PUBLISH_LATER;
+  } else if (articleDetails.publishAt) {
+    return SUBMIT_ACTIONS_WITH_UNPUBLISH_LATER;
+  } else if (articleDetails.status === 0) {
+    return SUBMIT_ACTIONS_WITH_PUBLISH_LATER;
+  }
+
+  return SUBMIT_ACTIONS_WITH_UNPUBLISH_LATER;
 };

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import articlesApi from "apis/admin/articles";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 
-import { FORM_INITIAL_VALUES, CREATE_ARTICLE_STATUS } from "./constants";
+import { FORM_INITIAL_VALUES, CREATE_SUBMIT_BUTTON_ACTIONS } from "./constants";
 import Form from "./Form";
 import ScheduleLater from "./ScheduleLater";
 
@@ -39,8 +39,8 @@ const Create = ({ history }) => {
       <div className="h-1/2 mx-auto mt-12 flex w-1/2">
         <Form
           article={FORM_INITIAL_VALUES}
-          articleStatus={CREATE_ARTICLE_STATUS}
           handleSubmit={handleSubmit}
+          submitButtonActions={CREATE_SUBMIT_BUTTON_ACTIONS}
         />
       </div>
       {showScheduleLater && (

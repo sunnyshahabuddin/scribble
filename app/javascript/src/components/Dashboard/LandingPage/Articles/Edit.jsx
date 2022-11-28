@@ -9,10 +9,7 @@ import { LANDING_PAGE_PATH } from "components/routeConstants";
 import ArticleDetailsContext from "contexts/articleContext";
 
 import Callout from "./Callout";
-import {
-  EDIT_PUBLISHED_ARTICLE_STATUS,
-  EDIT_DRAFT_ARTICLE_STATUS,
-} from "./constants";
+import { findButtonActions } from "./constants";
 import Form from "./Form";
 import ScheduleLater from "./ScheduleLater";
 import VersionHistory from "./Version History";
@@ -95,22 +92,26 @@ const Edit = ({ history }) => {
     <>
       <div className="flex">
         <div className="mx-auto mt-10 w-1/3">
-          {(articleDetails.publishAt || articleDetails.unpublishAt) && (
+          {articleDetails.publishAt && (
             <Callout
               articleDetails={articleDetails}
+              message="published"
+              refetch={fetchArticleDetailsAndVersions}
+            />
+          )}
+          {articleDetails.unpublishAt && (
+            <Callout
+              articleDetails={articleDetails}
+              message="unpublished"
               refetch={fetchArticleDetailsAndVersions}
             />
           )}
           <Form
             handleSubmit={handleSubmit}
+            submitButtonActions={findButtonActions(articleDetails)}
             article={utilityFunctions.formatFetchedDataToInitialFormValue(
               articleDetails
             )}
-            articleStatus={
-              articleDetails.status === 0
-                ? EDIT_DRAFT_ARTICLE_STATUS
-                : EDIT_PUBLISHED_ARTICLE_STATUS
-            }
           />
         </div>
         <ArticleDetailsContext.Provider value={articleDetails}>
@@ -122,7 +123,6 @@ const Edit = ({ history }) => {
           isEdit
           articleId={id}
           formValues={formValues}
-          refetch={fetchArticleDetailsAndVersions}
           setShowSchedule={setShowScheduleLater}
           showSchedule={showScheduleLater}
         />
