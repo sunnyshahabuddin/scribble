@@ -5,6 +5,7 @@ module.exports = {
     alias: {
       apis: "src/apis",
       hooks: "src/hooks",
+      contexts: "src/contexts",
       common: "src/common",
       components: "src/components",
       neetoui: "@bigbinary/neetoui",

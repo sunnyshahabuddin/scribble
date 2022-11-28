@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import articlesApi from "apis/admin/articles";
 import utilityFunctions from "components/Dashboard/LandingPage/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
+import ArticleDetailsContext from "contexts/articleContext";
 
 import Callout from "./Callout";
 import {
@@ -112,10 +113,9 @@ const Edit = ({ history }) => {
             }
           />
         </div>
-        <VersionHistory
-          articleDetails={articleDetails}
-          articleVersions={articleVersions}
-        />
+        <ArticleDetailsContext.Provider value={articleDetails}>
+          <VersionHistory articleVersions={articleVersions} />
+        </ArticleDetailsContext.Provider>
       </div>
       {showScheduleLater && (
         <ScheduleLater
