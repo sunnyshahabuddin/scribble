@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { Button, Typography, Modal } from "neetoui";
+import { Info } from "neetoicons";
+import { Button, Typography, Modal, Callout } from "neetoui";
 import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/admin/articles";
 import TooltipWrapper from "components/Common/TooltipWrapper";
+import ArticleDetailsContext from "contexts/articleContext";
 
 const RestoreModal = ({ version, showModal, setShowModal }) => {
   const history = useHistory();
+  const articleDetails = useContext(ArticleDetailsContext);
 
   const handleRestore = async () => {
     try {
@@ -19,6 +22,8 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
           status: 0,
           categoryId: version.article.category_id,
           restoredAt: version.article.updated_at,
+          publishAt: null,
+          unpublishAt: null,
         },
       });
       history.go(0);
@@ -36,6 +41,11 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
         </Typography>
       </Modal.Header>
       <Modal.Body className="space-y-2 p-2">
+        {(articleDetails.publishAt || articleDetails.unpublishAt) && (
+          <Callout icon={Info} style="danger">
+            Note: Restoring a version will cancel the current schedule.
+          </Callout>
+        )}
         <div className="mt-2 flex space-x-4">
           <div className="w-1/2">
             <Typography className="neeto-ui-text-gray-600" style="body2">

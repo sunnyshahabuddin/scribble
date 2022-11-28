@@ -4,7 +4,7 @@ import { Typography, Button } from "neetoui";
 
 import { formatToDateAndTime } from "components/Dashboard/utils";
 
-import Modal from "./RestoreModal";
+import RestoreModal from "./RestoreModal";
 
 const Version = ({ version }) => {
   const [showModal, setShowModal] = useState(false);
@@ -36,7 +36,7 @@ const Version = ({ version }) => {
         </div>
       </div>
       {showModal && (
-        <Modal
+        <RestoreModal
           setShowModal={setShowModal}
           showModal={showModal}
           version={version}
