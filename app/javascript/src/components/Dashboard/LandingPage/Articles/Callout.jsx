@@ -2,22 +2,24 @@ import React, { useState } from "react";
 
 import { Info } from "neetoicons";
 import { Button, Callout as NeetoUICallout, Typography, Alert } from "neetoui";
+import { useHistory } from "react-router-dom";
 
-import articlesApi from "apis/admin/articles";
+import scheduleApi from "apis/admin/schedules";
 import { formatToDateAndTime } from "components/Dashboard/utils";
 
-const Callout = ({ articleDetails, message, refetch }) => {
+const Callout = ({ articleDetails, message }) => {
   const [showAlert, setShowAlert] = useState(false);
 
+  const history = useHistory();
   const handleSubmit = async id => {
     const payload =
       message === "published" ? { publishAt: null } : { unpublishAt: null };
     try {
-      await articlesApi.update({
+      await scheduleApi.update({
         id,
         payload,
       });
-      refetch();
+      history.go(0);
       setShowAlert(false);
     } catch (error) {
       logger.error(error);
@@ -40,8 +42,8 @@ const Callout = ({ articleDetails, message, refetch }) => {
               &nbsp;"
               {formatToDateAndTime(
                 message === "published"
-                  ? articleDetails.publishAt
-                  : articleDetails.unpublishAt
+                  ? articleDetails.schedule.publishAt
+                  : articleDetails.schedule.unpublishAt
               )}
               ".
             </Typography>
@@ -67,7 +69,7 @@ const Callout = ({ articleDetails, message, refetch }) => {
               : "Cancel unpublish later Schedule"
           }
           onClose={() => setShowAlert(false)}
-          onSubmit={() => handleSubmit(articleDetails.articleId)}
+          onSubmit={() => handleSubmit(articleDetails.schedule.id)}
         />
       )}
     </>

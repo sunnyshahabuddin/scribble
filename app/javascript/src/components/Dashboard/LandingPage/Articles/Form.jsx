@@ -7,7 +7,7 @@ import { Input, Textarea, Select } from "neetoui/formik";
 import categoriesApi from "apis/admin/categories";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 
-import { VALIDATION_SCHEMA, findStatus } from "./constants";
+import { VALIDATION_SCHEMA, findStatus } from "./utils";
 
 const { Menu, MenuItem } = Dropdown;
 

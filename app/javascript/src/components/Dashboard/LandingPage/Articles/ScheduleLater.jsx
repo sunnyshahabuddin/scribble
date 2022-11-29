@@ -5,13 +5,11 @@ import dayjs from "dayjs";
 import { Button, Typography, Modal } from "neetoui";
 import { useHistory } from "react-router-dom";
 
-import articlesApi from "apis/admin/articles";
+import scheduleApi from "apis/admin/schedules";
 import TooltipWrapper from "components/Common/TooltipWrapper";
-import { LANDING_PAGE_PATH } from "components/routeConstants";
 
 const ScheduleLater = ({
-  articleId,
-  isEdit,
+  articleDetails,
   formValues,
   showSchedule,
   setShowSchedule,
@@ -26,22 +24,31 @@ const ScheduleLater = ({
 
   const handleSubmit = async formValues => {
     try {
-      if (!isEdit) {
-        formValues.status = 0;
-        formValues.publishAt = dateTime;
-        await articlesApi.create(formValues);
-        history.push(LANDING_PAGE_PATH);
-      } else {
-        formValues.status === 2
-          ? (formValues.publishAt = dateTime)
-          : (formValues.unpublishAt = dateTime);
-        formValues.status = formValues.status === 2 ? 0 : 1;
-        await articlesApi.update({
-          id: articleId,
-          payload: formValues,
+      if (
+        articleDetails.schedule?.publishAt !== null &&
+        articleDetails.schedule?.unpublishAt !== null
+      ) {
+        await scheduleApi.create({
+          articleId: articleDetails.id,
+          publishAt: formValues.status === 2 ? dateTime : null,
+          unpublishAt: formValues.status === 3 ? dateTime : null,
         });
-        history.go(0);
+      } else {
+        await scheduleApi.update({
+          id: articleDetails.schedule.id,
+          payload: {
+            publishAt:
+              formValues.status === 2
+                ? dateTime
+                : articleDetails.schedule?.publishAt,
+            unpublishAt:
+              formValues.status === 3
+                ? dateTime
+                : articleDetails.schedule?.unpublishAt,
+          },
+        });
       }
+      history.go(0);
     } catch (error) {
       logger.error(error);
     }
@@ -55,7 +62,7 @@ const ScheduleLater = ({
     >
       <Modal.Header>
         <Typography style="h2">
-          Select date and time for publishing later
+          Select date and time for scheduling later
         </Typography>
       </Modal.Header>
       <Modal.Body className="space-y-6">

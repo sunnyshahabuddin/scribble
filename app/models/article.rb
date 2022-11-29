@@ -11,6 +11,7 @@ class Article < ApplicationRecord
   belongs_to :category
   belongs_to :user
   has_many :visits
+  has_one :schedule
 
   before_create :set_slug, if: -> { status == 1 }
   before_update :set_slug, if: -> { slug.nil? && status == 1 }
