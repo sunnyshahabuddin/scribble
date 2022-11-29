@@ -9,9 +9,10 @@ import { LANDING_PAGE_PATH } from "components/routeConstants";
 import ArticleDetailsContext from "contexts/articleContext";
 
 import Callout from "./Callout";
-import { findButtonActions } from "./constants";
+import ConfirmationAlert from "./ConfirmationAlert";
 import Form from "./Form";
 import ScheduleLater from "./ScheduleLater";
+import { findButtonActions } from "./utils";
 import VersionHistory from "./Version History";
 
 const Edit = ({ history }) => {
@@ -20,6 +21,7 @@ const Edit = ({ history }) => {
   const [articleDetails, setArticleDetails] = useState({});
   const [articleVersions, setArticleVersions] = useState([]);
   const [showScheduleLater, setShowScheduleLater] = useState(false);
+  const [showConfirmationAlert, setShowConfirmationAlert] = useState(false);
 
   const { id } = useParams();
 
@@ -31,7 +33,10 @@ const Edit = ({ history }) => {
       categoryId: article.category.value,
       restoredAt: null,
     };
-    if (article.status === 0 || article.status === 1) {
+    if (
+      (article.status === 0 && !articleDetails.schedule.unpublishAt) ||
+      (article.status === 1 && !articleDetails.schedule.publishAt)
+    ) {
       try {
         await articlesApi.update({
           id,
@@ -44,6 +49,9 @@ const Edit = ({ history }) => {
     } else if (article.status === 2 || article.status === 3) {
       setFormValues(payload);
       setShowScheduleLater(true);
+    } else {
+      setFormValues(payload);
+      setShowConfirmationAlert(true);
     }
   };
 
@@ -57,6 +65,11 @@ const Edit = ({ history }) => {
         updatedAt: article.updated_at,
         publishAt: article.publish_at,
         unpublishAt: article.unpublish_at,
+        schedule: {
+          ...article?.schedule,
+          publishAt: article.schedule?.publish_at,
+          unpublishAt: article.schedule?.unpublish_at,
+        },
       });
       const {
         data: { article_versions },
@@ -92,19 +105,11 @@ const Edit = ({ history }) => {
     <>
       <div className="flex">
         <div className="mx-auto mt-10 w-1/3">
-          {articleDetails.publishAt && (
-            <Callout
-              articleDetails={articleDetails}
-              message="published"
-              refetch={fetchArticleDetailsAndVersions}
-            />
+          {articleDetails.schedule?.publishAt && (
+            <Callout articleDetails={articleDetails} message="published" />
           )}
-          {articleDetails.unpublishAt && (
-            <Callout
-              articleDetails={articleDetails}
-              message="unpublished"
-              refetch={fetchArticleDetailsAndVersions}
-            />
+          {articleDetails.schedule?.unpublishAt && (
+            <Callout articleDetails={articleDetails} message="unpublished" />
           )}
           <Form
             handleSubmit={handleSubmit}
@@ -120,11 +125,18 @@ const Edit = ({ history }) => {
       </div>
       {showScheduleLater && (
         <ScheduleLater
-          isEdit
-          articleId={id}
+          articleDetails={articleDetails}
           formValues={formValues}
           setShowSchedule={setShowScheduleLater}
           showSchedule={showScheduleLater}
+        />
+      )}
+      {showConfirmationAlert && (
+        <ConfirmationAlert
+          articleDetails={articleDetails}
+          formValues={formValues}
+          setShowConfirmationAlert={setShowConfirmationAlert}
+          showConfirmationAlert={showConfirmationAlert}
         />
       )}
     </>

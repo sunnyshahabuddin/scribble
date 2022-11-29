@@ -5,6 +5,7 @@ import { Button, Typography, Modal, Callout } from "neetoui";
 import { useHistory } from "react-router-dom";
 
 import articlesApi from "apis/admin/articles";
+import scheduleApi from "apis/admin/schedules";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 import ArticleDetailsContext from "contexts/articleContext";
 
@@ -22,6 +23,11 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
           status: 0,
           categoryId: version.article.category_id,
           restoredAt: version.article.updated_at,
+        },
+      });
+      await scheduleApi.update({
+        id: articleDetails.schedule.id,
+        payload: {
           publishAt: null,
           unpublishAt: null,
         },
@@ -41,7 +47,8 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
         </Typography>
       </Modal.Header>
       <Modal.Body className="space-y-2 p-2">
-        {(articleDetails.publishAt || articleDetails.unpublishAt) && (
+        {(articleDetails.schedule.publishAt ||
+          articleDetails.schedule.unpublishAt) && (
           <Callout icon={Info} style="danger">
             Note: Restoring a version will cancel the current schedule.
           </Callout>

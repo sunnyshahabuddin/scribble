@@ -10,24 +10,18 @@ const fetch = payload =>
     },
   });
 
-const create = payload =>
-  axios.post("/api/admin/articles", {
-    article: {
-      ...payload,
-      publish_at: payload.publishAt,
-    },
-  });
+const create = payload => axios.post("/api/admin/articles", payload);
 
 const show = id => axios.get(`/api/admin/articles/${id}`);
 
 const update = ({ id, payload }) =>
   axios.put(`/api/admin/articles/${id}`, {
     article: {
-      ...payload,
+      title: payload.title,
+      body: payload.body,
+      status: payload.status,
       category_id: payload.categoryId,
       restored_at: payload.restoredAt,
-      publish_at: payload.publishAt,
-      unpublish_at: payload.unpublishAt,
     },
   });
 

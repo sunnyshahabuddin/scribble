@@ -1,5 +1,7 @@
 import * as yup from "yup";
 
+import { formatToDateAndTime } from "components/Dashboard/utils";
+
 export const FORM_INITIAL_VALUES = {
   title: "",
   category: null,
@@ -47,7 +49,6 @@ export const SUBMIT_ACTIONS_WITHOUT_PUBLISH_LATER_OR_UNPUBLISH_LATER = [
 export const CREATE_SUBMIT_BUTTON_ACTIONS = [
   { id: 0, value: "Save Draft" },
   { id: 1, value: "Publish" },
-  { id: 2, value: "Publish later" },
 ];
 
 export const findStatus = status => {
@@ -65,11 +66,14 @@ export const findStatus = status => {
 };
 
 export const findButtonActions = articleDetails => {
-  if (articleDetails.publishAt && articleDetails.unpublishAt) {
+  if (
+    articleDetails.schedule.publishAt &&
+    articleDetails.schedule.unpublishAt
+  ) {
     return SUBMIT_ACTIONS_WITHOUT_PUBLISH_LATER_OR_UNPUBLISH_LATER;
-  } else if (articleDetails.unpublishAt) {
+  } else if (articleDetails.schedule.unpublishAt) {
     return SUBMIT_ACTIONS_WITH_PUBLISH_LATER;
-  } else if (articleDetails.publishAt) {
+  } else if (articleDetails.schedule.publishAt) {
     return SUBMIT_ACTIONS_WITH_UNPUBLISH_LATER;
   } else if (articleDetails.status === 0) {
     return SUBMIT_ACTIONS_WITH_PUBLISH_LATER;
@@ -77,3 +81,12 @@ export const findButtonActions = articleDetails => {
 
   return SUBMIT_ACTIONS_WITH_UNPUBLISH_LATER;
 };
+
+export const buildConfirmationMessage = (articleDetails, formValues) =>
+  formValues.status === 1 && articleDetails.schedule?.publishAt !== null
+    ? `This article is scheduled to be published at "${formatToDateAndTime(
+        articleDetails.schedule.publishAt
+      )}". Continuing will publish the article now. Are you sure you want to continue?`
+    : `This article is scheduled to be unpublished at "${formatToDateAndTime(
+        articleDetails.schedule.unpublishAt
+      )}". Continuing will unpublish the article now. Are you sure you want to continue?`;
