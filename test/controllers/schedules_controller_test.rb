@@ -36,4 +36,12 @@ class Api::Admin::SchedulesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal t("successfully_updated", entity: "Schedule"), response_json["notice"]
   end
+
+  def test_should_list_schedules
+    get api_admin_schedules_path, as: :json
+    assert_response :ok
+    response_json = response.parsed_body
+    schedules_count = Schedule.count
+    assert_equal schedules_count, response_json["schedules"].count
+  end
 end
