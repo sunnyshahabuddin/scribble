@@ -59,11 +59,19 @@ const NavBar = () => {
             <Typography style="h4">Settings</Typography>
           </NavLink>
           <NavLink
-            activeClassName="neeto-ui-text-primary-500 mx-6"
-            className="neeto-ui-text-gray-500 mx-6"
+            activeClassName="neeto-ui-text-primary-500 ml-6"
+            className="neeto-ui-text-gray-500 ml-6"
             to="/analytics"
           >
             <Typography style="h4">Analytics</Typography>
+          </NavLink>
+          <NavLink
+            exact
+            activeClassName="neeto-ui-text-primary-500 mx-6"
+            className="neeto-ui-text-gray-500 mx-6"
+            to="/schedules"
+          >
+            <Typography style="h4">Schedules</Typography>
           </NavLink>
         </div>
         <div className="flex">

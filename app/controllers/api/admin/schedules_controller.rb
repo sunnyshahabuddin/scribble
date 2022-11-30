@@ -3,6 +3,10 @@
 class Api::Admin::SchedulesController < ApplicationController
   before_action :load_schedule!, only: %i[show update destroy]
 
+  def index
+    @schedules = Schedule.all
+  end
+
   def create
     Schedule.create!(schedule_params)
     respond_with_success(t("successfully_created", entity: Schedule))

@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const fetch = () => axios.get("/api/admin/schedules");
+
 const create = payload =>
   axios.post("/api/admin/schedules", {
     publish_at: payload.publishAt,
@@ -14,6 +16,6 @@ const update = ({ id, payload }) =>
     article_id: payload.articleId,
   });
 
-const scheduleApi = { create, update };
+const scheduleApi = { fetch, create, update };
 
 export default scheduleApi;

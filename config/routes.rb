@@ -12,7 +12,7 @@ Rails.application.routes.draw do
           put :position_update, on: :collection
         end
         resource :organization, only: %i[create update show]
-        resources :schedules, only: %i[create update]
+        resources :schedules, only: %i[index create update]
         resources :redirections, only: %i[create index update destroy]
       end
 

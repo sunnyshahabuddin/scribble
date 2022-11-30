@@ -37,7 +37,7 @@ export const buildTableColumnData = [
     dataIndex: "title",
     key: "title",
     width: "40%",
-    render: (title, { slug }) => renderTitle(title, slug, status),
+    render: (title, { slug }) => renderTitle(title, slug),
   },
   {
     title: "DATE",
