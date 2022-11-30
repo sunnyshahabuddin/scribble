@@ -60,7 +60,7 @@ const SideBar = ({
             <ShowArticle slug={article.slug} />
           </Route>
         ))}
-        <Redirect exact from="/public" to={`public/${defaultPath}`} />
+        <Redirect exact from="/public" to={`/public/${defaultPath}`} />
       </Switch>
       {activeArticleIndex === -1 && (
         <EmptyState message="Article does not exists " />

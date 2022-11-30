@@ -7,12 +7,13 @@ class Api::Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
     @category = create(:category, user: @user)
   end
 
-  def test_should_show_all_categories
+  def test_should_show_only_those_categories_which_have_published_articles
+    dummy_article_1 = create(:article, user: @user, category_id: @category.id, status: 1)
+    dummy_article_3 = create(:article, user: @user, category_id: @category.id, status: 1)
     get api_public_categories_path, as: :json
     assert_response :success
-
     response_json = response.parsed_body
-    all_categories = @user.categories.count
-    assert_equal all_categories, response_json.count
+    response_json = response_json["categories"][0]
+    assert_equal 2, response_json["articles"].count
   end
 end

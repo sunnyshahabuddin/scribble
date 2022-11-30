@@ -18,7 +18,7 @@ const Eui = () => {
 
   useEffect(() => {
     fetchArticlesCategoriesAndSlugMatch();
-  }, []);
+  }, [activeArticleIndex]);
 
   const fetchArticlesCategoriesAndSlugMatch = async () => {
     try {
