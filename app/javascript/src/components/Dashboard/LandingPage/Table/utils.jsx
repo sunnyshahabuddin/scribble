@@ -12,17 +12,13 @@ const renderStatus = status => (
   </Typography>
 );
 
-const renderTitle = (title, slug, status) =>
-  status === 1 ? (
-    <Link target="_blank" to={`/public/${slug}`}>
-      <Typography className="text-indigo-500" style="h5">
-        {title}
-      </Typography>
-    </Link>
-  ) : (
-    <Typography style="h5">{title}</Typography>
-  );
-
+const renderTitle = (title, id) => (
+  <Link to={`/articles/${id}/edit`}>
+    <Typography className="text-indigo-500" style="h5">
+      {title}
+    </Typography>
+  </Link>
+);
 const renderDeleteEditButton = (id, title, destroyArticle) => (
   <div className="flex">
     <Button
@@ -65,7 +61,7 @@ export const buildTableColumnData = destroyArticle =>
       dataIndex: "title",
       key: "title",
       checked: INITIAL_CHECKED_LIST[0].checked,
-      render: (title, { slug, status }) => renderTitle(title, slug, status),
+      render: (title, { id }) => renderTitle(title, id),
     },
     {
       title: "LAST UPDATED AT",

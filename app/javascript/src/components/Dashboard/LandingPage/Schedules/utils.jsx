@@ -3,7 +3,7 @@ import React from "react";
 import { Typography } from "neetoui";
 import { Link } from "react-router-dom";
 
-import { formatDateToMonthDayYear } from "components/Dashboard/utils";
+import { formatToDateAndTime } from "components/Dashboard/utils";
 
 const renderTitle = (title, articleId) => (
   <Link to={`/articles/${articleId}/edit`}>
@@ -15,7 +15,7 @@ const renderTitle = (title, articleId) => (
 
 const renderDateTime = dateTime => (
   <Typography className="neeto-ui-text-gray-600" style="body2">
-    {dateTime ? formatDateToMonthDayYear(dateTime) : "--"}
+    {dateTime ? formatToDateAndTime(dateTime) : "--"}
   </Typography>
 );
 
@@ -28,14 +28,14 @@ export const buildTableColumnData = [
     render: (title, { articleId }) => renderTitle(title, articleId),
   },
   {
-    title: "PUBLISHED AT",
+    title: "PUBLISH AT",
     dataIndex: "publishAt",
     key: "publishAt",
     width: "25%",
     render: publishAt => renderDateTime(publishAt),
   },
   {
-    title: "UNPUBLISHED AT",
+    title: "UNPUBLISH AT",
     dataIndex: "unpublishAt",
     key: "unpublishAt",
     width: "25%",
