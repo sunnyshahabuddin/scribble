@@ -9,7 +9,8 @@ class Api::Admin::ArticleScheduleLaterService
   end
 
   def process
-    schedule.publish_at.nil? ? unpublish_later : publish_later
+    publish_later if schedule.publish_at.present? && schedule.publish_at <= Time.zone.now
+    unpublish_later if schedule.unpublish_at.present? && schedule.unpublish_at <= Time.zone.now
   end
 
   private
