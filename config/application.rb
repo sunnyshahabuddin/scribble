@@ -10,7 +10,6 @@ module ScribbleBySunnyShahabuddin
   class Application < Rails::Application
     config.load_defaults 6.1
     config.active_job.queue_adapter = :sidekiq
-    config.autoload_paths += [Rails.root.join("app", "validators").to_s]
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
