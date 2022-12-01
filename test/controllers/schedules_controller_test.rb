@@ -38,6 +38,7 @@ class Api::Admin::SchedulesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_should_list_schedules
+    @schedule.update(publish_at: Time.zone.now + 20.minutes)
     get api_admin_schedules_path, as: :json
     assert_response :ok
     response_json = response.parsed_body

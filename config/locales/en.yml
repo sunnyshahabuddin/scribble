@@ -18,5 +18,3 @@ en:
     before_time: "cannot be in the past."
     unpublish_before: "cannot be before publish at."
     publish_before: "cannot be before unpublish at."
-    article_publish: "can only be allowed publish later if article is draft."
-    unpublish_draft: "can only be allowed unpublish later if article is published."
