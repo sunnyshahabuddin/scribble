@@ -12,11 +12,13 @@ class ScheduleValidator < ActiveModel::Validator
       record.errors.add(:unpublish_at, t("schedule.before_time"))
     end
 
-    if record.publish_at.present? && record.unpublish_at.present? && record.unpublish_at < record.publish_at
+    if record.publish_at.present? && record.unpublish_at.present? &&
+      record.unpublish_at < record.publish_at && record.article.status == 0
       record.errors.add(:unpublish_at, t("schedule.unpublish_before"))
     end
 
-    if record.publish_at.present? && record.unpublish_at.present? && record.publish_at < record.unpublish_at
+    if record.publish_at.present? && record.unpublish_at.present? &&
+      record.publish_at < record.unpublish_at && record.article.status == 1
       record.errors.add(:publish_at, t("schedule.publish_before"))
     end
   end
