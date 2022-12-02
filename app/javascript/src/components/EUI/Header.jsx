@@ -10,7 +10,7 @@ import SearchModal from "./SearchModal";
 
 const Header = ({ categoryList, setActiveArticleIndex }) => {
   const [publishedArticles, setPublishedArticles] = useState([]);
-  const [organizationName, setOrganizationName] = useState({});
+  const [organizationName, setOrganizationName] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [loading, setLoading] = useState(true);
   const keysPressed = {};
@@ -27,6 +27,7 @@ const Header = ({ categoryList, setActiveArticleIndex }) => {
         setShowSearch(false);
       }
     });
+
     fetchOrganizationAndPublishedArticles();
   }, [showSearch]);
 

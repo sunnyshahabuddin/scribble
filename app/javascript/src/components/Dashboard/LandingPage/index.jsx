@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { PageLoader, Pagination } from "neetoui";
 import { Container } from "neetoui/layouts";
+import { assoc } from "ramda";
 
 import articlesApi from "apis/admin/articles";
 import categoriesApi from "apis/admin/categories";
@@ -14,26 +15,26 @@ import { INITIAL_CHECKED_LIST } from "./Table/utils";
 const LandingPage = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
-  const [categoryList, setCategoryList] = useState({});
+  const [categoryList, setCategoryList] = useState([]);
   const [checkedColumn, setCheckedColumn] = useState(INITIAL_CHECKED_LIST);
-  const [searchArticleTitle, setSearchArticleTitle] = useState("");
-  const [currentTablePageNumber, setCurrentTablePageNumber] = useState(1);
   const [totalCount, setTotalCount] = useState({});
   const [articleFilters, setArticleFilters] = useState({
     status: "",
-    category_id: [],
+    categoryIds: [],
+    searchTitle: "",
+    pageNumber: 1,
   });
 
   useEffect(() => {
     fetchArticlesCategories();
-  }, [articleFilters, searchArticleTitle, currentTablePageNumber]);
+  }, [articleFilters]);
 
   const fetchArticlesCategories = async () => {
     const payload = {
-      searchFilter: searchArticleTitle,
+      searchFilter: articleFilters.searchTitle,
       statusFilter: articleFilters.status,
-      categoryFilter: articleFilters.category_id,
-      pageNumber: currentTablePageNumber,
+      categoryFilter: articleFilters.categoryIds,
+      pageNumber: articleFilters.pageNumber,
     };
     try {
       const {
@@ -87,17 +88,19 @@ const LandingPage = () => {
           categoryList={categoryList}
           checkedColumn={checkedColumn}
           handleCheckedColumn={handleCheckedColumn}
-          searchArticleTitle={searchArticleTitle}
-          setSearchArticleTitle={setSearchArticleTitle}
+          searchArticleTitle={articleFilters.searchTitle}
+          setArticleFilters={setArticleFilters}
         />
         <Table articles={articles} refetch={fetchArticlesCategories} />
         <div className="flex w-full justify-end">
           <Pagination
             className="mt-4"
             count={totalCount.all}
-            navigate={pageNumber => setCurrentTablePageNumber(pageNumber)}
-            pageNo={currentTablePageNumber}
+            pageNo={articleFilters.pageNumber}
             pageSize={10}
+            navigate={pageNumber =>
+              setArticleFilters(assoc("pageNumber", pageNumber))
+            }
           />
         </div>
       </Container>

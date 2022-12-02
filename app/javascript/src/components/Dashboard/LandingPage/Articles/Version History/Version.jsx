@@ -15,19 +15,18 @@ const Version = ({ version }) => {
         <div className="flex justify-between">
           <div>
             <Typography className="neeto-ui-text-gray-500 mr-4" style="body2">
-              {formatToDateAndTime(version.article.updated_at)}
+              {formatToDateAndTime(version.object.updatedAt)}
             </Typography>
-            {version.article.restored_at && (
+            {version.object.restoredAt && (
               <Typography className="neeto-ui-text-gray-500 mr-4" style="body2">
-                Restored from (
-                {formatToDateAndTime(version.article.restored_at)})
+                Restored from ({formatToDateAndTime(version.object.restoredAt)})
               </Typography>
             )}
           </div>
           <Button
             style="link"
             label={
-              version.article.status === 0
+              version.object.status === 0
                 ? "Article Drafted"
                 : "Article Published"
             }

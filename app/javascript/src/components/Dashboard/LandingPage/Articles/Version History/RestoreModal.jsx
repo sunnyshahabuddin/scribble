@@ -16,13 +16,13 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
   const handleRestore = async () => {
     try {
       await articlesApi.update({
-        id: version.article.id,
+        id: version.object.id,
         payload: {
-          title: version.article.title,
-          body: version.article.body,
+          title: version.object.title,
+          body: version.object.body,
           status: 0,
-          categoryId: version.article.category_id,
-          restoredAt: version.article.updated_at,
+          categoryId: version.object.categoryId,
+          restoredAt: version.object.updatedAt,
         },
       });
       await scheduleApi.update({
@@ -43,7 +43,7 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
       <Modal.Header>
         <Typography style="h2">Version history.</Typography>
         <Typography className="neeto-ui-text-gray-600 mt-1" style="body2">
-          Version history of {version.article.title} in Scribble.
+          Version history of {version.object.title} in Scribble.
         </Typography>
       </Modal.Header>
       <Modal.Body className="space-y-2 p-2">
@@ -59,7 +59,7 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
               Article Title
             </Typography>
             <div className="border h-8 overflow-y-auto p-1">
-              {version.article.title}
+              {version.object.title}
             </div>
           </div>
           <div className="w-1/2">
@@ -75,11 +75,11 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
           Article Content
         </Typography>
         <div className="border h-48 overflow-y-auto p-1">
-          {version.article.body}
+          {version.object.body}
         </div>
         <div className="mt-6 flex pt-4">
           <TooltipWrapper
-            disabled={!version.category || version.article.restored_at}
+            disabled={!version.category || version.object.restoredAt}
             followCursor="horizontal"
             position="bottom"
             content={
@@ -90,7 +90,7 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
           >
             <Button
               className="h-8"
-              disabled={!version.category || version.article.restored_at}
+              disabled={!version.category || version.object.restoredAt}
               label="Restore version"
               type="submit"
               onClick={() => {

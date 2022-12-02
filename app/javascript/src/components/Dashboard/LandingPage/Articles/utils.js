@@ -67,13 +67,13 @@ export const findStatus = status => {
 
 export const findButtonActions = articleDetails => {
   if (
-    articleDetails.schedule.publishAt &&
-    articleDetails.schedule.unpublishAt
+    articleDetails.schedule?.publishAt &&
+    articleDetails.schedule?.unpublishAt
   ) {
     return SUBMIT_ACTIONS_WITHOUT_PUBLISH_LATER_OR_UNPUBLISH_LATER;
-  } else if (articleDetails.schedule.unpublishAt) {
+  } else if (articleDetails.schedule?.unpublishAt) {
     return SUBMIT_ACTIONS_WITH_PUBLISH_LATER;
-  } else if (articleDetails.schedule.publishAt) {
+  } else if (articleDetails.schedule?.publishAt) {
     return SUBMIT_ACTIONS_WITH_UNPUBLISH_LATER;
   } else if (articleDetails.status === 0) {
     return SUBMIT_ACTIONS_WITH_PUBLISH_LATER;

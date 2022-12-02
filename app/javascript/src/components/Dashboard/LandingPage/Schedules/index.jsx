@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Table as NeetoUITable, PageLoader } from "neetoui";
 
 import scheduleApi from "apis/admin/schedules";
+import { KeysToCamelCase } from "components/Dashboard/utils";
 
 import { buildTableColumnData } from "./utils";
 
@@ -20,14 +21,7 @@ const Schedules = () => {
       const {
         data: { schedules: schedules },
       } = await scheduleApi.fetch();
-      setSchedules(
-        schedules.map(schedule => ({
-          ...schedule,
-          articleId: schedule.article_id,
-          publishAt: schedule.publish_at,
-          unpublishAt: schedule.unpublish_at,
-        }))
-      );
+      setSchedules(KeysToCamelCase(schedules));
     } catch (error) {
       logger.error(error);
     } finally {

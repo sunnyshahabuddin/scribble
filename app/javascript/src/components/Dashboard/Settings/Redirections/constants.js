@@ -1,20 +1,19 @@
 import * as yup from "yup";
 
-export const REDIRECTION_HEADER = ["FROM PATH", "TO PATH", "ACTIONS"];
+export const REDIRECTION_HEADER = [
+  { id: 1, value: "FROM PATH" },
+  { id: 2, value: "TO PATH" },
+  { id: 3, value: "ACTIONS" },
+];
 
-export const formValidationSchema = redirectionsList =>
-  yup.object().shape({
-    from: yup
-      .string()
-      .matches(/^\//, "From must be in the format of '/path'")
-      .notOneOf(
-        redirectionsList.map(redirection => redirection.from),
-        "From already present"
-      )
-      .required("From Path is required"),
-    to: yup
-      .string()
-      .matches(/^\//, "To must be in the format of '/path'")
-      .notOneOf([yup.ref("from"), null], "To and From should not be equal")
-      .required("To Path is required"),
-  });
+export const VALIDATION_SCHEMA = yup.object().shape({
+  from: yup
+    .string()
+    .notOneOf([yup.ref("to"), null], "To and From should not be equal")
+    .matches(/^\//, "From must be in the format of '/path'")
+    .required("From Path is required"),
+  to: yup
+    .string()
+    .matches(/^\//, "To must be in the format of '/path'")
+    .required("To Path is required"),
+});

@@ -9,14 +9,13 @@ import redirectionsApi from "apis/admin/redirections";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 import { useKey } from "hooks/forms/useKey";
 
-import { formValidationSchema } from "./constants";
+import { VALIDATION_SCHEMA } from "./constants";
 
 const Form = ({
   isEdit,
   setIsEdit,
   initialValues,
   refetch,
-  redirectionsList,
   setAddRedirection,
 }) => {
   useKey("Escape", () => {
@@ -49,7 +48,7 @@ const Form = ({
     <Formik
       validateOnChange
       initialValues={initialValues}
-      validationSchema={formValidationSchema(redirectionsList)}
+      validationSchema={VALIDATION_SCHEMA}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, dirty }) => (

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 import articlesApi from "apis/admin/articles";
 import utilityFunctions from "components/Dashboard/LandingPage/utils";
+import { KeysToCamelCase } from "components/Dashboard/utils";
 import { LANDING_PAGE_PATH } from "components/routeConstants";
 import ArticleDetailsContext from "contexts/articleContext";
 
@@ -58,30 +59,11 @@ const Edit = ({ history }) => {
   const fetchArticleDetailsAndVersions = async () => {
     try {
       const { data: article } = await articlesApi.show(id);
-      setArticleDetails({
-        ...article,
-        articleId: article.id,
-        restoredAt: article.restored_at,
-        updatedAt: article.updated_at,
-        publishAt: article.publish_at,
-        unpublishAt: article.unpublish_at,
-        schedule: {
-          ...article?.schedule,
-          publishAt: article.schedule?.publish_at,
-          unpublishAt: article.schedule?.unpublish_at,
-        },
-      });
+      setArticleDetails(KeysToCamelCase(article));
       const {
         data: { article_versions },
       } = await articlesApi.articleVersions(id);
-      const articleVersions = article_versions
-        .map(articleVersion => ({
-          id: articleVersion.id,
-          article: articleVersion.object,
-          category: articleVersion.category,
-        }))
-        .slice(1);
-      setArticleVersions(articleVersions);
+      setArticleVersions(KeysToCamelCase(article_versions).slice(1));
     } catch (error) {
       logger.error(error);
     } finally {

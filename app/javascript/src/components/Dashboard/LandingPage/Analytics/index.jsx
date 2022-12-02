@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 import { Table as NeetoUITable, PageLoader, Pagination } from "neetoui";
+import { assoc, pipe } from "ramda";
 
 import articlesApi from "apis/admin/articles";
+import { KeysToCamelCase } from "components/Dashboard/utils";
 
 import {
   buildTableColumnData,
@@ -12,14 +14,14 @@ import {
 
 const Analytics = () => {
   const [currentTablePageNumber, setCurrentTablePageNumber] = useState(1);
-  const [publishedArticles, setPublishedArticles] = useState([]);
+  const [publishedArticles, setPublishedArticles] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchArticles();
+    fetchArticlesAndCount();
   }, [currentTablePageNumber]);
 
-  const fetchArticles = async () => {
+  const fetchArticlesAndCount = async () => {
     setLoading(true);
     try {
       const {
@@ -27,7 +29,13 @@ const Analytics = () => {
       } = await articlesApi.listPublishedArticles({
         pageNumber: currentTablePageNumber,
       });
-      setPublishedArticles(publishedArticles);
+      const { data } = await articlesApi.totalCount();
+      setPublishedArticles(
+        pipe(
+          assoc("count", data.published),
+          assoc("articles", KeysToCamelCase(publishedArticles))
+        )
+      );
     } catch (error) {
       logger.error(error);
     } finally {
@@ -48,14 +56,14 @@ const Analytics = () => {
       <NeetoUITable
         allowRowClick={false}
         columnData={buildTableColumnData}
-        rowData={publishedArticles}
+        rowData={publishedArticles.articles}
         expandable={{
           expandedRowRender: record => (
             <div className="m-0 w-64 pl-8">
               <NeetoUITable
                 allowRowClick={false}
                 columnData={ArticleVisitsColumnData}
-                rowData={buildRowData(record.date_wise_visits)}
+                rowData={buildRowData(record.dateWiseVisits)}
               />
             </div>
           ),
@@ -64,14 +72,10 @@ const Analytics = () => {
       <div className="flex w-full justify-end">
         <Pagination
           className="mt-4"
+          count={publishedArticles.count}
           navigate={pageNumber => setCurrentTablePageNumber(pageNumber)}
           pageNo={currentTablePageNumber}
           pageSize={10}
-          count={
-            publishedArticles.length === 10
-              ? currentTablePageNumber * 10 + 1
-              : currentTablePageNumber * 10
-          }
         />
       </div>
     </div>
