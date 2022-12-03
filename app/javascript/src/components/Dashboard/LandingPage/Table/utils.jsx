@@ -40,18 +40,18 @@ const renderCategory = category => (
     {category.name}
   </Typography>
 );
-const renderDate = (updated_at, status) => (
+const renderDate = (updatedAt, status) => (
   <Typography className="neeto-ui-text-gray-600" style="body2">
-    {status === 1 ? formatDateToMonthDayYear(updated_at) : "------"}
+    {status === 1 ? formatDateToMonthDayYear(updatedAt) : "------"}
   </Typography>
 );
 
 export const INITIAL_CHECKED_LIST = [
-  { title: "Title", checked: true },
-  { title: "Date", checked: true },
-  { title: "Author", checked: true },
-  { title: "Category", checked: true },
-  { title: "Status", checked: true },
+  { id: 0, title: "Title", checked: true },
+  { id: 1, title: "Date", checked: true },
+  { id: 2, title: "Author", checked: true },
+  { id: 3, title: "Category", checked: true },
+  { id: 4, title: "Status", checked: true },
 ];
 
 export const buildTableColumnData = destroyArticle =>
@@ -65,10 +65,10 @@ export const buildTableColumnData = destroyArticle =>
     },
     {
       title: "LAST UPDATED AT",
-      dataIndex: "updated_at",
-      key: "updated_at",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
       checked: INITIAL_CHECKED_LIST[1].checked,
-      render: (updated_at, { status }) => renderDate(updated_at, status),
+      render: (updatedAt, { status }) => renderDate(updatedAt, status),
     },
     {
       title: "AUTHOR",

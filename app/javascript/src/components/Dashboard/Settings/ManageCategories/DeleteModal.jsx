@@ -87,7 +87,7 @@ const DeleteModal = ({
                   label: category.name,
                   value: category.id,
                 }))}
-              onChange={e => setMoveArticlesToCategory(e)}
+              onChange={category => setMoveArticlesToCategory(category)}
             />
           )}
           {!moveArticlesToCategory.value && categoryList.length > 1 && (

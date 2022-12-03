@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Search, Plus } from "neetoicons";
 import { Typography } from "neetoui";
 import { MenuBar } from "neetoui/layouts";
+import { append, without, evolve, assoc } from "ramda";
 
 import utilityFunctions from "components/Dashboard/LandingPage/utils";
 import { useKey } from "hooks/forms/useKey";
@@ -15,15 +16,17 @@ const CategoryFilter = ({
   articleFilters,
   setArticleFilters,
 }) => {
-  const [isCategorySearchCollapsed, setIsCategorySearchCollapsed] =
-    useState(true);
   const [searchCategory, setSearchCategory] = useState("");
-  const [isCategoryAddCollapsed, setIsCategoryAddCollapsed] = useState(true);
+  const [collapsableAction, setCollapsableAction] = useState({
+    isSearchCollapsed: true,
+    isAddCollapsed: true,
+  });
 
   useKey("Escape", () => {
     setSearchCategory("");
-    setIsCategorySearchCollapsed(true);
-    setIsCategoryAddCollapsed(true);
+    setCollapsableAction(
+      evolve({ isSearchCollapsed: () => true, isAddCollapsed: () => true })
+    );
   });
 
   return (
@@ -33,21 +36,25 @@ const CategoryFilter = ({
           {
             icon: Search,
             onClick: () => {
-              setIsCategoryAddCollapsed(true),
-                setIsCategorySearchCollapsed(
-                  isCategorySearchCollapsed => !isCategorySearchCollapsed
-                );
               setSearchCategory("");
+              setCollapsableAction(
+                evolve({
+                  isSearchCollapsed: isSearchCollapsed => !isSearchCollapsed,
+                  isAddCollapsed: () => true,
+                })
+              );
             },
           },
           {
             icon: Plus,
             onClick: () => {
-              setIsCategorySearchCollapsed(true),
-                setIsCategoryAddCollapsed(
-                  isCategoryAddCollapsed => !isCategoryAddCollapsed
-                );
               setSearchCategory("");
+              setCollapsableAction(
+                evolve({
+                  isAddCollapsed: isAddCollapsed => !isAddCollapsed,
+                  isSearchCollapsed: () => true,
+                })
+              );
             },
           },
         ]}
@@ -62,25 +69,22 @@ const CategoryFilter = ({
         </Typography>
       </MenuBar.SubTitle>
       <MenuBar.Search
-        collapse={isCategorySearchCollapsed}
+        collapse={collapsableAction.isSearchCollapsed}
         value={searchCategory}
         onChange={e => setSearchCategory(e.target.value)}
         onCollapse={() => {
-          setIsCategorySearchCollapsed(true);
           setSearchCategory("");
+          setCollapsableAction(assoc("isSearchCollapsed", true));
         }}
       />
-      {!isCategoryAddCollapsed && (
-        <Form
-          refetch={refetch}
-          setIsCategoryAddCollapsed={setIsCategoryAddCollapsed}
-        />
+      {!collapsableAction.isAddCollapsed && (
+        <Form refetch={refetch} setCollapsableAction={setCollapsableAction} />
       )}
       {utilityFunctions
         .searchCategoryList(categoryList, searchCategory)
         .map((category, index) => (
           <MenuBar.Block
-            active={articleFilters.category_id?.includes(category.id)}
+            active={articleFilters.categoryIds?.includes(category.id)}
             key={category.name}
             label={category.name}
             count={
@@ -89,21 +93,19 @@ const CategoryFilter = ({
               ].articles.length
             }
             onClick={() =>
-              setArticleFilters(articleFilters => {
-                if (articleFilters.category_id?.includes(category.id)) {
-                  return {
-                    ...articleFilters,
-                    category_id: articleFilters.category_id.filter(
-                      id => id !== category.id
-                    ),
-                  };
-                }
-
-                return {
-                  ...articleFilters,
-                  category_id: [...articleFilters.category_id, category.id],
-                };
-              })
+              articleFilters.categoryIds?.includes(category.id)
+                ? setArticleFilters(
+                    evolve({
+                      categoryIds: without([category.id]),
+                      pageNumber: () => 1,
+                    })
+                  )
+                : setArticleFilters(
+                    evolve({
+                      categoryIds: append(category.id),
+                      pageNumber: () => 1,
+                    })
+                  )
             }
           />
         ))}

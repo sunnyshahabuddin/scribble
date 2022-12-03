@@ -4,12 +4,13 @@ import { Formik, Form as FormikForm } from "formik";
 import { Check, Close } from "neetoicons";
 import { Button } from "neetoui";
 import { Input } from "neetoui/formik";
+import { assoc } from "ramda";
 
 import categoryApi from "apis/admin/categories";
 
 import { FORM_INITIAL_VALUES, VALIDATION_SCHEMA } from "./constants";
 
-const Form = ({ setIsCategoryAddCollapsed, refetch }) => {
+const Form = ({ setCollapsableAction, refetch }) => {
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async category => {
@@ -18,7 +19,7 @@ const Form = ({ setIsCategoryAddCollapsed, refetch }) => {
     } catch (error) {
       logger.error(error);
     }
-    setIsCategoryAddCollapsed(true);
+    setCollapsableAction(assoc("isAddCollapsed", true));
     refetch();
     setSubmitted(true);
   };
@@ -49,7 +50,9 @@ const Form = ({ setIsCategoryAddCollapsed, refetch }) => {
                   icon={Close}
                   style="text"
                   type="reset"
-                  onClick={() => setIsCategoryAddCollapsed(true)}
+                  onClick={() =>
+                    setCollapsableAction(assoc("isAddCollapsed", true))
+                  }
                 />
               </>
             }

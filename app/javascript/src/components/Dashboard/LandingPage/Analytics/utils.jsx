@@ -13,9 +13,9 @@ const renderTitle = (title, slug) => (
   </Link>
 );
 
-const renderDate = updated_at => (
+const renderDate = updatedAt => (
   <Typography className="neeto-ui-text-gray-600" style="body2">
-    {formatDateToMonthDayYear(updated_at)}
+    {formatDateToMonthDayYear(updatedAt)}
   </Typography>
 );
 
@@ -41,10 +41,10 @@ export const buildTableColumnData = [
   },
   {
     title: "DATE",
-    dataIndex: "updated_at",
-    key: "updated_at",
+    dataIndex: "updatedAt",
+    key: "updatedAt",
     width: "25%",
-    render: updated_at => renderDate(updated_at),
+    render: updatedAt => renderDate(updatedAt),
   },
   {
     title: "CATEGORY",

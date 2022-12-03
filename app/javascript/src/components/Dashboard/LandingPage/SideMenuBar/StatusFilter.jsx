@@ -1,6 +1,7 @@
 import React from "react";
 
 import { MenuBar } from "neetoui/layouts";
+import { evolve } from "ramda";
 
 import { ARTICLES_STATUS } from "./constants";
 
@@ -13,10 +14,7 @@ const StatusFilter = ({ articleFilters, setArticleFilters, totalCount }) => (
         !articleFilters.status && typeof articleFilters.status !== "number"
       }
       onClick={() =>
-        setArticleFilters(articleFilters => ({
-          ...articleFilters,
-          status: "",
-        }))
+        setArticleFilters(evolve({ status: () => "", pageNumber: () => 1 }))
       }
     />
     {ARTICLES_STATUS.map(status => (
@@ -28,12 +26,11 @@ const StatusFilter = ({ articleFilters, setArticleFilters, totalCount }) => (
           articleFilters.status === status.value &&
           typeof articleFilters.status === "number"
         }
-        onClick={() => {
-          setArticleFilters(articleFilters => ({
-            ...articleFilters,
-            status: status.value,
-          }));
-        }}
+        onClick={() =>
+          setArticleFilters(
+            evolve({ status: () => status.value, pageNumber: () => 1 })
+          )
+        }
       />
     ))}
   </>

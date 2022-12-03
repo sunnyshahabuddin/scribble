@@ -22,7 +22,7 @@ const SideBar = ({
 
   if (categoryList.length === 0) {
     return (
-      <EmptyState message="No preview available, add category to proceed " />
+      <EmptyState message="No preview available, add a published article to view " />
     );
   }
 
@@ -34,23 +34,17 @@ const SideBar = ({
       >
         {categoryList.map(category => (
           <Accordion.Item key={category.id} title={category.name}>
-            {category.publishedArticles.length === 0 ? (
-              <Typography className="neeto-ui-text-pastel-red" style="h4">
-                No Articles
-              </Typography>
-            ) : (
-              category.publishedArticles.map(article => (
-                <NavLink
-                  exact
-                  activeClassName="neeto-ui-text-primary-500 mx-6"
-                  className="neeto-ui-text-gray-500 mx-6"
-                  key={article.slug}
-                  to={`${url}/${article.slug}`}
-                >
-                  <Typography style="h4">{article.title}</Typography>
-                </NavLink>
-              ))
-            )}
+            {category.publishedArticles.map(article => (
+              <NavLink
+                exact
+                activeClassName="neeto-ui-text-primary-500 mx-6"
+                className="neeto-ui-text-gray-500 mx-6"
+                key={article.slug}
+                to={`${url}/${article.slug}`}
+              >
+                <Typography style="h4">{article.title}</Typography>
+              </NavLink>
+            ))}
           </Accordion.Item>
         ))}
       </Accordion>

@@ -3,6 +3,7 @@ import React from "react";
 import { Down } from "neetoicons";
 import { Dropdown, Checkbox, Typography, Button } from "neetoui";
 import { Header } from "neetoui/layouts";
+import { evolve } from "ramda";
 
 import TooltipWrapper from "components/Common/TooltipWrapper";
 import { ARTICLE_CREATE_PATH } from "components/routeConstants";
@@ -14,7 +15,7 @@ const ActionBlock = ({
   handleCheckedColumn,
   categoryList,
   searchArticleTitle,
-  setSearchArticleTitle,
+  setArticleFilters,
 }) => (
   <Header
     actionBlock={
@@ -28,14 +29,13 @@ const ActionBlock = ({
         >
           <Typography style="h5">Columns</Typography>
           <Menu>
-            {checkedColumn.map((column, idx) => (
+            {checkedColumn.map(column => (
               <MenuItem.Button
-                key={idx}
+                key={column.id}
                 prefix={
                   <Checkbox
                     checked={column.checked}
-                    id="checkbox_name"
-                    onChange={() => handleCheckedColumn(idx)}
+                    onChange={() => handleCheckedColumn(column.id)}
                   />
                 }
               >
@@ -62,7 +62,10 @@ const ActionBlock = ({
     searchProps={{
       placeholder: "Search article title",
       value: searchArticleTitle,
-      onChange: e => setSearchArticleTitle(e.target.value),
+      onChange: event =>
+        setArticleFilters(
+          evolve({ searchTitle: () => event.target.value, pageNumber: () => 1 })
+        ),
     }}
   />
 );

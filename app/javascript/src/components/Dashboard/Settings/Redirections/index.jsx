@@ -49,16 +49,16 @@ const Redirections = () => {
       </Typography>
       <div className="neeto-ui-bg-primary-100 mt-2 w-full p-6">
         <div className="flex items-center justify-between">
-          {REDIRECTION_HEADER.map((title, idx) => (
-            <Typography key={idx} style="h5">
-              {title}
+          {REDIRECTION_HEADER.map(title => (
+            <Typography key={title.id} style="h5">
+              {title.value}
             </Typography>
           ))}
         </div>
-        {redirectionsList.map((item, idx) => (
+        {redirectionsList.map(redirection => (
           <Row
-            key={idx}
-            redirectionItem={item}
+            key={redirection.id}
+            redirectionItem={redirection}
             redirectionsList={redirectionsList}
             refetch={fetchRedirectionsDetails}
           />
@@ -67,7 +67,6 @@ const Redirections = () => {
           <Form
             initialValues={{ from: "/", to: "/" }}
             isEdit={false}
-            redirectionsList={redirectionsList}
             refetch={fetchRedirectionsDetails}
             setAddRedirection={setAddRedirection}
           />
