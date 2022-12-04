@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 
 import { Plus } from "neetoicons";
-import { Typography, Button, PageLoader } from "neetoui";
+import { Typography, PageLoader, Button } from "neetoui";
+import { MenuBar } from "neetoui/layouts";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/admin/categories";
 
-import { FORM_INITIAL_VALUES, FORM_VALIDATION_SCHEMA } from "./constants";
-import Form from "./Form";
 import ListCategory from "./ListCategory";
 
 const ManageCategories = () => {
-  const [addCategory, setAddCategory] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [sortedCategoryList, setSortedCategoryList] = useState([]);
 
@@ -64,45 +62,33 @@ const ManageCategories = () => {
   };
 
   return (
-    <div className="mx-auto mt-6 w-1/3">
-      <Typography style="h2">Manage Categories</Typography>
-      <Typography className="neeto-ui-text-gray-600" style="body2">
-        Create and configure the categories inside your scribble.
-      </Typography>
-      {!addCategory && (
-        <Button
-          className="mt-2"
-          icon={Plus}
-          iconPosition="left"
-          label="Add new category"
-          style="link"
-          onClick={() => setAddCategory(true)}
-        />
-      )}
-      {addCategory && (
-        <Form
-          initialValues={FORM_INITIAL_VALUES}
-          isEdit={false}
-          refetch={fetchCategoriesDetails}
-          setAddCategory={setAddCategory}
-          validationSchema={FORM_VALIDATION_SCHEMA}
-        />
-      )}
+    <div className="w-1/4">
       <div>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable">
             {provided => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
-                {sortedCategoryList.map((category, idx) => (
-                  <ListCategory
-                    category={category}
-                    categoryList={sortedCategoryList}
-                    index={idx}
-                    key={idx}
-                    refetch={fetchCategoriesDetails}
-                  />
-                ))}
-                {provided.placeholder}
+                <MenuBar
+                  showMenu
+                  className="flex"
+                  title={
+                    <div className="flex justify-between">
+                      <Typography style="h2">Manage Categories</Typography>
+                      <Button icon={Plus} />
+                    </div>
+                  }
+                >
+                  {sortedCategoryList.map((category, index) => (
+                    <ListCategory
+                      category={category}
+                      categoryList={sortedCategoryList}
+                      index={index}
+                      key={category.id}
+                      refetch={fetchCategoriesDetails}
+                    />
+                  ))}
+                  {provided.placeholder}
+                </MenuBar>
               </div>
             )}
           </Droppable>
