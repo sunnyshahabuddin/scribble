@@ -2,85 +2,93 @@ import React, { useState } from "react";
 
 import { Formik, Form as FormikForm } from "formik";
 import { Check, Close } from "neetoicons";
-import { Button } from "neetoui";
+import { Button, Pane, Typography } from "neetoui";
 import { Input } from "neetoui/formik";
 
 import categoryApi from "apis/admin/categories";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 import { useKey } from "hooks/forms/useKey";
 
+import { FORM_VALIDATION_SCHEMA } from "./constants";
+
 const Form = ({
   refetch,
   initialValues,
-  validationSchema,
   isEdit,
   id,
-  setIsEdit,
-  setAddCategory,
+  setShowPane,
+  showPane,
 }) => {
   const [submitted, setSubmitted] = useState(false);
 
   useKey("Escape", () => {
-    isEdit ? setIsEdit(false) : setAddCategory(false);
+    setShowPane(false);
   });
 
   const handleSubmit = async category => {
     try {
       isEdit
-        ? (await categoryApi.update(id, category), setIsEdit(false))
-        : (await categoryApi.create(category), setAddCategory(false));
+        ? await categoryApi.update(id, category)
+        : await categoryApi.create(category);
     } catch (error) {
-      setAddCategory(false);
       logger.error(error);
     }
     refetch();
+    setShowPane(false);
     setSubmitted(true);
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validateOnBlur={submitted}
-      validateOnChange={submitted}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {({ isSubmitting, dirty, isValid }) => (
-        <FormikForm>
-          <Input
-            required
-            name="name"
-            type="text"
-            suffix={
-              <>
-                <TooltipWrapper
-                  content="Make changes to to update"
-                  disabled={isSubmitting || (isEdit && !(isValid && dirty))}
-                  followCursor="horizontal"
-                  position="bottom"
-                >
-                  <Button
-                    className="h-8"
-                    disabled={isSubmitting || (isEdit && !(isValid && dirty))}
-                    icon={Check}
-                    style="text"
-                    type="submit"
-                  />
-                </TooltipWrapper>
+    <Pane isOpen={showPane} onClose={() => setShowPane(false)}>
+      <Pane.Header>
+        <Typography style="h2">Add category</Typography>
+      </Pane.Header>
+      <Formik
+        initialValues={initialValues}
+        validateOnBlur={submitted}
+        validateOnChange={submitted}
+        validationSchema={FORM_VALIDATION_SCHEMA}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting, dirty, isValid }) => (
+          <FormikForm>
+            <Pane.Body>
+              <Input
+                required
+                className="w-full"
+                label="Category name"
+                name="name"
+                placeholder="Enter category name"
+                type="text"
+              />
+            </Pane.Body>
+            <Pane.Footer>
+              <TooltipWrapper
+                content="Make changes to to update"
+                disabled={isSubmitting || (isEdit && !(isValid && dirty))}
+                followCursor="horizontal"
+                position="bottom"
+              >
                 <Button
-                  icon={Close}
-                  style="text"
-                  type="reset"
-                  onClick={() =>
-                    isEdit ? setIsEdit(false) : setAddCategory(false)
-                  }
+                  className="mr-4 h-8"
+                  disabled={isSubmitting || (isEdit && !(isValid && dirty))}
+                  icon={Check}
+                  label={isEdit ? "Update category" : "Add category"}
+                  type="submit"
                 />
-              </>
-            }
-          />
-        </FormikForm>
-      )}
-    </Formik>
+              </TooltipWrapper>
+              <Button
+                icon={Close}
+                label="Cancel"
+                style="text"
+                type="reset"
+                onClick={() => setShowPane(false)}
+              />
+            </Pane.Footer>
+          </FormikForm>
+        )}
+      </Formik>
+    </Pane>
   );
 };
 

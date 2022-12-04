@@ -7,11 +7,14 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import categoriesApi from "apis/admin/categories";
 
+import { FORM_INITIAL_VALUES } from "./constants";
+import Form from "./Form";
 import ListCategory from "./ListCategory";
 
 const ManageCategories = () => {
   const [pageLoading, setPageLoading] = useState(true);
   const [sortedCategoryList, setSortedCategoryList] = useState([]);
+  const [showPane, setShowPane] = useState(false);
 
   const fetchCategoriesDetails = async () => {
     try {
@@ -74,7 +77,7 @@ const ManageCategories = () => {
                   title={
                     <div className="flex justify-between">
                       <Typography style="h2">Manage Categories</Typography>
-                      <Button icon={Plus} />
+                      <Button icon={Plus} onClick={() => setShowPane(true)} />
                     </div>
                   }
                 >
@@ -93,6 +96,15 @@ const ManageCategories = () => {
             )}
           </Droppable>
         </DragDropContext>
+        {showPane && (
+          <Form
+            initialValues={FORM_INITIAL_VALUES}
+            isEdit={false}
+            refetch={fetchCategoriesDetails}
+            setShowPane={setShowPane}
+            showPane={showPane}
+          />
+        )}
       </div>
     </div>
   );
