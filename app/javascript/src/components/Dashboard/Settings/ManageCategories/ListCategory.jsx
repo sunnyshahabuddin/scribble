@@ -8,9 +8,11 @@ import { Draggable } from "react-beautiful-dnd";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 
 import DeleteModal from "./DeleteModal";
+import Form from "./Form";
 
 const { Menu, MenuItem, Divider } = Dropdown;
 const ListCategory = ({ category, index, refetch, categoryList }) => {
+  const [showPane, setShowPane] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   return (
@@ -38,7 +40,13 @@ const ListCategory = ({ category, index, refetch, categoryList }) => {
                     <div>{category.name}</div>
                     <Dropdown buttonStyle="text" icon={MenuVertical}>
                       <Menu>
-                        <MenuItem.Button>Edit</MenuItem.Button>
+                        <MenuItem.Button
+                          onClick={() => {
+                            setShowPane(true);
+                          }}
+                        >
+                          Edit
+                        </MenuItem.Button>
                         <Divider />
                         <TooltipWrapper
                           content="Cannot delete the General category"
@@ -77,6 +85,16 @@ const ListCategory = ({ category, index, refetch, categoryList }) => {
           refetch={refetch}
           setShowDeleteModal={setShowDeleteModal}
           showDeleteModal={showDeleteModal}
+        />
+      )}
+      {showPane && (
+        <Form
+          isEdit
+          id={category.id}
+          initialValues={{ name: category.name }}
+          refetch={refetch}
+          setShowPane={setShowPane}
+          showPane={showPane}
         />
       )}
     </>
