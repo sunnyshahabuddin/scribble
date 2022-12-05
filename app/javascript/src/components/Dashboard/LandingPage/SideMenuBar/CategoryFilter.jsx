@@ -29,6 +29,18 @@ const CategoryFilter = ({
     );
   });
 
+  const handleCategoryFilter = categoryId => {
+    const updatedCategoryIds = articleFilters.categoryIds?.includes(categoryId)
+      ? without([categoryId], articleFilters.categoryIds)
+      : append(categoryId, articleFilters.categoryIds);
+    setArticleFilters(
+      evolve({
+        categoryIds: () => updatedCategoryIds,
+        pageNumber: () => 1,
+      })
+    );
+  };
+
   return (
     <>
       <MenuBar.SubTitle
@@ -92,21 +104,7 @@ const CategoryFilter = ({
                 index
               ].articles.length
             }
-            onClick={() =>
-              articleFilters.categoryIds?.includes(category.id)
-                ? setArticleFilters(
-                    evolve({
-                      categoryIds: without([category.id]),
-                      pageNumber: () => 1,
-                    })
-                  )
-                : setArticleFilters(
-                    evolve({
-                      categoryIds: append(category.id),
-                      pageNumber: () => 1,
-                    })
-                  )
-            }
+            onClick={() => handleCategoryFilter(category.id)}
           />
         ))}
     </>

@@ -4,7 +4,7 @@ import { Table as NeetoUITable, PageLoader, Pagination } from "neetoui";
 import { assoc, pipe } from "ramda";
 
 import articlesApi from "apis/admin/articles";
-import { KeysToCamelCase } from "components/Dashboard/utils";
+import { keysToCamelCase } from "components/Dashboard/utils";
 
 import {
   buildTableColumnData,
@@ -33,7 +33,7 @@ const Analytics = () => {
       setPublishedArticles(
         pipe(
           assoc("count", data.published),
-          assoc("articles", KeysToCamelCase(publishedArticles))
+          assoc("articles", keysToCamelCase(publishedArticles))
         )
       );
     } catch (error) {

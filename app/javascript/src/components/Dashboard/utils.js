@@ -11,17 +11,17 @@ const isArray = array => Array.isArray(array);
 const isObject = object =>
   object === Object(object) && !isArray(object) && typeof object !== "function";
 
-export const KeysToCamelCase = response => {
+export const keysToCamelCase = response => {
   if (isObject(response)) {
     const camelCaseResponse = {};
 
     forEachObjIndexed((value, key) => {
-      camelCaseResponse[toCamelCase(key)] = KeysToCamelCase(value);
+      camelCaseResponse[toCamelCase(key)] = keysToCamelCase(value);
     }, response);
 
     return camelCaseResponse;
   } else if (isArray(response)) {
-    return response.map(object => KeysToCamelCase(object));
+    return response.map(object => keysToCamelCase(object));
   }
 
   return response;
