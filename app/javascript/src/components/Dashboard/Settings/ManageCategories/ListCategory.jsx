@@ -11,7 +11,14 @@ import DeleteModal from "./DeleteModal";
 import Form from "./Form";
 
 const { Menu, MenuItem, Divider } = Dropdown;
-const ListCategory = ({ category, index, refetch, categoryList }) => {
+const ListCategory = ({
+  category,
+  index,
+  refetch,
+  categoryList,
+  activeCategory,
+  setActiveCategory,
+}) => {
   const [showPane, setShowPane] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -32,6 +39,7 @@ const ListCategory = ({ category, index, refetch, categoryList }) => {
             <div className="flex w-full">
               <div className="ri-drag-move-2-line fa-2x neeto-ui-text-gray-500 mt-4 mr-4" />
               <MenuBar.Item
+                active={activeCategory.id === category.id}
                 description={`${category.articles.length} ${
                   category.articles.length === 1 ? "article" : "articles"
                 }`}
@@ -72,7 +80,7 @@ const ListCategory = ({ category, index, refetch, categoryList }) => {
                     </Dropdown>
                   </div>
                 }
-                onClick={() => {}}
+                onClick={() => setActiveCategory(category)}
               />
             </div>
           </div>
