@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { PageLoader } from "neetoui";
+import { isNil } from "ramda";
 import { useParams } from "react-router-dom";
 
 import articlesApi from "apis/admin/articles";
@@ -34,9 +35,13 @@ const Edit = ({ history }) => {
       categoryId: article.category.value,
       restoredAt: null,
     };
-    if (
-      (article.status === 0 && !articleDetails.schedule.unpublishAt) ||
-      (article.status === 1 && !articleDetails.schedule.publishAt)
+    if (article.status === 2 || article.status === 3) {
+      setFormValues(payload);
+      setShowScheduleLater(true);
+    } else if (
+      isNil(articleDetails.schedule) ||
+      (article.status === 0 && !articleDetails?.schedule.unpublishAt) ||
+      (article.status === 1 && !articleDetails?.schedule.publishAt)
     ) {
       try {
         await articlesApi.update({
@@ -47,9 +52,6 @@ const Edit = ({ history }) => {
       } catch (error) {
         logger.error(error);
       }
-    } else if (article.status === 2 || article.status === 3) {
-      setFormValues(payload);
-      setShowScheduleLater(true);
     } else {
       setFormValues(payload);
       setShowConfirmationAlert(true);

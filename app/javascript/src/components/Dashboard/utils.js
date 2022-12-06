@@ -35,3 +35,8 @@ export const formatDateToMonthDayYear = dateTime =>
 
 export const formatToDateAndTime = dateTime =>
   dayjs(dateTime).format("h:mm A, DD/MM/YYYY");
+
+export const calculateUpdatedAtFromNow = date => dayjs(date).fromNow();
+
+export const formatDateToDayDateMonthYearTime = date =>
+  dayjs(date).format("dddd, D MMMM YYYY, hh:mmA");

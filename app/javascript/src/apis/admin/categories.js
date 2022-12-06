@@ -17,11 +17,14 @@ const destroy = payload =>
 const position_update = payload =>
   axios.put(`/api/admin/categories/position_update`, payload);
 
+const show = id => axios.get(`/api/admin/categories/${id}`);
+
 const categoriesApi = {
   fetch,
   create,
   update,
   destroy,
+  show,
   position_update,
 };
 
