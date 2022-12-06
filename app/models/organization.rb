@@ -15,4 +15,12 @@ class Organization < ApplicationRecord
 
   has_secure_password validations: false
   has_secure_token :authentication_token
+
+  before_save :generate_new_authentication_token, if: -> { is_password_protected }
+
+  private
+
+    def generate_new_authentication_token
+      self.authentication_token = SecureRandom.hex(20)
+    end
 end
