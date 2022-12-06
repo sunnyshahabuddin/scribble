@@ -18,12 +18,16 @@ const Form = ({ organizationDetails }) => {
   );
 
   const handleSubmit = async values => {
+    const payload = {
+      name: values.siteName,
+      password: values.isPasswordProtected ? values.password : null,
+      is_password_protected: values.isPasswordProtected,
+    };
+    if (payload.password === undefined) {
+      delete payload.password;
+    }
     try {
-      await organizationApi.update({
-        name: values.siteName,
-        password: values.password,
-        is_password_protected: values.isPasswordProtected,
-      });
+      await organizationApi.update(payload);
       localStorage.setItem("authToken", JSON.stringify({ token: null }));
       setTimeout(() => window.location.reload(), 500);
     } catch (error) {
@@ -38,7 +42,6 @@ const Form = ({ organizationDetails }) => {
       initialValues={{
         siteName: organizationDetails.name,
         isPasswordProtected: organizationDetails.isPasswordProtected,
-        isPasswordChanged: true,
       }}
       onSubmit={handleSubmit}
     >
@@ -99,10 +102,7 @@ const Form = ({ organizationDetails }) => {
                   disabled={changePassword}
                   label="Change Password"
                   size="small"
-                  onClick={() => {
-                    setChangePassword(true);
-                    setFieldValue("isPasswordChanged", true);
-                  }}
+                  onClick={() => setChangePassword(true)}
                 />
               )}
             </div>
