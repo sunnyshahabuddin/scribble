@@ -10,10 +10,10 @@ import categoriesApi from "apis/admin/categories";
 import { keysToCamelCase } from "components/Dashboard/utils";
 import EmptyState from "images/EmptyState";
 
-import Article from "./Article";
 import { FORM_INITIAL_VALUES } from "./constants";
 import Form from "./Form";
 import ListCategory from "./ListCategory";
+import ManageArticles from "./ManageArticles";
 
 const ManageCategories = () => {
   const [pageLoading, setPageLoading] = useState(true);
@@ -137,9 +137,10 @@ const ManageCategories = () => {
       </div>
       <div className="w-2/3 overflow-auto p-4">
         {articles?.length > 0 ? (
-          articles.map(article => (
-            <Article article={article} key={article.id} />
-          ))
+          <ManageArticles
+            articles={articles}
+            categoryList={sortedCategoryList}
+          />
         ) : (
           <img className="m-auto w-2/3" src={EmptyState} />
         )}
