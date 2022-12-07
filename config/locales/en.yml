@@ -14,6 +14,7 @@ en:
     deletion_error: "General category cannot be deleted!"
   organization:
     incorrect_credential: "Invalid Password."
+    unauthorized: "You are not authorized to perform this action."
   schedule:
     before_time: "cannot be in the past."
     unpublish_before: "cannot be before publish at."

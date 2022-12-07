@@ -8,10 +8,6 @@ class UserTest < ActiveSupport::TestCase
     @user = create(:user, organization: @organization)
   end
 
-  def test_user_should_be_valid
-    assert @user.valid?
-  end
-
   def test_user_shouldnt_be_valid_without_name
     @user.name = ""
     assert_not @user.valid?

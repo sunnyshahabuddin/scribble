@@ -25,13 +25,18 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
           restoredAt: version.object.updatedAt,
         },
       });
-      await scheduleApi.update({
-        id: articleDetails.schedule.id,
-        payload: {
-          publishAt: null,
-          unpublishAt: null,
-        },
-      });
+      if (
+        articleDetails.schedule?.publishAt ||
+        articleDetails.schedule?.unpublishAt
+      ) {
+        await scheduleApi.update({
+          id: articleDetails.schedule.id,
+          payload: {
+            publishAt: null,
+            unpublishAt: null,
+          },
+        });
+      }
       history.go(0);
     } catch (error) {
       logger.error(error);
@@ -47,8 +52,8 @@ const RestoreModal = ({ version, showModal, setShowModal }) => {
         </Typography>
       </Modal.Header>
       <Modal.Body className="space-y-2 p-2">
-        {(articleDetails.schedule.publishAt ||
-          articleDetails.schedule.unpublishAt) && (
+        {(articleDetails.schedule?.publishAt ||
+          articleDetails.schedule?.unpublishAt) && (
           <Callout icon={Info} style="danger">
             Note: Restoring a version will cancel the current schedule.
           </Callout>
