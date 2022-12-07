@@ -9,11 +9,19 @@ class Api::Admin::CategoriesControllerTest < ActionDispatch::IntegrationTest
     @category = create(:category, user: @user)
   end
 
-  def test_should_show_all_categories
+  def test_should_list_all_categories
     get api_admin_categories_path, as: :json
     assert_response :ok
     response_json = response.parsed_body
     assert_equal @user.categories.count, response_json["categories"].count
+  end
+
+  def test_should_show_a_category
+    test_article = @category.articles.create(title: "Test", body: "Test", user_id: @user.id)
+    get api_admin_category_path(@category.id), as: :json
+    assert_response :ok
+    response_json = response.parsed_body["articles"].first
+    assert_equal test_article.id, response_json["id"]
   end
 
   def test_should_create_category

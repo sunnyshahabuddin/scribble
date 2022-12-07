@@ -16,7 +16,7 @@ class Organization < ApplicationRecord
   has_secure_password validations: false
   has_secure_token :authentication_token
 
-  before_save :generate_new_authentication_token, if: -> { is_password_protected }
+  before_save :generate_new_authentication_token, if: -> { password_digest_changed? }
 
   private
 

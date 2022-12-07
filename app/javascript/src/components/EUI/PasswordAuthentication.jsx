@@ -9,10 +9,7 @@ import organizationApi from "apis/admin/organization";
 import { setAuthHeaders } from "apis/axios";
 import EuiPassword from "images/EuiPassword";
 
-const PasswordAuthentication = ({
-  organizationDetails,
-  setIsPasswordValidated,
-}) => {
+const PasswordAuthentication = ({ organizationDetails }) => {
   const handleSubmit = async values => {
     try {
       const response = await organizationApi.login({
@@ -20,10 +17,9 @@ const PasswordAuthentication = ({
       });
       localStorage.setItem(
         "authToken",
-        JSON.stringify({ token: response.data.authentication_token })
+        JSON.stringify(response.data.authentication_token)
       );
       setAuthHeaders();
-      setIsPasswordValidated(true);
       window.location.href = "/public";
     } catch (error) {
       logger.error(error);

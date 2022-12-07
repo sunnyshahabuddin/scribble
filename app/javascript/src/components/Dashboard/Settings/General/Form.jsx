@@ -9,7 +9,7 @@ import TooltipWrapper from "components/Common/TooltipWrapper";
 
 import { formValidationSchema } from "./constants";
 
-const Form = ({ organizationDetails }) => {
+const Form = ({ organizationDetails, refetch }) => {
   const [checkedValue, setCheckedValue] = useState(
     organizationDetails.isPasswordProtected
   );
@@ -28,8 +28,8 @@ const Form = ({ organizationDetails }) => {
     }
     try {
       await organizationApi.update(payload);
-      localStorage.setItem("authToken", JSON.stringify({ token: null }));
-      setTimeout(() => window.location.reload(), 500);
+      localStorage.setItem("authToken", null);
+      refetch();
     } catch (error) {
       logger.error(error);
     }

@@ -43,7 +43,10 @@ const General = () => {
       <Typography className="neeto-ui-text-gray-600" style="body2">
         Configure general attributes of scribble.
       </Typography>
-      <Form organizationDetails={organizationDetails} />
+      <Form
+        organizationDetails={organizationDetails}
+        refetch={fetchOrganizationDetails}
+      />
     </div>
   );
 };

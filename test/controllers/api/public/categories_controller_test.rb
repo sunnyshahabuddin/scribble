@@ -16,4 +16,10 @@ class Api::Public::CategoriesControllerTest < ActionDispatch::IntegrationTest
     response_json = response_json["categories"][0]
     assert_equal 2, response_json["articles"].count
   end
+
+  def test_shouldnot_list_categories_if_unauthorized
+    @organization.update!(is_password_protected: true)
+    get api_public_categories_path, as: :json
+    assert_response :unauthorized
+  end
 end

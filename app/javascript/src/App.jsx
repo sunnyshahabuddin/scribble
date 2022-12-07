@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { PageLoader } from "neetoui";
+import { either, isEmpty, isNil } from "ramda";
 import {
   BrowserRouter as Router,
   Redirect,
@@ -20,9 +21,10 @@ import PasswordAuthentication from "./components/EUI/PasswordAuthentication";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-  const authToken = JSON.parse(localStorage.getItem("authToken"));
   const [organizationDetails, setOrganizationDetails] = useState({});
-  const [isPasswordValidated, setIsPasswordValidated] = useState(true);
+  const [isPasswordValidated, setIsPasswordValidated] = useState(false);
+
+  const authToken = JSON.parse(localStorage.getItem("authToken"));
 
   useEffect(() => {
     initializeLogger();
@@ -37,10 +39,9 @@ const App = () => {
       setOrganizationDetails({
         name: organizationDetails.name,
         isPasswordProtected: organizationDetails.is_password_protected,
-        authenticationToken: organizationDetails.authentication_token,
       });
       setIsPasswordValidated(
-        authToken?.token === organizationDetails.authentication_token ||
+        !either(isNil, isEmpty)(authToken) ||
           !organizationDetails.is_password_protected
       );
       setLoading(false);
@@ -64,10 +65,7 @@ const App = () => {
       <Switch>
         {isPasswordValidated && <Redirect from="/public/login" to="/public" />}
         <Route exact path="/public/login">
-          <PasswordAuthentication
-            organizationDetails={organizationDetails}
-            setIsPasswordValidated={setIsPasswordValidated}
-          />
+          <PasswordAuthentication organizationDetails={organizationDetails} />
         </Route>
         <PrivateRoute
           component={() => <Eui />}

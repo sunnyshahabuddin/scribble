@@ -27,4 +27,10 @@ class Api::Public::ArticlesControllerTest < ActionDispatch::IntegrationTest
     response_json = response.parsed_body
     assert_equal dummy_article.title, response_json["title"]
   end
+
+  def test_shouldnt_list_all_articles_if_unauthorized
+    @organization.update!(is_password_protected: true)
+    get api_public_articles_path, as: :json
+    assert_response :unauthorized
+  end
 end
