@@ -4,11 +4,14 @@ import { Select } from "neetoui";
 import { Container, Header, Scrollable } from "neetoui/layouts";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
+import TooltipWrapper from "components/Common/TooltipWrapper";
+
 import Article from "./Article";
 import InstructionsCallout from "./InstructionsCallout";
 
 const ManageArticles = ({ articles, setArticles, categoryList }) => {
   const [showInstructions, setShowInstructions] = useState(false);
+  const [selectedArticlesIds, setSelectedArticlesIds] = useState([]);
 
   const handleShowInstructions = () => {
     const showInstructionsFromLocalStorage = JSON.parse(
@@ -49,16 +52,24 @@ const ManageArticles = ({ articles, setArticles, categoryList }) => {
       <Header
         title="Manage Articles"
         actionBlock={
-          <Select
-            isSearchable
-            className="w-48"
-            name="category"
-            placeholder="Move to"
-            options={categoryList.map(category => ({
-              label: category.name,
-              value: category.id,
-            }))}
-          />
+          <TooltipWrapper
+            content="Select at least an article first to move them into a category"
+            disabled={selectedArticlesIds.length === 0}
+            followCursor="horizontal"
+            position="bottom"
+          >
+            <Select
+              isSearchable
+              className="w-48"
+              isDisabled={selectedArticlesIds.length === 0}
+              name="category"
+              placeholder="Move to category"
+              options={categoryList.map(category => ({
+                label: category.name,
+                value: category.id,
+              }))}
+            />
+          </TooltipWrapper>
         }
       />
       <Scrollable className="h-full w-full space-y-6 py-6" size="large">
@@ -70,7 +81,13 @@ const ManageArticles = ({ articles, setArticles, categoryList }) => {
             {provided => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {articles.map((article, index) => (
-                  <Article article={article} index={index} key={article.id} />
+                  <Article
+                    article={article}
+                    index={index}
+                    key={article.id}
+                    selectedArticlesIds={selectedArticlesIds}
+                    setSelectedArticlesIds={setSelectedArticlesIds}
+                  />
                 ))}
                 {provided.placeholder}
               </div>
