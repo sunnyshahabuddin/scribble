@@ -21,7 +21,7 @@ import PasswordAuthentication from "./components/EUI/PasswordAuthentication";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
-  const [organizationDetails, setOrganizationDetails] = useState({});
+  const [organizationName, setOrganizationName] = useState({});
   const [isPasswordValidated, setIsPasswordValidated] = useState(false);
 
   const authToken = JSON.parse(localStorage.getItem("authToken"));
@@ -35,15 +35,13 @@ const App = () => {
 
   const fetchOrganizationAndValidatePassword = async () => {
     try {
+      setLoading(true);
       const { data: organizationDetails } = await organizationApi.show();
-      setOrganizationDetails({
-        name: organizationDetails.name,
-        isPasswordProtected: organizationDetails.is_password_protected,
-      });
       setIsPasswordValidated(
-        !either(isNil, isEmpty)(authToken) ||
-          !organizationDetails.is_password_protected
+        !organizationDetails.is_password_protected ||
+          !either(isNil, isEmpty)(authToken)
       );
+      setOrganizationName(organizationDetails.name);
       setLoading(false);
     } catch (error) {
       logger.error(error);
@@ -65,7 +63,7 @@ const App = () => {
       <Switch>
         {isPasswordValidated && <Redirect from="/public/login" to="/public" />}
         <Route exact path="/public/login">
-          <PasswordAuthentication organizationDetails={organizationDetails} />
+          <PasswordAuthentication organizationName={organizationName} />
         </Route>
         <PrivateRoute
           component={() => <Eui />}

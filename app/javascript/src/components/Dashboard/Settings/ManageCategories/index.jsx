@@ -92,50 +92,48 @@ const ManageCategories = () => {
   return (
     <div className="flex w-3/4">
       <div className="w-1/3">
-        <div>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable">
-              {provided => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  <MenuBar
-                    showMenu
-                    className="flex"
-                    title={
-                      <div className="flex justify-between">
-                        <Typography style="h2">Manage Categories</Typography>
-                        <Button icon={Plus} onClick={() => setShowPane(true)} />
-                      </div>
-                    }
-                  >
-                    {sortedCategoryList.map((category, index) => (
-                      <ListCategory
-                        activeCategory={activeCategory}
-                        category={category}
-                        categoryList={sortedCategoryList}
-                        index={index}
-                        key={category.id}
-                        refetch={fetchCategoriesAndArticles}
-                        setActiveCategory={setActiveCategory}
-                      />
-                    ))}
-                    {provided.placeholder}
-                  </MenuBar>
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-          {showPane && (
-            <Form
-              initialValues={FORM_INITIAL_VALUES}
-              isEdit={false}
-              refetch={fetchCategoriesAndArticles}
-              setShowPane={setShowPane}
-              showPane={showPane}
-            />
-          )}
-        </div>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
+            {provided => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                <MenuBar
+                  showMenu
+                  className="flex"
+                  title={
+                    <div className="flex justify-between">
+                      <Typography style="h2">Manage Categories</Typography>
+                      <Button icon={Plus} onClick={() => setShowPane(true)} />
+                    </div>
+                  }
+                >
+                  {sortedCategoryList.map((category, index) => (
+                    <ListCategory
+                      activeCategory={activeCategory}
+                      category={category}
+                      categoryList={sortedCategoryList}
+                      index={index}
+                      key={category.id}
+                      refetch={fetchCategoriesAndArticles}
+                      setActiveCategory={setActiveCategory}
+                    />
+                  ))}
+                  {provided.placeholder}
+                </MenuBar>
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        {showPane && (
+          <Form
+            initialValues={FORM_INITIAL_VALUES}
+            isEdit={false}
+            refetch={fetchCategoriesAndArticles}
+            setShowPane={setShowPane}
+            showPane={showPane}
+          />
+        )}
       </div>
-      <div className="w-2/3 overflow-auto p-4">
+      <div className="w-2/3">
         {articles?.length > 0 ? (
           <ManageArticles
             articles={articles}
