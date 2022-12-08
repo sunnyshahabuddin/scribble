@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Clock } from "neetoicons";
 import { Typography, Tag, Avatar, Tooltip, Checkbox } from "neetoui";
+import { append, without } from "ramda";
 import { Draggable } from "react-beautiful-dnd";
 
 import {
@@ -9,8 +10,18 @@ import {
   formatDateToDayDateMonthYearTime,
 } from "components/Dashboard/utils";
 
-const Article = ({ article, index }) => {
-  const [checkedValue, setCheckedValue] = useState(true);
+const Article = ({
+  article,
+  index,
+  selectedArticlesIds,
+  setSelectedArticlesIds,
+}) => {
+  const handleSelectArticle = () => {
+    const updatedArticleIds = selectedArticlesIds?.includes(article.id)
+      ? without([article.id], selectedArticlesIds)
+      : append(article.id, selectedArticlesIds);
+    setSelectedArticlesIds(updatedArticleIds);
+  };
 
   return (
     <Draggable
@@ -27,11 +38,11 @@ const Article = ({ article, index }) => {
         >
           <div className="neeto-ui-shadow-xs border w-full space-y-2 p-4">
             <Checkbox
-              checked={checkedValue}
+              checked={selectedArticlesIds?.includes(article.id)}
               className="mt-3"
               id="selectedArticle"
               name="selectedArticle"
-              onChange={() => setCheckedValue(checkedValue => !checkedValue)}
+              onChange={handleSelectArticle}
             />
             <Typography style="h4">{article.title}</Typography>
             <Typography
