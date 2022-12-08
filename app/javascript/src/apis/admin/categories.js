@@ -14,8 +14,8 @@ const destroy = payload =>
     },
   });
 
-const position_update = payload =>
-  axios.put(`/api/admin/categories/position_update`, payload);
+const positionUpdate = payload =>
+  axios.put(`/api/admin/categories/${payload.id}/position_update`, payload);
 
 const show = id => axios.get(`/api/admin/categories/${id}`);
 
@@ -25,7 +25,7 @@ const categoriesApi = {
   update,
   destroy,
   show,
-  position_update,
+  positionUpdate,
 };
 
 export default categoriesApi;

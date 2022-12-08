@@ -70,7 +70,7 @@ const ManageCategories = () => {
         finalPosition.destination.index
       );
       setSortedCategoryList(reorderedItems);
-      await categoriesApi.position_update({
+      await categoriesApi.positionUpdate({
         id: finalPosition.draggableId,
         destination: finalPosition.destination.index + 1,
       });

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::Admin::ArticlesController < ApplicationController
-  before_action :load_article!, only: %i[show update destroy versions]
+  before_action :load_article!, only: %i[show update destroy versions position_update]
 
   def index
     @articles = Api::Admin::ArticleFilterationService.new(
@@ -17,6 +17,11 @@ class Api::Admin::ArticlesController < ApplicationController
 
   def show
     render
+  end
+
+  def position_update
+    @article.insert_at(params[:destination].to_i)
+    respond_with_success(t("position_successfully_updated", entity: Article))
   end
 
   def update
