@@ -12,7 +12,7 @@ const Article = ({ article }) => {
   const [checkedValue, setCheckedValue] = useState(true);
 
   return (
-    <div className="neeto-ui-shadow-xs border mx-auto mb-4 w-full space-y-2 py-2 px-4">
+    <div className="neeto-ui-shadow-xs border w-full space-y-2 p-4">
       <Checkbox
         checked={checkedValue}
         className="mt-3"

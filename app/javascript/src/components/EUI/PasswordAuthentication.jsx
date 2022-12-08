@@ -9,7 +9,7 @@ import organizationApi from "apis/admin/organization";
 import { setAuthHeaders } from "apis/axios";
 import EuiPassword from "images/EuiPassword";
 
-const PasswordAuthentication = ({ organizationDetails }) => {
+const PasswordAuthentication = ({ organizationName }) => {
   const handleSubmit = async values => {
     try {
       const response = await organizationApi.login({
@@ -29,15 +29,15 @@ const PasswordAuthentication = ({ organizationDetails }) => {
   return (
     <>
       <div className="flex h-12 w-full justify-center border-b-2 py-3">
-        <Typography style="h4">{organizationDetails.name}</Typography>
+        <Typography style="h4">{organizationName}</Typography>
       </div>
       <div className="mt-16 grid justify-center">
         <img className="mx-auto justify-center" src={EuiPassword} />
         <Typography className="mt-8" style="h2">
-          {organizationDetails.name} is password protected!
+          {organizationName} is password protected!
         </Typography>
         <Typography style="body1">
-          Enter the password to gain access to {organizationDetails.name}.
+          Enter the password to gain access to {organizationName}.
         </Typography>
         <Formik
           initialValues={{ password: "" }}

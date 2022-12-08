@@ -44,7 +44,7 @@ const ListCategory = ({
                   category.articles.length === 1 ? "article" : "articles"
                 }`}
                 label={
-                  <div className="flex w-64 justify-between pr-8">
+                  <div className="flex justify-between pr-8">
                     <div>{category.name}</div>
                     <Dropdown buttonStyle="text" icon={MenuVertical}>
                       <Menu>
