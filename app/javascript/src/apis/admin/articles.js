@@ -14,6 +14,9 @@ const create = payload => axios.post("/api/admin/articles", payload);
 
 const show = id => axios.get(`/api/admin/articles/${id}`);
 
+const positionUpdate = payload =>
+  axios.put(`/api/admin/articles/${payload.id}/position_update`, payload);
+
 const update = ({ id, payload }) =>
   axios.put(`/api/admin/articles/${id}`, {
     article: {
@@ -46,6 +49,7 @@ const articlesApi = {
   destroy,
   totalCount,
   articleVersions,
+  positionUpdate,
   listPublishedArticles,
 };
 

@@ -4,6 +4,7 @@ import { Select, Alert } from "neetoui";
 import { Container, Header, Scrollable } from "neetoui/layouts";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
+import articlesApi from "apis/admin/articles";
 import TooltipWrapper from "components/Common/TooltipWrapper";
 
 import Article from "./Article";
@@ -31,12 +32,12 @@ const ManageArticles = ({ articles, setArticles, categoryList }) => {
     setMoveToCategory(category);
   };
 
-  const reorder = (categoryList, startIndex, endIndex) => {
-    const shuffledCategoryList = Array.from(categoryList);
-    const [removed] = shuffledCategoryList.splice(startIndex, 1);
-    shuffledCategoryList.splice(endIndex, 0, removed);
+  const reorder = (articles, startIndex, endIndex) => {
+    const shuffledArticles = Array.from(articles);
+    const [removed] = shuffledArticles.splice(startIndex, 1);
+    shuffledArticles.splice(endIndex, 0, removed);
 
-    return shuffledCategoryList;
+    return shuffledArticles;
   };
 
   const onDragEnd = async finalPosition => {
@@ -47,6 +48,10 @@ const ManageArticles = ({ articles, setArticles, categoryList }) => {
         finalPosition.destination.index
       );
       setArticles(reorderedItems);
+      await articlesApi.positionUpdate({
+        id: finalPosition.draggableId,
+        destination: finalPosition.destination.index + 1,
+      });
     }
   };
 

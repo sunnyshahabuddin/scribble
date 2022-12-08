@@ -7,9 +7,10 @@ Rails.application.routes.draw do
         resources :articles, except: %i[new edit] do
           get :list_published, :total_count, on: :collection
           get :versions, on: :member
+          put :position_update, on: :member
         end
         resources :categories, except: %i[new edit] do
-          put :position_update, on: :collection
+          put :position_update, on: :member
         end
         resource :organization, only: %i[create update show]
         resources :schedules, only: %i[index create update]

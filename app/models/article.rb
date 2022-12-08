@@ -4,6 +4,8 @@ class Article < ApplicationRecord
   MAX_TITLE_LENGTH = 255
   MAX_PAGE_SIZE = 10
 
+  acts_as_list scope: :category
+
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }
   validates :body, :status, presence: true
   validate :slug_not_changed
