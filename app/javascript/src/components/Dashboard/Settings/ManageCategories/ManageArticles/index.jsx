@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 
 import { Select } from "neetoui";
 import { Container, Header, Scrollable } from "neetoui/layouts";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import Article from "./Article";
 import InstructionsCallout from "./InstructionsCallout";
 
-const ManageArticles = ({ articles, categoryList }) => {
+const ManageArticles = ({ articles, setArticles, categoryList }) => {
   const [showInstructions, setShowInstructions] = useState(false);
 
   const handleShowInstructions = () => {
@@ -17,6 +18,25 @@ const ManageArticles = ({ articles, categoryList }) => {
       setShowInstructions(false);
     } else {
       setShowInstructions(true);
+    }
+  };
+
+  const reorder = (categoryList, startIndex, endIndex) => {
+    const shuffledCategoryList = Array.from(categoryList);
+    const [removed] = shuffledCategoryList.splice(startIndex, 1);
+    shuffledCategoryList.splice(endIndex, 0, removed);
+
+    return shuffledCategoryList;
+  };
+
+  const onDragEnd = async finalPosition => {
+    if (finalPosition.destination) {
+      const reorderedItems = reorder(
+        articles,
+        finalPosition.source.index,
+        finalPosition.destination.index
+      );
+      setArticles(reorderedItems);
     }
   };
 
@@ -45,9 +65,18 @@ const ManageArticles = ({ articles, categoryList }) => {
         {showInstructions && (
           <InstructionsCallout setShowInstructions={setShowInstructions} />
         )}
-        {articles.map(article => (
-          <Article article={article} key={article.id} />
-        ))}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
+            {provided => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {articles.map((article, index) => (
+                  <Article article={article} index={index} key={article.id} />
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </Scrollable>
     </Container>
   );

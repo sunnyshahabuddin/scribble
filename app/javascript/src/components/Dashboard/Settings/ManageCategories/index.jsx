@@ -54,18 +54,6 @@ const ManageCategories = () => {
     }
   };
 
-  useEffect(() => {
-    fetchCategoriesAndArticles();
-  }, [activeCategory]);
-
-  if (pageLoading) {
-    return (
-      <div className="h-screen w-screen">
-        <PageLoader />
-      </div>
-    );
-  }
-
   const reorder = (categoryList, startIndex, endIndex) => {
     const shuffledCategoryList = Array.from(categoryList);
     const [removed] = shuffledCategoryList.splice(startIndex, 1);
@@ -88,6 +76,18 @@ const ManageCategories = () => {
       });
     }
   };
+
+  useEffect(() => {
+    fetchCategoriesAndArticles();
+  }, [activeCategory]);
+
+  if (pageLoading) {
+    return (
+      <div className="h-screen w-screen">
+        <PageLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="flex w-3/4">
@@ -138,6 +138,7 @@ const ManageCategories = () => {
           <ManageArticles
             articles={articles}
             categoryList={sortedCategoryList}
+            setArticles={setArticles}
           />
         ) : (
           <img className="m-auto w-2/3" src={EmptyState} />
