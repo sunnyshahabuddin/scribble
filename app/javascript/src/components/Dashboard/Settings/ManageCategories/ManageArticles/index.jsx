@@ -33,16 +33,11 @@ const ManageArticles = ({
     }
   };
 
-  const handleMoveToCategory = category => {
-    setShowAlert(true);
-    setMoveToCategory(category);
-  };
-
-  const handleSubmit = async () => {
+  const handleMoveToCategory = async () => {
     try {
       await articlesApi.moveArticles({
-        article_ids: selectedArticlesIds,
-        category_id: moveToCategory.value,
+        articleIds: selectedArticlesIds,
+        categoryId: moveToCategory.value,
       });
       setSelectedArticlesIds([]);
       setShowAlert(false);
@@ -108,7 +103,9 @@ const ManageArticles = ({
                     label: category.name,
                     value: category.id,
                   }))}
-                onChange={category => handleMoveToCategory(category)}
+                onChange={category => (
+                  setShowAlert(true), setMoveToCategory(category)
+                )}
               />
             </TooltipWrapper>
           }
@@ -143,7 +140,7 @@ const ManageArticles = ({
           message={`Are you sure you want to move these ${selectedArticlesIds.length} selected articles to ${moveToCategory.label}?`}
           title="Move Articles"
           onClose={() => setShowAlert(false)}
-          onSubmit={handleSubmit}
+          onSubmit={handleMoveToCategory}
         />
       )}
     </>
