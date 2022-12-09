@@ -30,6 +30,7 @@
 
      def destroy
        category = current_user.categories.find(category_id)
+       category.remove_from_list
        category.destroy!
      end
  end

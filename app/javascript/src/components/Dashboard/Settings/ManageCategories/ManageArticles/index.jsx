@@ -10,7 +10,13 @@ import TooltipWrapper from "components/Common/TooltipWrapper";
 import Article from "./Article";
 import InstructionsCallout from "./InstructionsCallout";
 
-const ManageArticles = ({ articles, setArticles, categoryList, refetch }) => {
+const ManageArticles = ({
+  activeCategory,
+  articles,
+  setArticles,
+  categoryList,
+  refetch,
+}) => {
   const [showInstructions, setShowInstructions] = useState(false);
   const [selectedArticlesIds, setSelectedArticlesIds] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
@@ -96,10 +102,12 @@ const ManageArticles = ({ articles, setArticles, categoryList, refetch }) => {
                 isDisabled={selectedArticlesIds.length === 0}
                 name="category"
                 placeholder="Move to category"
-                options={categoryList.map(category => ({
-                  label: category.name,
-                  value: category.id,
-                }))}
+                options={categoryList
+                  .filter(category => category.id !== activeCategory.id)
+                  .map(category => ({
+                    label: category.name,
+                    value: category.id,
+                  }))}
                 onChange={category => handleMoveToCategory(category)}
               />
             </TooltipWrapper>

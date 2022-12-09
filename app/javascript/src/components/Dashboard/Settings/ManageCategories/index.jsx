@@ -139,6 +139,7 @@ const ManageCategories = () => {
       <div className="w-2/3">
         {articles.length > 0 ? (
           <ManageArticles
+            activeCategory={activeCategory}
             articles={articles}
             categoryList={sortedCategoryList}
             refetch={fetchCategoriesAndArticles}
