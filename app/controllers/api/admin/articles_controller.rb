@@ -24,6 +24,11 @@ class Api::Admin::ArticlesController < ApplicationController
     respond_with_success(t("position_successfully_updated", entity: Article))
   end
 
+  def move_articles
+    Api::Admin::MoveArticlesService.new(current_user, params[:category_id], params[:article_ids]).process
+    respond_with_success(t("successfully_moved", entity: Article))
+  end
+
   def update
     @article.update!(article_params)
     respond_with_success(t("successfully_updated", entity: Article))

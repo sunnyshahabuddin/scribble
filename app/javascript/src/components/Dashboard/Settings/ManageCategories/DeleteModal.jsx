@@ -9,19 +9,19 @@ const DeleteModal = ({
   category,
   showDeleteModal,
   setShowDeleteModal,
-  refetch,
   categoryList,
+  setActiveCategory,
 }) => {
   const [moveArticlesToCategory, setMoveArticlesToCategory] = useState({});
 
-  const handleSubmit = async id => {
-    setShowDeleteModal(false);
+  const handleSubmit = async () => {
     try {
+      setShowDeleteModal(false);
       await categoriesApi.destroy({
         newCategoryId: moveArticlesToCategory.value,
-        categoryId: id,
+        categoryId: category.id,
       });
-      refetch();
+      setActiveCategory({});
     } catch (error) {
       logger.error(error);
     }
@@ -106,10 +106,7 @@ const DeleteModal = ({
             categoryList.length > 1 &&
             category.articles.length > 0
           }
-          onClick={() => {
-            setShowDeleteModal(false);
-            handleSubmit(category.id);
-          }}
+          onClick={handleSubmit}
         />
         <Button
           label="Cancel"

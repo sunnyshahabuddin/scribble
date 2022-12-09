@@ -23,7 +23,7 @@ const ManageCategories = () => {
   const [articles, setArticles] = useState([]);
 
   const fetchCategoriesAndArticles = async () => {
-    await Promise.all([fetchCategories(), fetchArticlesInActiveCategory()]);
+    await Promise.all([fetchArticlesInActiveCategory(), fetchCategories()]);
     setPageLoading(false);
   };
 
@@ -32,15 +32,14 @@ const ManageCategories = () => {
       const {
         data: { categories },
       } = await categoriesApi.fetch();
-      setPageLoading(false);
       setSortedCategoryList(keysToCamelCase(categories));
       isEmpty(activeCategory) &&
         setActiveCategory(keysToCamelCase(categories)[0]);
     } catch (error) {
       logger.error(error);
-      setPageLoading(false);
     }
   };
+
   const fetchArticlesInActiveCategory = async () => {
     if (!isEmpty(activeCategory)) {
       try {
@@ -70,10 +69,14 @@ const ManageCategories = () => {
         finalPosition.destination.index
       );
       setSortedCategoryList(reorderedItems);
-      await categoriesApi.positionUpdate({
-        id: finalPosition.draggableId,
-        destination: finalPosition.destination.index + 1,
-      });
+      try {
+        await categoriesApi.positionUpdate({
+          id: finalPosition.draggableId,
+          destination: finalPosition.destination.index + 1,
+        });
+      } catch (error) {
+        logger.error(error);
+      }
     }
   };
 
@@ -134,10 +137,11 @@ const ManageCategories = () => {
         )}
       </div>
       <div className="w-2/3">
-        {articles?.length > 0 ? (
+        {articles.length > 0 ? (
           <ManageArticles
             articles={articles}
             categoryList={sortedCategoryList}
+            refetch={fetchCategoriesAndArticles}
             setArticles={setArticles}
           />
         ) : (
