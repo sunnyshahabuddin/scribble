@@ -89,4 +89,29 @@ class Api::Admin::ArticlesControllerTest < ActionDispatch::IntegrationTest
     get total_count_api_admin_articles_path, as: :json
     assert_response :success
   end
+
+  def test_should_move_articles_to_category
+    test_category = create(:category, user: @user)
+    first_article = create(:article, category: @category, user: @user)
+    second_article = create(:article, category: @category, user: @user)
+
+    put move_articles_api_admin_articles_path,
+      params: { article_ids: [first_article.id, second_article.id], category_id: test_category.id }, as: :json
+    assert_response :success
+
+    response_json = response.parsed_body
+    assert_equal t("successfully_moved", entity: Article), response_json["notice"]
+  end
+
+  def test_should_update_article_position
+    first_article = create(:article, category: @category, user: @user)
+    second_article = create(:article, category: @category, user: @user)
+    third_article = create(:article, category: @category, user: @user)
+    put position_update_api_admin_article_path(third_article.id),
+      params: { destination: first_article.position }, as: :json
+    assert_response :success
+
+    response_json = response.parsed_body
+    assert_equal t("position_successfully_updated", entity: Article), response_json["notice"]
+  end
 end
