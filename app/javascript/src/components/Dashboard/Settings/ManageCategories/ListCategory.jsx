@@ -90,7 +90,7 @@ const ListCategory = ({
         <DeleteModal
           category={category}
           categoryList={categoryList}
-          refetch={refetch}
+          setActiveCategory={setActiveCategory}
           setShowDeleteModal={setShowDeleteModal}
           showDeleteModal={showDeleteModal}
         />

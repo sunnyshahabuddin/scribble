@@ -10,7 +10,7 @@ import TooltipWrapper from "components/Common/TooltipWrapper";
 import Article from "./Article";
 import InstructionsCallout from "./InstructionsCallout";
 
-const ManageArticles = ({ articles, setArticles, categoryList }) => {
+const ManageArticles = ({ articles, setArticles, categoryList, refetch }) => {
   const [showInstructions, setShowInstructions] = useState(false);
   const [selectedArticlesIds, setSelectedArticlesIds] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
@@ -32,6 +32,21 @@ const ManageArticles = ({ articles, setArticles, categoryList }) => {
     setMoveToCategory(category);
   };
 
+  const handleSubmit = async () => {
+    try {
+      await articlesApi.moveArticles({
+        article_ids: selectedArticlesIds,
+        category_id: moveToCategory.value,
+      });
+      setSelectedArticlesIds([]);
+      setShowAlert(false);
+    } catch (error) {
+      logger.error(error);
+    }
+    refetch();
+    setShowAlert(false);
+  };
+
   const reorder = (articles, startIndex, endIndex) => {
     const shuffledArticles = Array.from(articles);
     const [removed] = shuffledArticles.splice(startIndex, 1);
@@ -48,10 +63,14 @@ const ManageArticles = ({ articles, setArticles, categoryList }) => {
         finalPosition.destination.index
       );
       setArticles(reorderedItems);
-      await articlesApi.positionUpdate({
-        id: finalPosition.draggableId,
-        destination: finalPosition.destination.index + 1,
-      });
+      try {
+        await articlesApi.positionUpdate({
+          id: finalPosition.draggableId,
+          destination: finalPosition.destination.index + 1,
+        });
+      } catch (error) {
+        logger.error(error);
+      }
     }
   };
 
@@ -116,7 +135,7 @@ const ManageArticles = ({ articles, setArticles, categoryList }) => {
           message={`Are you sure you want to move these ${selectedArticlesIds.length} selected articles to ${moveToCategory.label}?`}
           title="Move Articles"
           onClose={() => setShowAlert(false)}
-          onSubmit={() => setShowAlert(false)}
+          onSubmit={handleSubmit}
         />
       )}
     </>

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
           get :list_published, :total_count, on: :collection
           get :versions, on: :member
           put :position_update, on: :member
+          put :move_articles, on: :collection
         end
         resources :categories, except: %i[new edit] do
           put :position_update, on: :member

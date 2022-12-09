@@ -17,6 +17,9 @@ const show = id => axios.get(`/api/admin/articles/${id}`);
 const positionUpdate = payload =>
   axios.put(`/api/admin/articles/${payload.id}/position_update`, payload);
 
+const moveArticles = payload =>
+  axios.put(`/api/admin/articles/move_articles`, payload);
+
 const update = ({ id, payload }) =>
   axios.put(`/api/admin/articles/${id}`, {
     article: {
@@ -51,6 +54,7 @@ const articlesApi = {
   articleVersions,
   positionUpdate,
   listPublishedArticles,
+  moveArticles,
 };
 
 export default articlesApi;
