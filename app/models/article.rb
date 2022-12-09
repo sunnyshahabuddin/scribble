@@ -4,8 +4,6 @@ class Article < ApplicationRecord
   MAX_TITLE_LENGTH = 255
   MAX_PAGE_SIZE = 10
 
-  acts_as_list scope: :category
-
   validates :title, presence: true, length: { maximum: MAX_TITLE_LENGTH }
   validates :body, :status, presence: true
   validate :slug_not_changed
@@ -20,6 +18,7 @@ class Article < ApplicationRecord
 
   paginates_per MAX_PAGE_SIZE
   has_paper_trail only: [:title, :body, :status, :category_id]
+  acts_as_list scope: :category
   counter_culture :user, column_name: proc { |model|
  model.status == 0 ? "draft_articles_count" : "published_articles_count" }
 

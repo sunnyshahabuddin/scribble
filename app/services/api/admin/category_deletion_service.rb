@@ -21,12 +21,15 @@
      destroy
    end
 
-   def update
-     current_user.articles.where(category_id: category_id).update(category_id: new_category_id)
-   end
+   private
 
-   def destroy
-     category = current_user.categories.find(category_id)
-     category.destroy!
-   end
+     def update
+       article_ids = current_user.articles.where(category_id: category_id).pluck(:id)
+       Api::Admin::MoveArticlesService.new(current_user, new_category_id, article_ids).process
+     end
+
+     def destroy
+       category = current_user.categories.find(category_id)
+       category.destroy!
+     end
  end
