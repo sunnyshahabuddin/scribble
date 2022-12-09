@@ -18,7 +18,10 @@ const positionUpdate = payload =>
   axios.put(`/api/admin/articles/${payload.id}/position_update`, payload);
 
 const moveArticles = payload =>
-  axios.put(`/api/admin/articles/move_articles`, payload);
+  axios.put(`/api/admin/articles/move_articles`, {
+    article_ids: payload.articleIds,
+    category_id: payload.categoryId,
+  });
 
 const update = ({ id, payload }) =>
   axios.put(`/api/admin/articles/${id}`, {
